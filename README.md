@@ -10,7 +10,7 @@ This is our team project
 
 ## Nick
 
-## Edward Chung
+## Ed
 
 
 How to change branches in vscode:
