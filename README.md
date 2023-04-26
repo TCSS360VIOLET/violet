@@ -12,6 +12,8 @@ This is our team project
 
 ## Nick
 
+## Ed
+
 
 How to change branches in vscode:
     - using terminal: type the following `git branch branch_name` and then `git checkout branch_name`
