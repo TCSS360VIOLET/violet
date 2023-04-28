@@ -12,7 +12,7 @@ This is our team project
 
 ## Nick
 
-## Ed
+## Ed test from mac
 
 
 How to change branches in vscode:
