@@ -4,7 +4,12 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JTable;
+
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Map;
 
 
 public class About {
@@ -49,6 +54,27 @@ public class About {
         (int) (kit.getScreenSize().getHeight() / 2 - myFrame.getHeight() / 2));
 
         myFrame.setVisible(true); 
+
+        setup();
+
+   }
+    
+   private void setup() {
+        myDeveloperItem.addActionListener(new AboutActionListener()); 
    }
 
+   private class AboutActionListener implements ActionListener {
+        @Override
+        public void actionPerformed(final ActionEvent theEvent) {
+            final Team team = new Team();
+            Map<Integer, String> map = team.getDevelopers();
+            JTable table = new JTable(map.size(), 2);
+            int row = 0;
+            for(Map.Entry<Integer, String> entry : map.entrySet()) {
+                table.setValueAt(entry.getKey(),row,0);
+                table.setValueAt(entry.getValue(),row,1);
+                row++;
+            }
+        }
+   }
 }
