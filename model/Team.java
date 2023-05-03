@@ -19,6 +19,8 @@ import java.util.Map;
  * This class will hold information on the team members/developers on Team violet.
  * 
  * @author Nickolas Zahos (nzahos@uw.edu)
+ * @author An Ho (aho1999@uw.edu)
+ * 
  */
 public class Team {
 	/** This map will hold the developer(s) info as "FIRST NAME LAST NAME, EMAIL" */
