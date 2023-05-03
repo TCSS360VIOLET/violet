@@ -38,8 +38,8 @@ public class About {
         myMenuBar = new JMenuBar();
         myOwnerJMenu = new JMenu("Owner");
         myAboutJMenu = new JMenu("About");
-        myNameItem = new JMenuItem("Name: " + theProfile.getProfile()[0]);
-        myEmailItem = new JMenuItem("Email: " + theProfile.getProfile()[1]);
+        myNameItem = new JMenuItem("Name");
+        myEmailItem = new JMenuItem("Email");
         myVersionItem = new JMenuItem("Version");
         myDeveloperItem = new JMenuItem("Developers");
 
