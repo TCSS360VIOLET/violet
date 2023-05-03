@@ -1,17 +1,28 @@
 package model;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 
+import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Map;
 
-
+/**
+ * DESCRIBE THIS CLASS HERE...
+ * 
+ * @author Lixin Wang
+ * @author Nickolas Zahos (nzahos@uw.edu)
+ */
 public class About {
     private final JFrame myFrame;
     private final JMenuBar myMenuBar;
@@ -22,13 +33,13 @@ public class About {
     private final JMenuItem myVersionItem;
     private final JMenuItem myDeveloperItem;
 
-    public About() {
+    public About(Profile theProfile) {
         myFrame = new JFrame("About");
         myMenuBar = new JMenuBar();
         myOwnerJMenu = new JMenu("Owner");
         myAboutJMenu = new JMenu("About");
-        myNameItem = new JMenuItem("Name");
-        myEmailItem = new JMenuItem("Email");
+        myNameItem = new JMenuItem("Name: " + theProfile.getProfile()[0]);
+        myEmailItem = new JMenuItem("Email: " + theProfile.getProfile()[1]);
         myVersionItem = new JMenuItem("Version");
         myDeveloperItem = new JMenuItem("Developers");
 
@@ -46,12 +57,18 @@ public class About {
         myFrame.setJMenuBar(myMenuBar);
         myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         myFrame.pack();
-
-        final Toolkit kit = Toolkit.getDefaultToolkit();
-        // position the frame in the center of the screen
-        myFrame.setLocation((int) (kit.getScreenSize().getWidth() 
-        / 2 - myFrame.getWidth() / 2),
-        (int) (kit.getScreenSize().getHeight() / 2 - myFrame.getHeight() / 2));
+        
+		// Set uniform window size across different screen resolutions (Bad for Ultra-widescreen monitors, could stretch)
+		// Get screen dimensions
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int screenHeight = screenSize.height;
+        int screenWidth = screenSize.width;
+        
+        // Sets this JFrame size to 1/4 the width of the user's screen, and half it's height.
+        myFrame.setSize(screenWidth / 3, screenHeight / 2);
+        
+        // Position the frame in the center of the screen by setting location to null.
+        myFrame.setLocationRelativeTo(null);
 
         myFrame.setVisible(true); 
 
@@ -68,13 +85,40 @@ public class About {
         public void actionPerformed(final ActionEvent theEvent) {
             final Team team = new Team();
             Map<Integer, String> map = team.getDevelopers();
-            JTable table = new JTable(map.size(), 2);
+            JTable table = new JTable(map.size(), 1);
+            
+            // Do not allow the user to edit the table.
+            table.setEnabled(false);
+            
+            // Set the name of the column
+            TableColumnModel columnModel = table.getColumnModel();
+            TableColumn column = columnModel.getColumn(0);
+            column.setHeaderValue("Developer Name (Contact Email)");
+            columnModel.setColumnMargin(10);
+
+            // Set the cell renderer to center the values (Centers the text)
+            DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+            renderer.setHorizontalAlignment(JLabel.CENTER);
+            table.getColumnModel().getColumn(0).setCellRenderer(renderer);
+
+            // Gather team info, and put it into the table
             int row = 0;
             for(Map.Entry<Integer, String> entry : map.entrySet()) {
-                table.setValueAt(entry.getKey(),row,0);
-                table.setValueAt(entry.getValue(),row,1);
+                table.setValueAt(entry.getValue(),row,0);
                 row++;
             }
+            
+            // Create a new JFrame to display the table
+            JFrame tableFrame = new JFrame("Developers");
+            tableFrame.add(new JScrollPane(table));	// Scroll pane allows the user to scroll down if theres too many rows.
+            
+            // Auto Size the window to fit all content
+            tableFrame.pack();
+            
+            // Center this developers frame to the frame of the main JFrame
+            tableFrame.setLocationRelativeTo(myFrame);
+            
+            tableFrame.setVisible(true);
         }
    }
 }
