@@ -1,13 +1,14 @@
 package model;
 
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
+import javax.swing.*;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Map;
 
 
-public class About {
+public class About  {
     private final JFrame myFrame;
     private final JMenuBar myMenuBar;
     private final JMenu myOwnerJMenu;
@@ -16,6 +17,7 @@ public class About {
     private final JMenuItem myEmailItem;
     private final JMenuItem myVersionItem;
     private final JMenuItem myDeveloperItem;
+    private Team myTeam;
 
     public About() {
         myFrame = new JFrame("About");
@@ -37,18 +39,23 @@ public class About {
 
         myMenuBar.add(myOwnerJMenu);
         myMenuBar.add(myAboutJMenu);
+        myTeam = new Team();
 
-        myFrame.setJMenuBar(myMenuBar);
-        myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        myFrame.pack();
+//        myFrame.setJMenuBar(myMenuBar);
+//        myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        myFrame.pack();
 
-        final Toolkit kit = Toolkit.getDefaultToolkit();
-        // position the frame in the center of the screen
-        myFrame.setLocation((int) (kit.getScreenSize().getWidth() 
-        / 2 - myFrame.getWidth() / 2),
-        (int) (kit.getScreenSize().getHeight() / 2 - myFrame.getHeight() / 2));
+//        final Toolkit kit = Toolkit.getDefaultToolkit();
+//        // position the frame in the center of the screen
+//        myFrame.setLocation((int) (kit.getScreenSize().getWidth()
+//        / 2 - myFrame.getWidth() / 2),
+//        (int) (kit.getScreenSize().getHeight() / 2 - myFrame.getHeight() / 2));
+//
+//        myFrame.setVisible(true);
+   }
 
-        myFrame.setVisible(true); 
+   public void createMenuBar(JFrame theFrame) {
+        theFrame.setJMenuBar(myMenuBar);
    }
 
 }
