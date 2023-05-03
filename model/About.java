@@ -33,7 +33,7 @@ public class About {
     private final JMenuItem myVersionItem;
     private final JMenuItem myDeveloperItem;
 
-    public About(Profile theProfile) {
+    public About() {
         myFrame = new JFrame("About");
         myMenuBar = new JMenuBar();
         myOwnerJMenu = new JMenu("Owner");
