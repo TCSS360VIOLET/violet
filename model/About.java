@@ -11,7 +11,9 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
+import javax.swing.ImageIcon;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -75,9 +77,12 @@ public class About {
         String descriptionText = "Our software is an organizing tool which helps users to keep track of multiple projects," + "<br>" +
         " and the items and bugets related to it's projects";
         JLabel descriptionLabel = new JLabel("<html><div style='text-align: center;'>" + descriptionText + "</div></html>", SwingConstants.CENTER);
-        myFrame.add(descriptionLabel);
+        myFrame.getContentPane().add(descriptionLabel, BorderLayout.CENTER);
 
         // Logo image 
+        ImageIcon image = new ImageIcon(getClass().getResource("logo.png"));
+        JLabel logoImage = new JLabel(image);
+        myFrame.getContentPane().add(logoImage, BorderLayout.NORTH);
         
 
 
