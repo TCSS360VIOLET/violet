@@ -7,6 +7,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
@@ -69,6 +70,20 @@ public class About {
         
         // Position the frame in the center of the screen by setting location to null.
         myFrame.setLocationRelativeTo(null);
+
+        // Text basic description about software. 
+        String descriptionText = "Our software is an organizing tool which helps users to keep track of multiple projects," + "<br>" +
+        " and the items and bugets related to it's projects";
+        JLabel descriptionLabel = new JLabel("<html><div style='text-align: center;'>" + descriptionText + "</div></html>", SwingConstants.CENTER);
+        myFrame.add(descriptionLabel);
+
+        // Logo image 
+        
+
+
+
+
+
 
         myFrame.setVisible(true); 
 
