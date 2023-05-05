@@ -7,10 +7,20 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+<<<<<<< HEAD
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
+=======
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
+import javax.swing.ImageIcon;
+
+import java.awt.BorderLayout;
+>>>>>>> 1e7f4470b52a0fefa6ca5301624d0d7fd05040a6
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -69,6 +79,26 @@ public class About {
         
         // Position the frame in the center of the screen by setting location to null.
         myFrame.setLocationRelativeTo(null);
+<<<<<<< HEAD
+=======
+
+        // Text basic description about software. 
+        String descriptionText = "Our software is an organizing tool which helps users to keep track of multiple projects," + "<br>" +
+        " and the items and bugets related to it's projects";
+        JLabel descriptionLabel = new JLabel("<html><div style='text-align: center;'>" + descriptionText + "</div></html>", SwingConstants.CENTER);
+        myFrame.getContentPane().add(descriptionLabel, BorderLayout.CENTER);
+
+        // Logo image 
+        ImageIcon image = new ImageIcon(getClass().getResource("logo.png"));
+        JLabel logoImage = new JLabel(image);
+        myFrame.getContentPane().add(logoImage, BorderLayout.NORTH);
+        
+
+
+
+
+
+>>>>>>> 1e7f4470b52a0fefa6ca5301624d0d7fd05040a6
 
         myFrame.setVisible(true); 
 

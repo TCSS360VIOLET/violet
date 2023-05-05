@@ -14,4 +14,8 @@ public class Profile {
         myName = theName;
         myEmail = theEmail;
     }
+
+    public void setProfile() {
+
+    }
 }
