@@ -1,65 +1,46 @@
 package model;
 
+import java.net.URL;
+
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
+import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
-import javax.swing.ImageIcon;
+import javax.swing.border.EmptyBorder;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Map;
 
 /**
- * DESCRIBE THIS CLASS HERE...
+ * This is the class for the about window JFrame that will popup when
+ * the user clicks the 'About...' button on the main page of our App.
  * 
  * @author Lixin Wang
  * @author Nickolas Zahos (nzahos@uw.edu)
+ * @author Edward Chung
  */
 public class About {
+    private static final double VERSION_NUMBER = 1.0;
     private final JFrame myFrame;
-    private final JMenuBar myMenuBar;
-    private final JMenu myOwnerJMenu;
-    private final JMenu myAboutJMenu;
-    private final JMenuItem myNameItem;
-    private final JMenuItem myEmailItem;
-    private final JMenuItem myVersionItem;
-    private final JMenuItem myDeveloperItem;
+    private final String[] developers;
 
     public About() {
+        // Get the team info for later
+        developers = new Team().getDevelopersArray();
+
+        // Setup the About JFrame
         myFrame = new JFrame("About");
-        myMenuBar = new JMenuBar();
-        myOwnerJMenu = new JMenu("Owner");
-        myAboutJMenu = new JMenu("About");
-        myNameItem = new JMenuItem("Name");
-        myEmailItem = new JMenuItem("Email");
-        myVersionItem = new JMenuItem("Version");
-        myDeveloperItem = new JMenuItem("Developers");
-
-        myOwnerJMenu.add(myNameItem);
-        myOwnerJMenu.addSeparator();
-        myOwnerJMenu.add(myEmailItem);
-
-        myAboutJMenu.add(myVersionItem);
-        myAboutJMenu.addSeparator();
-        myAboutJMenu.add(myDeveloperItem);
-
-        myMenuBar.add(myOwnerJMenu);
-        myMenuBar.add(myAboutJMenu);
-
-        myFrame.setJMenuBar(myMenuBar);
         myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        myFrame.pack();
+
+        // Set the Window icon
+        myFrame.setIconImage(Toolkit.getDefaultToolkit().getImage("images/icon.png"));
+
         
 		// Set uniform window size across different screen resolutions (Bad for Ultra-widescreen monitors, could stretch)
 		// Get screen dimensions
@@ -67,78 +48,77 @@ public class About {
         int screenHeight = screenSize.height;
         int screenWidth = screenSize.width;
         
-        // Sets this JFrame size to 1/4 the width of the user's screen, and half it's height.
-        myFrame.setSize(screenWidth / 3, screenHeight / 2);
+        // Sets this JFrame size to 1/3 the width of the user's screen, and half it's height.
+        myFrame.setSize(screenWidth / 4, screenHeight / 2);
         
         // Position the frame in the center of the screen by setting location to null.
         myFrame.setLocationRelativeTo(null);
 
-        // Text basic description about software. 
-        String descriptionText = "Our software is an organizing tool which helps users to keep track of multiple projects," + "<br>" +
-        " and the items and bugets related to it's projects";
+        // Text basic description about our software. 
+        String descriptionText = "Our software is a powerful project management tool designed to help you seamlessly organize, track, and prioritize multiple projects. With intuitive features for setting deadlines, managing budgets, monitoring purchased items, storing designs and files, and adding notes for each project, it's the ultimate solution for staying on top of your work and achieving your goals. Plus, our convenient import/export functionality allows you to effortlessly sync your project data across multiple devices, ensuring you have access to the information you need, whenever and wherever you need it.<br>" +
+                                 "<br>Brought to you by Team Violet!<br>" + 
+                                 "<br>- - - Developers - - -<br>"; 
+
+        // Add each Developer's name and contact info.
+        for(int i = 0; i < developers.length; i++) {
+            descriptionText += developers[i] + "<br>";
+        }
+
+        // Add version number of the current build of the program.
+        descriptionText += "<br>Version " + VERSION_NUMBER;
+
         JLabel descriptionLabel = new JLabel("<html><div style='text-align: center;'>" + descriptionText + "</div></html>", SwingConstants.CENTER);
+
+        // Add padding to the border of the JLabel (makes it look nicer).
+        descriptionLabel.setBorder(new EmptyBorder(0, 20, 10, 20));
+
         myFrame.getContentPane().add(descriptionLabel, BorderLayout.CENTER);
 
         // Logo image 
-        ImageIcon image = new ImageIcon(getClass().getResource("logo.png"));
+        URL logoURL = getClass().getResource("/images/logo.png");
+        ImageIcon image = new ImageIcon(logoURL);
         JLabel logoImage = new JLabel(image);
         myFrame.getContentPane().add(logoImage, BorderLayout.NORTH);
-        
 
+        // Add 'Ok' button to the bottom of the JFrame
+        JButton okButton = new JButton("Ok");
 
-
-
-
-
-        myFrame.setVisible(true); 
-
-        setup();
-
-   }
-    
-   private void setup() {
-        myDeveloperItem.addActionListener(new AboutActionListener()); 
-   }
-
-   private class AboutActionListener implements ActionListener {
-        @Override
-        public void actionPerformed(final ActionEvent theEvent) {
-            final Team team = new Team();
-            Map<Integer, String> map = team.getDevelopers();
-            JTable table = new JTable(map.size(), 1);
-            
-            // Do not allow the user to edit the table.
-            table.setEnabled(false);
-            
-            // Set the name of the column
-            TableColumnModel columnModel = table.getColumnModel();
-            TableColumn column = columnModel.getColumn(0);
-            column.setHeaderValue("Developer Name (Contact Email)");
-            columnModel.setColumnMargin(10);
-
-            // Set the cell renderer to center the values (Centers the text)
-            DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
-            renderer.setHorizontalAlignment(JLabel.CENTER);
-            table.getColumnModel().getColumn(0).setCellRenderer(renderer);
-
-            // Gather team info, and put it into the table
-            int row = 0;
-            for(Map.Entry<Integer, String> entry : map.entrySet()) {
-                table.setValueAt(entry.getValue(),row,0);
-                row++;
+        // Action Listener that makes the About window close when you click the 'Ok' button
+        okButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                exit(); // Close the About window
             }
-            
-            // Create a new JFrame to display the table
-            JFrame tableFrame = new JFrame("Developers");
-            tableFrame.add(new JScrollPane(table));	// Scroll pane allows the user to scroll down if theres too many rows.
-            
-            // Auto Size the window to fit all content
-            tableFrame.pack();
-            
-            // Center this developers frame to the frame of the main JFrame
-            tableFrame.setLocationRelativeTo(myFrame);
-            
-            tableFrame.setVisible(true);
-        }
+        });
+
+        JPanel buttonPanel = new JPanel();
+
+        // Add lower padding to the 'Ok' button, makes it look nicer.
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
+
+        buttonPanel.add(okButton);
+        myFrame.add(buttonPanel, BorderLayout.SOUTH);
+
+        // Ignores the screen size we set earlier to pack the window to the neceasary size to fit all its contents (Bad format for long descriptions like ours, causes stretched window).
+        //myFrame.pack();
+   }
+
+   /**
+    * This basic method will show/hide the main JFrame (About) window
+    * depending on which boolean is passed as a parameter.
+    * NOTE: Hiding the JFrame does NOT close it (will still be taking memory in the background)!
+    *
+    * @param b  true = show, false = hide.
+    */
+   public void show(boolean b) {
+        myFrame.setVisible(b); 
+   }
+
+   /**
+    * This basic method will close/exit the JFrame for the about window.
+    * Completely exits it out, restoring all memory that was being used.
+    */
+   public void exit() {
+        myFrame.dispose();
    }
 }
