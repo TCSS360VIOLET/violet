@@ -2,6 +2,7 @@ package controller;
 
 import model.About;
 import view.InitialScreen;
+import view.LogInPage;
 
 import java.awt.*;
 
@@ -12,8 +13,7 @@ public class Main {
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                InitialScreen about = new InitialScreen();
-                about.start();
+                LogInPage login = new LogInPage();
             }
         });
     }
