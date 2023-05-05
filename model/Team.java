@@ -30,7 +30,7 @@ import java.util.Map;
  */
 public class Team {
 	/** This map will hold the developer(s) info as "FIRST NAME LAST NAME, EMAIL" */
-	private Map<Integer, String> developers;
+	private final Map<Integer, String> developers;
 	
 	/** Default Constructor - Takes no parameters, but has all team info stored. */
 	public Team() {
