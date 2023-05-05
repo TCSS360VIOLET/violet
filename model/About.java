@@ -26,7 +26,7 @@ import java.awt.event.ActionListener;
  * @author Edward Chung
  */
 public class About {
-    private static final double VERSION_NUMBER = 1.0;
+    private static final double VERSION_NUMBER = 1.1;
     private final JFrame myFrame;
     private final String[] developers;
 
