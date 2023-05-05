@@ -1,12 +1,19 @@
 package model;
 
-import view.WelcomePanel;
-
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
+import javax.swing.ImageIcon;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -29,15 +36,13 @@ public class About {
     private final JMenuItem myVersionItem;
     private final JMenuItem myDeveloperItem;
 
-
-
-    public About(String userId, String userEmail) {
+    public About() {
         myFrame = new JFrame("About");
         myMenuBar = new JMenuBar();
         myOwnerJMenu = new JMenu("Owner");
         myAboutJMenu = new JMenu("About");
-        myNameItem = new JMenuItem(userId);
-        myEmailItem = new JMenuItem(userEmail);
+        myNameItem = new JMenuItem("Name");
+        myEmailItem = new JMenuItem("Email");
         myVersionItem = new JMenuItem("Version");
         myDeveloperItem = new JMenuItem("Developers");
 
@@ -51,10 +56,11 @@ public class About {
 
         myMenuBar.add(myOwnerJMenu);
         myMenuBar.add(myAboutJMenu);
-        myFrame.add(new WelcomePanel(userId, userEmail).setUpFrame());
+
         myFrame.setJMenuBar(myMenuBar);
         myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        myFrame.pack();
+        
 		// Set uniform window size across different screen resolutions (Bad for Ultra-widescreen monitors, could stretch)
 		// Get screen dimensions
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -62,10 +68,27 @@ public class About {
         int screenWidth = screenSize.width;
         
         // Sets this JFrame size to 1/4 the width of the user's screen, and half it's height.
-        myFrame.setSize(screenSize);
+        myFrame.setSize(screenWidth / 3, screenHeight / 2);
         
         // Position the frame in the center of the screen by setting location to null.
         myFrame.setLocationRelativeTo(null);
+
+        // Text basic description about software. 
+        String descriptionText = "Our software is an organizing tool which helps users to keep track of multiple projects," + "<br>" +
+        " and the items and bugets related to it's projects";
+        JLabel descriptionLabel = new JLabel("<html><div style='text-align: center;'>" + descriptionText + "</div></html>", SwingConstants.CENTER);
+        myFrame.getContentPane().add(descriptionLabel, BorderLayout.CENTER);
+
+        // Logo image 
+        ImageIcon image = new ImageIcon(getClass().getResource("logo.png"));
+        JLabel logoImage = new JLabel(image);
+        myFrame.getContentPane().add(logoImage, BorderLayout.NORTH);
+        
+
+
+
+
+
 
         myFrame.setVisible(true); 
 
