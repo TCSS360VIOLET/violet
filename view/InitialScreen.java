@@ -19,14 +19,11 @@ public class InitialScreen extends JFrame implements ActionListener {
 
     private About myAbout;
 
-
-
     public InitialScreen() {
         myFrame = new JFrame("About Screen");
         myButton = new JButton("Show About Information");
         myAbout = new About();
         myPanel = new JPanel();
-
     }
 
     private void setUpFrame() {
