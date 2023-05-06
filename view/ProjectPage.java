@@ -10,9 +10,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.NumberFormat;
-import java.util.Date;
 import java.util.Locale;
-import java.util.concurrent.TimeUnit;
+
 
 public class ProjectPage extends JFrame implements ActionListener {
 
@@ -49,10 +48,7 @@ public class ProjectPage extends JFrame implements ActionListener {
         @Override
         public boolean isCellEditable(int row, int column) {
             //all cells false
-            if (column == 4) {
-                return false;
-            }
-            return true;
+            return column != 4;
         }
     };
     // Create the JTable
@@ -87,7 +83,7 @@ public class ProjectPage extends JFrame implements ActionListener {
         frame.add(budgetLabel);
         frame.add(welcomeLabel, BorderLayout.NORTH);
         JScrollPane sp = setUpTable();
-        sp.setBounds(100, 100, 1000, 600);
+        sp.setBounds(150, 100, 950, 600);
         frame.add(sp, BorderLayout.CENTER);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(Toolkit.getDefaultToolkit().getScreenSize());
@@ -131,41 +127,55 @@ public class ProjectPage extends JFrame implements ActionListener {
         }
 
         if (e.getSource() == addItem) {
-            int quantity = Integer.parseInt(quantityField.getText());
-            double price = Double.parseDouble(priceField.getText());
-            String name = nameField.getText();
-            double budget = Double.parseDouble(budgetField.getText());
-
-            Item item = new Item(name, quantity, budget, price);
-            NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.US);
-            model.addRow(
-                    new Object[]{
-                            item.getMyName(),
-                            item.getMyQuantity(),
-                            nf.format(item.getMyPrice()),
-                            nf.format(item.getMyBudget()),
-                            nf.format(item.getDifference()),
-                    }
-            );
-            nameField.setText("");
-            quantityField.setText("");
-            priceField.setText("");
-            budgetField.setText("");
+            addItem();
         }
 
         if (e.getSource() == deleteItem) {
-            String choice = JOptionPane.showInputDialog(null, "Which project do would you like to delete?");
-            int choiceNum = Integer.parseInt(choice);
-            if (!choice.isEmpty()) {
-                String message = "Are you sure you want to delete the project in row " + choice;
-                int deleteChoice = JOptionPane.showConfirmDialog(null, message);
-                if (deleteChoice == JOptionPane.OK_OPTION) {
-                    model.removeRow(choiceNum - 1);
-                }
-            }
+            deleteItem();
         }
 
 
+    }
+
+    /**
+     * Actions to take when addItem is selected.
+     */
+    private void addItem() {
+        int quantity = Integer.parseInt(quantityField.getText());
+        double price = Double.parseDouble(priceField.getText());
+        String name = nameField.getText();
+        double budget = Double.parseDouble(budgetField.getText());
+
+        Item item = new Item(name, quantity, budget, price);
+        NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.US);
+        model.addRow(
+                new Object[]{
+                        item.getMyName(),
+                        item.getMyQuantity(),
+                        nf.format(item.getMyPrice()),
+                        nf.format(item.getMyBudget()),
+                        nf.format(item.getDifference()),
+                }
+        );
+        nameField.setText("");
+        quantityField.setText("");
+        priceField.setText("");
+        budgetField.setText("");
+    }
+
+    /**
+     * Actions to take when deleteItem is selected.
+     */
+    private void deleteItem() {
+        String choice = JOptionPane.showInputDialog(null, "Which project do would you like to delete?");
+        int choiceNum = Integer.parseInt(choice);
+        if (!choice.isEmpty()) {
+            String message = "Are you sure you want to delete the project in row " + choice;
+            int deleteChoice = JOptionPane.showConfirmDialog(null, message);
+            if (deleteChoice == JOptionPane.OK_OPTION) {
+                model.removeRow(choiceNum - 1);
+            }
+        }
     }
 }
 

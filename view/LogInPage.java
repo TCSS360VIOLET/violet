@@ -1,44 +1,119 @@
 package view;
 
 
-import model.About;
 
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+/**
+ * The login page for the application.
+ * @author Parker Johnson (5/5/2023)
+ */
 public class LogInPage implements ActionListener {
 
-
-    Toolkit kit = Toolkit.getDefaultToolkit();
-    JFrame frame = new JFrame();
-    JButton loginButton = new JButton("Login");
-    JButton resetButton = new JButton("Reset");
-    JButton registerButton = new JButton("Register");
-    JTextField userIDField = new JTextField();
-    JPasswordField userPasswordField = new JPasswordField();
-    JLabel userIDLabel = new JLabel("userID:");
-    JLabel userPasswordLabel = new JLabel("password:");
-    JLabel messageLabel = new JLabel();
-    JTextField userEmailField = new JTextField();
-
-    JLabel userEmailLabel = new JLabel("Email: ");
-    JLabel title = new JLabel("Violet Project Management Systems");
+    /**
+     * The tool kit for the class
+     */
+    private Toolkit kit;
+    /**
+     * The main frame of the class.
+     */
+    private JFrame frame;
+    /**
+     * The login button.
+     */
+    private JButton loginButton;
+    /**
+     * The reset button.
+     */
+    private JButton resetButton;
+    /**
+     * The register button.
+     */
+    private JButton registerButton;
+    /**
+     * The user id field.
+     */
+    private JTextField userIDField;
+    /**
+     * user password field.
+     */
+    private JPasswordField userPasswordField;
+    /**
+     * user id label.
+     */
+    private JLabel userIDLabel;
+    /**
+     * user id label.
+     */
+    private JLabel userPasswordLabel;
+    /**
+     * The message label.
+     */
+    private JLabel messageLabel;
+    /**
+     * The user email field.
+     */
+    private JTextField userEmailField;
+    /**
+     * The user email field.
+     */
+    private JLabel userEmailLabel;
+    /**
+     * The title label.
+     */
+    private JLabel title;
     //HashMap<String,String> logininfo = new IDandPasswords().getLoginInfo();
 
+    /**
+     * The x size of the screen.
+     */
+    private int screenX;
+    /**
+     * The y size of the screen.
+     */
+    private int screenY;
 
-    int x = kit.getScreenSize().width/2;
-    int y = kit.getScreenSize().height/2;
-
+    /**
+     * Initialize fields for the class.
+     */
     public LogInPage(){
-        System.out.println(x * 2);
-        System.out.println(y * 2);
         //logininfo = loginInfoOriginal;
+        initializeFields();
         setUpButtons();
         setUpFrame();
 
     }
 
+    /**
+     * helper method to initialize fields because constructor was too long.
+     */
+    private void initializeFields() {
+        kit = Toolkit.getDefaultToolkit();
+        frame = new JFrame();
+        loginButton = new JButton("Login");
+        resetButton = new JButton("Reset");
+        registerButton = new JButton("Register");
+        userIDField = new JTextField();
+        userPasswordField = new JPasswordField();
+        userIDLabel = new JLabel("userID:");
+        userPasswordLabel = new JLabel("password:");
+        messageLabel = new JLabel();
+        userEmailField = new JTextField();
+
+        userEmailLabel = new JLabel("Email: ");
+        title = new JLabel("Violet Project Management Systems");
+        //HashMap<String,String> logininfo = new IDandPasswords().getLoginInfo();
+
+
+        screenX = kit.getScreenSize().width/2;
+        screenY = kit.getScreenSize().height/2;
+    }
+
+    /**
+     * Set up the elements for the frame.
+     */
     private void setUpFrame() {
         frame.add(title);
         frame.add(userIDLabel);
@@ -59,40 +134,46 @@ public class LogInPage implements ActionListener {
         frame.setVisible(true);
     }
 
+    /**
+     * Set up the buttons for the page.
+     */
     private void setUpButtons() {
         title.setForeground(new Color(155,38,182));
         title.setFont(new Font("Times New Roman", Font.BOLD, 35));
-        title.setBounds(x/2, 0, 700, 200);
+        title.setBounds(screenX /2, 0, 700, 200);
 
 
-        userIDLabel.setBounds(50 + x - x/2,50 + y - y/2,75,25);
-        userIDField.setBounds(125 + x - x/2,50 + y - y/2,200,25);
-        userEmailLabel.setBounds(50 + x - x/2,100 + y - y/2,75,25);
-        userEmailField.setBounds(125 + x - x/2,100 + y - y/2,200,25);
-        userPasswordLabel.setBounds(50 + x - x/2,150 + y - y/2,75,25);
-        userPasswordField.setBounds(125 + x - x/2,150 + y - y/2,200,25);
-        loginButton.setBounds(125 + x - x/2,200 + y - y/2,100,25);
+        userIDLabel.setBounds(50 + screenX - screenX /2,50 + screenY - screenY /2,75,25);
+        userIDField.setBounds(125 + screenX - screenX /2,50 + screenY - screenY /2,200,25);
+        userEmailLabel.setBounds(50 + screenX - screenX /2,100 + screenY - screenY /2,75,25);
+        userEmailField.setBounds(125 + screenX - screenX /2,100 + screenY - screenY /2,200,25);
+        userPasswordLabel.setBounds(50 + screenX - screenX /2,150 + screenY - screenY /2,75,25);
+        userPasswordField.setBounds(125 + screenX - screenX /2,150 + screenY - screenY /2,200,25);
+        loginButton.setBounds(125 + screenX - screenX /2,200 + screenY - screenY /2,100,25);
 
-        registerButton.setBounds(125 + x - x/2, 300 + y - y/2, 200, 25);
+        registerButton.setBounds(125 + screenX - screenX /2, 300 + screenY - screenY /2, 200, 25);
         registerButton.setFocusable(false);
         registerButton.addActionListener(this);
         loginButton.setFocusable(false);
         loginButton.addActionListener(this);
 
-        resetButton.setBounds(225 + x - x/2,200 + y - y/2 ,100,25);
+        resetButton.setBounds(225 + screenX - screenX /2,200 + screenY - screenY /2 ,100,25);
         resetButton.setFocusable(false);
         resetButton.addActionListener(this);
     }
 
+    /**
+     * {@inheritDoc}
+     * @param e the event to be processed
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
 
 
         if (e.getSource() == loginButton) {
 
-
-            //About about = new About(userIDField.getText(), userEmailField.getText());
-
+            WelcomePage wp = new WelcomePage(userIDField.getText(), userEmailField.getText());
+            frame.dispose();
         }
     }
 }
