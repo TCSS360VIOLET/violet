@@ -91,7 +91,7 @@ public class LogInPage implements ActionListener {
         if (e.getSource() == loginButton) {
 
 
-            About about = new About(userIDField.getText(), userEmailField.getText());
+            //About about = new About(userIDField.getText(), userEmailField.getText());
 
         }
     }
