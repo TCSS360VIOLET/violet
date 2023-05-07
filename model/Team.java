@@ -40,7 +40,7 @@ public class Team {
 		developers.put(1, "Nickolas Zahos (nzahos@uw.edu)");
 		developers.put(2, "An Ho (aho1999@uw.edu)");
 		developers.put(3, "Edward Chung (edward92@uw.edu)");
-		developers.put(4, "Lixin Wang (EMAIL@uw.edu)");
+		developers.put(4, "Lixin Wang (lixin567@uw.edu)");
 		developers.put(5, "Parker Johnson (ptj7@uw.edu)");
 	}
 	
