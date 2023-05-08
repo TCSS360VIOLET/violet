@@ -18,6 +18,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
+ * 
  * This is the class for the about window JFrame that will popup when
  * the user clicks the 'About...' button on the main page of our App.
  * 
