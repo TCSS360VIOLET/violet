@@ -28,6 +28,9 @@ import java.awt.event.ActionListener;
  * @author Edward Chung
  */
 public class About {
+    /** This constant version number will change with more iterations. It will have to be manually updated here */
+    private static final double VERSION_NUMBER = 2.0;
+
     /** The main JFrame of this About window. */
 	private JFrame myFrame;
 
@@ -127,13 +130,16 @@ public class About {
 	 */
 	private void setupTextField(JPanel panel) {
         String descriptionText = "Our software is a powerful project management tool designed to help you seamlessly organize, track, and prioritize multiple projects. With intuitive features for setting deadlines, managing budgets, monitoring purchased items, storing designs and files, and adding notes for each project, it's the ultimate solution for staying on top of your work and achieving your goals. Plus, our convenient import/export functionality allows you to effortlessly sync your project data across multiple devices, ensuring you have access to the information you need, whenever and wherever you need it." + 
-        "\nBrought to you by Team Violet!\n" + 
-        "\n- - - Developers - - -\n"; 
+        "\n\nBrought to you by Team Violet!\n" + 
+        "\nDevelopers:\n"; 
         
         // Add each Developer's name and contact info.
         for(int i = 0; i < developers.length; i++) {
             descriptionText += developers[i] + "\n";
         }
+
+        // Add version number of the current build of the program.
+        descriptionText += "\nVersion " + VERSION_NUMBER;
 
         JTextArea aboutTextArea = new JTextArea(descriptionText);
 
