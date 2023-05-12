@@ -8,7 +8,7 @@ import model.About;
  * 
  * @author Nickolas Zahos(nzahos@uw.edu)
  */
-public class TestDriver {
+public class AboutTester {
 	public static void main(String[] theArgs) {
 		// Initialize and setup the About window
 		About myAbout = new About();
