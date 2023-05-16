@@ -1,7 +1,5 @@
 package controller;
 
-import model.About;
-import view.InitialScreen;
 import view.LogInPage;
 
 import java.awt.*;

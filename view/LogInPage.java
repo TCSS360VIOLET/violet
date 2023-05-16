@@ -2,9 +2,21 @@ package view;
 
 
 
+import controller.ProfileManager;
+
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 import javax.swing.*;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 /**
  * The login page for the application.
@@ -74,6 +86,11 @@ public class LogInPage implements ActionListener {
      * The y size of the screen.
      */
     private int screenY;
+
+    /**
+     * The ProfileManager
+     */
+    private ProfileManager manager = new ProfileManager();
 
     /**
      * Initialize fields for the class.
@@ -171,8 +188,25 @@ public class LogInPage implements ActionListener {
 
 
         if (e.getSource() == loginButton) {
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = null;
+            Document document = null;
+            try {
+                builder = factory.newDocumentBuilder();
+            } catch (ParserConfigurationException ex) {
+                throw new RuntimeException(ex);
+            }
+            try {
+                document = builder.parse("data/ProfileData.xml");
+            } catch (SAXException ex) {
+                throw new RuntimeException(ex);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
 
+            manager.addProfile(userIDField.getText(), userEmailField.getText());
             WelcomePage wp = new WelcomePage(userIDField.getText(), userEmailField.getText());
+
             frame.dispose();
         }
     }
