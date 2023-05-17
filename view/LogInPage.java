@@ -2,6 +2,7 @@ package view;
 
 
 
+import controller.Main;
 import controller.ProfileManager;
 
 import java.awt.*;
@@ -188,23 +189,11 @@ public class LogInPage implements ActionListener {
 
 
         if (e.getSource() == loginButton) {
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = null;
-            Document document = null;
+
             try {
-                builder = factory.newDocumentBuilder();
-            } catch (ParserConfigurationException ex) {
-                throw new RuntimeException(ex);
-            }
-            try {
-                document = builder.parse("data/ProfileData.xml");
-            } catch (SAXException ex) {
-                throw new RuntimeException(ex);
+                Main.manager.addProfile(userIDField.getText(), userEmailField.getText());
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
-            }
-            if (!containsProfile(document, userIDField.getText())) {
-                manager.addProfile(userIDField.getText(), userEmailField.getText());
             }
             WelcomePage wp = new WelcomePage(userIDField.getText(), userEmailField.getText());
             frame.dispose();

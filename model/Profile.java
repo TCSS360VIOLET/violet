@@ -3,6 +3,10 @@ package model;
 import controller.ProfileManager;
 import org.w3c.dom.Document;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
 /**
  * This class will be the Profile object that each user's profile information will be stored as.
  * 
@@ -15,17 +19,13 @@ public class Profile {
 
     /** The email address of the profile. */
     private String myEmail;
-
+    /**
+     * The document for the user
+     */
     private Document myDoc;
-
-    public Document getMyDoc() {
-        return myDoc;
-    }
-
-    public void setMyDoc(Document myDoc) {
-        this.myDoc = myDoc;
-    }
-
+    /**
+     * The manager for the profile.
+     */
     private ProfileManager myManager;
 
     /** Constructor - Given Name, and Email.
@@ -33,8 +33,14 @@ public class Profile {
      * @param theName   The name of the user.
      * @param theEmail  The email of the user.
      */
-    public Profile(String theName, String theEmail) {
+    public Profile(String theName, String theEmail) throws ParserConfigurationException {
         setProfile(theName, theEmail);
+        DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+
+        // root elements
+        myDoc = docBuilder.newDocument();
+        myManager = new ProfileManager();
     }
 
     /**
@@ -65,6 +71,19 @@ public class Profile {
     public String getEmail() {
         return myEmail;
     }
+
+    /**
+     * Get the document of the user
+     * @return
+     */
+    public Document getMyDoc() {
+        return myDoc;
+    }
+
+    public ProfileManager getMyManager() {
+        return myManager;
+    }
+
 
 
 }

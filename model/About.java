@@ -45,8 +45,6 @@ public class About {
         // Set uniform window size across different screen resolutions (Bad for Ultra-widescreen monitors, could stretch)
         // Get screen dimensions
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int screenHeight = screenSize.height;
-        int screenWidth = screenSize.width;
 
         // Sets this JFrame size to 1/3 the width of the user's screen, and half it's height.
         myFrame.setSize(screenSize);
