@@ -204,7 +204,12 @@ public class LogInPage implements ActionListener {
                 throw new RuntimeException(ex);
             }
             if (!containsProfile(document, userIDField.getText())) {
-                manager.addProfile(userIDField.getText(), userEmailField.getText());
+                try {
+                    manager.addProfile(userIDField.getText(), userEmailField.getText());
+                } catch (IOException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
             }
             WelcomePage wp = new WelcomePage(userIDField.getText(), userEmailField.getText());
             frame.dispose();
