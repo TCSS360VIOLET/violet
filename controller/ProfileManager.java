@@ -65,6 +65,10 @@ public class ProfileManager {
         }
     }
 
+    /* The code loads an XML file corresponding to a given username. 
+    If the file exists, it parses the existing file, 
+    and if it doesn't exist, it creates a new document with a root element named "User".
+    */
     public void loadUserFile(String username) {
         try {
             // Define the file path
@@ -74,8 +78,8 @@ public class ProfileManager {
 
             // Add this line to ignore whitespace in the XML content
             dbFactory.setIgnoringElementContentWhitespace(true);
-
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            // Create a DocumentBuilder object
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder(); 
 
             if (file.exists()) {
                 // If the file exists, parse the existing file
@@ -87,7 +91,7 @@ public class ProfileManager {
                 doc.appendChild(rootElement);
             }
 
-            // Normalize the XML Structure
+            // This step is performed to ensure that the XML document follows the standard formatting rules.
             doc.getDocumentElement().normalize();
 
             rootElement = doc.getDocumentElement();

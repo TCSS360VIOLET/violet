@@ -10,8 +10,16 @@ import model.Project;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+import java.util.zip.ZipOutputStream;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
@@ -62,6 +70,16 @@ public class WelcomePage extends JFrame implements ActionListener{
      * The logout button.
      */
     private JButton logoutButton;
+
+    /**
+     * The export button.
+     */
+    private JButton exportButton;
+
+    /**
+     * The import button.
+     */
+    private JButton importButton;
 
     //HashMap<String, String> ids = new IDandPasswords().getLoginInfo();
 
@@ -175,6 +193,11 @@ public class WelcomePage extends JFrame implements ActionListener{
         addProject = new JButton("Add Project...");
         goToProject = new JButton("Go To Project");
         deleteProject = new JButton("Delete Project");
+
+         // Create the buttons
+        exportButton = new JButton("Export");
+        importButton = new JButton("Import");
+
         logoutButton = new JButton("Logout");
         //HashMap<String, String> ids = new IDandPasswords().getLoginInfo();
         nameLabel = new JLabel("Project Name");
@@ -240,6 +263,8 @@ public class WelcomePage extends JFrame implements ActionListener{
         frame.add(budgetLabel);
         frame.add(budgetField);
         frame.add(addProject);
+        frame.add(exportButton);
+        frame.add(importButton);
         ownerMenu.add(ownerName);
         ownerMenu.add(ownerEmail);
         aboutMenu.add(aboutItem);
@@ -256,6 +281,8 @@ public class WelcomePage extends JFrame implements ActionListener{
         goToProject.addActionListener(this);
         addProject.addActionListener(this);
         deleteProject.addActionListener(this);
+        exportButton.addActionListener(this);
+        importButton.addActionListener(this);
         logoutButton.addActionListener(this);
         aboutItem.addActionListener(aboutItem -> {
             About about = new About();
@@ -280,6 +307,10 @@ public class WelcomePage extends JFrame implements ActionListener{
         budgetField.setBounds(1300, 110, 150, 25);
         deleteProject.setBounds(1300, 175, 150, 25);
         goToProject.setBounds(1300, 220, 150, 25);
+        exportButton.setBounds(1300, 220, 150, 25);
+        importButton.setBounds(1300, 220, 150, 25);
+
+
     }
 
     /**
@@ -341,6 +372,14 @@ public class WelcomePage extends JFrame implements ActionListener{
 
         if (e.getSource() == goToProject) {
             goToProject();
+        }
+
+        if (e.getSource() == exportButton) {
+            exportData();
+        }
+
+        if (e.getSource() == importButton) {
+            importData();
         }
     }
 
@@ -410,4 +449,113 @@ public class WelcomePage extends JFrame implements ActionListener{
             JOptionPane.showInternalMessageDialog(null, "Start Date must be before the End Date");
         }
     }
+
+    /*
+     * The action to export data.
+     */
+    private void exportData() {
+        try {
+            File dataFolder = new File("data");
+            File[] xmlFiles = dataFolder.listFiles((dir, name) -> name.endsWith(".xml"));
+    
+            if (xmlFiles.length == 0) {
+                JOptionPane.showMessageDialog(this, "No XML files found in the data folder.", "Export",
+                        JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
+    
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Select Destination for Exported ZIP File");
+            fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+            fileChooser.setSelectedFile(new File("export.zip"));
+    
+            int result = fileChooser.showSaveDialog(this);
+    
+            if (result == JFileChooser.APPROVE_OPTION) {
+                File exportFile = fileChooser.getSelectedFile();
+    
+                FileOutputStream fos = new FileOutputStream(exportFile);
+                ZipOutputStream zos = new ZipOutputStream(fos);
+    
+                byte[] buffer = new byte[1024];
+    
+                for (File xmlFile : xmlFiles) {
+                    ZipEntry zipEntry = new ZipEntry(xmlFile.getName());
+                    zos.putNextEntry(zipEntry);
+    
+                    FileInputStream fis = new FileInputStream(xmlFile);
+                    int length;
+                    while ((length = fis.read(buffer)) > 0) {
+                        zos.write(buffer, 0, length);
+                    }
+                    fis.close();
+    
+                    zos.closeEntry();
+                }
+    
+                zos.close();
+                fos.close();
+    
+                JOptionPane.showMessageDialog(this, "Data exported successfully.", "Export",
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "An error occurred during export: " + e.getMessage(), "Export Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+
+    /*
+     * The action to import data.
+     */
+    private void importData() {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        fileChooser.setDialogTitle("Select Zip File to Import");
+        int result = fileChooser.showOpenDialog(this);
+    
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File importFile = fileChooser.getSelectedFile();
+    
+            try {
+                // Create a folder to extract the contents of the zip file
+                File extractionFolder = new File("imported_data");
+                if (!extractionFolder.exists()) {
+                    extractionFolder.mkdir();
+                }
+    
+                // Extract the zip file contents
+                FileInputStream fis = new FileInputStream(importFile);
+                ZipInputStream zis = new ZipInputStream(fis);
+                ZipEntry zipEntry = zis.getNextEntry();
+    
+                while (zipEntry != null) {
+                    String fileName = zipEntry.getName();
+                    File extractedFile = new File(extractionFolder, fileName);
+    
+                    FileOutputStream fos = new FileOutputStream(extractedFile);
+                    byte[] buffer = new byte[1024];
+                    int length;
+    
+                    while ((length = zis.read(buffer)) > 0) {
+                        fos.write(buffer, 0, length);
+                    }
+    
+                    fos.close();
+                    zipEntry = zis.getNextEntry();
+                }
+    
+                zis.close();
+                fis.close();
+    
+                JOptionPane.showMessageDialog(this, "Data imported successfully.", "Import",
+                        JOptionPane.INFORMATION_MESSAGE);
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(this, "An error occurred during import: " + e.getMessage(),
+                        "Import Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+    
 }
