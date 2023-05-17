@@ -47,8 +47,8 @@ public class About {
         ImageIcon myIcon = new ImageIcon(iconURL);
 		myFrame.setIconImage(myIcon.getImage());
 		
-		// Closing the window exits this program/frame.
-		myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		// Closing the window exits frame.
+		myFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		// For uniform window size across different screen resolutions (Bad for Ultra-widescreen monitors, could stretch)
 		// Get screen dimensions

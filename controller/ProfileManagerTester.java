@@ -1,13 +1,11 @@
 package controller;
 
-import java.util.List;
-
 // This is just a tester class for our profile manager
 public class ProfileManagerTester {
 
     public static void main(String[] args) {
 
-        ProfileManager profileManager = new ProfileManager();
+        //ProfileManager profileManager = new ProfileManager();
 
         // // Adding the first profile - Patty
         // try {
@@ -58,20 +56,20 @@ public class ProfileManagerTester {
         // profileManager.addItem("John", "Kitchen Renovation", "Countertop", "Granite countertop for kitchen", "500.00", "1");
     
 
-        // TEST GETTERS
-        List<String> listOfProjects = profileManager.getProjects("Patty");
+        // // TEST GETTERS
+        // List<String> listOfProjects = profileManager.getProjects("Patty");
 
-        for(String s : listOfProjects) {
-            System.out.println("Project Name: " + s 
-            + "\nPROJECT START: " + profileManager.getProjectStartDate("Patty", s)
-            + "\nPROJECT END: " + profileManager.getProjectEndDate("Patty", s)
-            + "\nPROFILE BUDGET: " + profileManager.getProjectBudget("Patty", s)
-            + "\nFILES: " + profileManager.getProjectFilePaths("Patty", s)
-            + "\nITEMS: " + profileManager.getProjectItems("Patty", s)
-            + "\nFIRST ITEM NAME: " + profileManager.getItemDescription("Patty", s, profileManager.getProjectItems("Patty", s).get(0))
-            + "\nFIRST ITEM COST/P/U: " + profileManager.getItemCostPerUnit("Patty", s, profileManager.getProjectItems("Patty", s).get(0))
-            + "\nFIRST ITEM QUANTITY: " + profileManager.getItemQuantity("Patty", s, profileManager.getProjectItems("Patty", s).get(0)));
-        }
+        // for(String s : listOfProjects) {
+        //     System.out.println("Project Name: " + s 
+        //     + "\nPROJECT START: " + profileManager.getProjectStartDate("Patty", s)
+        //     + "\nPROJECT END: " + profileManager.getProjectEndDate("Patty", s)
+        //     + "\nPROFILE BUDGET: " + profileManager.getProjectBudget("Patty", s)
+        //     + "\nFILES: " + profileManager.getProjectFilePaths("Patty", s)
+        //     + "\nITEMS: " + profileManager.getProjectItems("Patty", s)
+        //     + "\nFIRST ITEM NAME: " + profileManager.getItemDescription("Patty", s, profileManager.getProjectItems("Patty", s).get(0))
+        //     + "\nFIRST ITEM COST/P/U: " + profileManager.getItemCostPerUnit("Patty", s, profileManager.getProjectItems("Patty", s).get(0))
+        //     + "\nFIRST ITEM QUANTITY: " + profileManager.getItemQuantity("Patty", s, profileManager.getProjectItems("Patty", s).get(0)));
+        // }
     }
 }
 
