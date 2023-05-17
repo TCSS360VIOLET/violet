@@ -1,5 +1,8 @@
 package model;
 
+import controller.ProfileManager;
+import org.w3c.dom.Document;
+
 /**
  * This class will be the Profile object that each user's profile information will be stored as.
  * 
@@ -12,6 +15,18 @@ public class Profile {
 
     /** The email address of the profile. */
     private String myEmail;
+
+    private Document myDoc;
+
+    public Document getMyDoc() {
+        return myDoc;
+    }
+
+    public void setMyDoc(Document myDoc) {
+        this.myDoc = myDoc;
+    }
+
+    private ProfileManager myManager;
 
     /** Constructor - Given Name, and Email.
      * 
@@ -50,4 +65,6 @@ public class Profile {
     public String getEmail() {
         return myEmail;
     }
+
+
 }

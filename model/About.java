@@ -18,10 +18,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * 
  * This is the class for the about window JFrame that will popup when
  * the user clicks the 'About...' button on the main page of our App.
- * 
+ *
  * @author Lixin Wang
  * @author Nickolas Zahos (nzahos@uw.edu)
  * @author Edward Chung
@@ -42,23 +41,23 @@ public class About {
         // Set the Window icon
         myFrame.setIconImage(Toolkit.getDefaultToolkit().getImage("images/icon.png"));
 
-        
-		// Set uniform window size across different screen resolutions (Bad for Ultra-widescreen monitors, could stretch)
-		// Get screen dimensions
+
+        // Set uniform window size across different screen resolutions (Bad for Ultra-widescreen monitors, could stretch)
+        // Get screen dimensions
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenHeight = screenSize.height;
         int screenWidth = screenSize.width;
-        
+
         // Sets this JFrame size to 1/3 the width of the user's screen, and half it's height.
-        myFrame.setSize(screenWidth / 4, screenHeight / 2);
-        
+        myFrame.setSize(screenSize);
+
         // Position the frame in the center of the screen by setting location to null.
         myFrame.setLocationRelativeTo(null);
 
-        // Text basic description about our software. 
+        // Text basic description about our software.
         String descriptionText = "Our software is a powerful project management tool designed to help you seamlessly organize, track, and prioritize multiple projects. With intuitive features for setting deadlines, managing budgets, monitoring purchased items, storing designs and files, and adding notes for each project, it's the ultimate solution for staying on top of your work and achieving your goals. Plus, our convenient import/export functionality allows you to effortlessly sync your project data across multiple devices, ensuring you have access to the information you need, whenever and wherever you need it.<br>" +
-                                 "<br>Brought to you by Team Violet!<br>" + 
-                                 "<br>- - - Developers - - -<br>"; 
+                "<br>Brought to you by Team Violet!<br>" +
+                "<br>- - - Developers - - -<br>";
 
         // Add each Developer's name and contact info.
         for(int i = 0; i < developers.length; i++) {
@@ -75,7 +74,7 @@ public class About {
 
         myFrame.getContentPane().add(descriptionLabel, BorderLayout.CENTER);
 
-        // Logo image 
+        // Logo image
         URL logoURL = getClass().getResource("/images/logo.png");
         ImageIcon image = new ImageIcon(logoURL);
         JLabel logoImage = new JLabel(image);
@@ -102,24 +101,24 @@ public class About {
 
         // Ignores the screen size we set earlier to pack the window to the neceasary size to fit all its contents (Bad format for long descriptions like ours, causes stretched window).
         //myFrame.pack();
-   }
+    }
 
-   /**
-    * This basic method will show/hide the main JFrame (About) window
-    * depending on which boolean is passed as a parameter.
-    * NOTE: Hiding the JFrame does NOT close it (will still be taking memory in the background)!
-    *
-    * @param b  true = show, false = hide.
-    */
-   public void show(boolean b) {
-        myFrame.setVisible(b); 
-   }
+    /**
+     * This basic method will show/hide the main JFrame (About) window
+     * depending on which boolean is passed as a parameter.
+     * NOTE: Hiding the JFrame does NOT close it (will still be taking memory in the background)!
+     *
+     * @param b  true = show, false = hide.
+     */
+    public void show(boolean b) {
+        myFrame.setVisible(b);
+    }
 
-   /**
-    * This basic method will close/exit the JFrame for the about window.
-    * Completely exits it out, restoring all memory that was being used.
-    */
-   public void exit() {
+    /**
+     * This basic method will close/exit the JFrame for the about window.
+     * Completely exits it out, restoring all memory that was being used.
+     */
+    public void exit() {
         myFrame.dispose();
-   }
+    }
 }
