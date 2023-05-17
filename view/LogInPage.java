@@ -195,6 +195,7 @@ public class LogInPage implements ActionListener {
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
+
             WelcomePage wp = new WelcomePage(userIDField.getText(), userEmailField.getText());
             frame.dispose();
         }
