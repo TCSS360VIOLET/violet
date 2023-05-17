@@ -12,6 +12,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import model.Profile;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -213,15 +214,15 @@ public class ProfileManager {
     /**
      * Saves the XML document to a file.
      */
-    public void saveProfile() {
+    public void saveProfile(Profile profile) {
         try {
             // write the content into xml file
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
             transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-            DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(new File("data/ProfileData.xml"));
+            DOMSource source = new DOMSource(profile.getMyDoc());
+            StreamResult result = new StreamResult(new File("data/"+ profile.getName() +".xml"));
     
             transformer.transform(source, result);
     

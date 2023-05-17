@@ -203,12 +203,22 @@ public class LogInPage implements ActionListener {
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
-
-            manager.addProfile(userIDField.getText(), userEmailField.getText());
+            if (!containsProfile(document, userIDField.getText())) {
+                manager.addProfile(userIDField.getText(), userEmailField.getText());
+            }
             WelcomePage wp = new WelcomePage(userIDField.getText(), userEmailField.getText());
-
             frame.dispose();
         }
+    }
+
+    private boolean containsProfile(Document document, String userName) {
+        NodeList nl = document.getElementsByTagName("Username");
+        for (int i = 0; i < nl.getLength(); i++) {
+            if (nl.item(i).getTextContent().equals(userIDField.getText())) {
+                return true;
+            }
+        }
+        return false;
     }
 }
 

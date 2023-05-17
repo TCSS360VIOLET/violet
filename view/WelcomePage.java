@@ -1,5 +1,6 @@
 package view;
 
+import controller.ProfileManager;
 import model.About;
 import model.Project;
 
@@ -142,6 +143,11 @@ public class WelcomePage extends JFrame implements ActionListener{
     private final String userID;
 
     /**
+     * The Profile Manager
+     */
+    private ProfileManager manager = new ProfileManager();
+
+    /**
      * Initialize Fields of the WelcomePge
      * @param userID The user who logged in.
      * @param userEmail The user's email address.
@@ -206,6 +212,8 @@ public class WelcomePage extends JFrame implements ActionListener{
         addActions();
         setBounds();
         addComponentsToFrame();
+
+
         JScrollPane sp = setUpTable();
         sp.setBounds(100, 100, 1000, 600);
         frame.add(sp, BorderLayout.CENTER);
