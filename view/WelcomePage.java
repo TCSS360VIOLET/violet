@@ -1,7 +1,9 @@
 package view;
 
+import controller.Main;
 import controller.ProfileManager;
 import model.About;
+import model.Profile;
 import model.Project;
 
 
@@ -145,7 +147,6 @@ public class WelcomePage extends JFrame implements ActionListener{
     /**
      * The Profile Manager
      */
-    private ProfileManager manager = new ProfileManager();
 
     /**
      * Initialize Fields of the WelcomePge
@@ -397,6 +398,10 @@ public class WelcomePage extends JFrame implements ActionListener{
                             project
                     }
             );
+            Main.manager.addProject(userID, project.getName(),
+                    project.getStartDate().toString(),
+                    project.getEndDate().toString(),
+                    String.valueOf(project.getBudget()));
             nameField.setText("");
             startDateField.setText("");
             endDateField.setText("");
