@@ -24,9 +24,19 @@ import java.util.Map;
  * 
  * @author Nickolas Zahos (nzahos@uw.edu)
  * @author An Ho (aho1999@uw.edu)
+<<<<<<< HEAD
+<<<<<<< HEAD
+ * 
+=======
  * @author Edward Chung (edward92@uw.edu)
  * @author Lixin Wang
  * @author Parker Johnson (ptj7@uw.edu)
+>>>>>>> 50c28be434f998b91a1f90f6e3310b39cace73f6
+=======
+ * @author Edward Chung (edward92@uw.edu)
+ * @author Lixin Wang
+ * @author Parker Johnson (ptj7@uw.edu)
+>>>>>>> 50c28be434f998b91a1f90f6e3310b39cace73f6
  */
 public class Team {
 	/** This map will hold the developer(s) info as "FIRST NAME LAST NAME, EMAIL" */

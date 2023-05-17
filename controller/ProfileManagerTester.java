@@ -1,18 +1,20 @@
 package controller;
 
+import java.io.IOException;
+
 // This is just a tester class for our profile manager
 public class ProfileManagerTester {
 
     public static void main(String[] args) {
 
-        //ProfileManager profileManager = new ProfileManager();
+        ProfileManager profileManager = new ProfileManager();
 
-        // // Adding the first profile - Patty
-        // try {
-        //     profileManager.addProfile("Patty", "epicflowers@hotmail.com");
-        // } catch (IOException e) {
-        //     e.getMessage();
-        // }
+        // Adding the first profile - Patty
+        try {
+            profileManager.addProfile("Patty", "epicflowers@hotmail.com");
+        } catch (IOException e) {
+            e.getMessage();
+        }
 
         // // Adding the first project to Patty's profile
         // profileManager.addProject("Patty", "Flower Shop Remodel", "2023-05-01", "2023-06-10", "1500");
@@ -71,8 +73,12 @@ public class ProfileManagerTester {
         //     + "\nFIRST ITEM QUANTITY: " + profileManager.getItemQuantity("Patty", s, profileManager.getProjectItems("Patty", s).get(0)));
         // }
     }
+<<<<<<< HEAD
 }
 
 
 
 
+=======
+}
+>>>>>>> 98965afb7c76e644dc106922cd09ff4e2d4d9398
