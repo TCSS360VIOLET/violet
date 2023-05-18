@@ -98,9 +98,9 @@ public class ProjectPage extends JFrame implements ActionListener {
         frame.add(notesLabel);
         JScrollPane notesPane = new JScrollPane(notesArea);
         notesPane.setBounds(1150, 220, 300, 480);
-        frame.getContentPane().add(notesPane);
-        //sync notes to XML file.
-        
+        frame.getContentPane().add(notesPane);  
+        //testing
+        importNotes();      
         JScrollPane sp = setUpTable();
         sp.setBounds(150, 100, 950, 600);
         frame.add(sp, BorderLayout.CENTER);
@@ -205,5 +205,7 @@ public class ProjectPage extends JFrame implements ActionListener {
         }
     }
 
+    private void importNotes() {
+        notesArea.setText(manager.getProjectNotes(this.userID, this.project.getName()));
+    }
 }
-
