@@ -75,6 +75,7 @@ public class ProjectPage extends JFrame implements ActionListener {
         welcomeLabel.setFont(new Font(null,Font.PLAIN,18));
         welcomeLabel.setText("Hello "+ userID.toUpperCase(Locale.US));
     }
+    
     private void setUpFrame() {
         addActions();
         setBounds();
