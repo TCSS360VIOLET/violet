@@ -44,6 +44,10 @@ public class ProjectPage extends JFrame implements ActionListener {
     JTextField budgetField = new JTextField();
 
     JLabel budgetLabel = new JLabel("Budget");
+
+    JLabel notesLabel = new JLabel("Notes:");
+
+    JTextArea notesArea = new JTextArea();
     private DefaultTableModel model = new DefaultTableModel(columns, 0) {
 
         @Override
@@ -86,6 +90,11 @@ public class ProjectPage extends JFrame implements ActionListener {
         frame.add(budgetField);
         frame.add(budgetLabel);
         frame.add(welcomeLabel, BorderLayout.NORTH);
+        //adding notes section
+        frame.add(notesLabel);
+        JScrollPane notesPane = new JScrollPane(notesArea);
+        notesPane.setBounds(1150, 220, 300, 480);
+        frame.getContentPane().add(notesPane);
         JScrollPane sp = setUpTable();
         sp.setBounds(150, 100, 950, 600);
         frame.add(sp, BorderLayout.CENTER);
@@ -115,6 +124,8 @@ public class ProjectPage extends JFrame implements ActionListener {
         budgetField.setBounds(1300, 110, 150, 25);
         budgetLabel.setBounds(1150, 110, 150, 25);
         deleteItem.setBounds(1300, 175, 150, 25);
+        notesLabel.setBounds(1150, 200, 150, 25);
+        notesArea.setBounds(1150, 220, 300, 480);
     }
 
     private JScrollPane setUpTable() {
@@ -187,5 +198,6 @@ public class ProjectPage extends JFrame implements ActionListener {
             }
         }
     }
+
 }
 
