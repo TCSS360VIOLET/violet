@@ -2,6 +2,7 @@ package view;
 
 
 import controller.Main;
+import controller.ProfileManager;
 import model.Item;
 import model.Project;
 
@@ -48,6 +49,8 @@ public class ProjectPage extends JFrame implements ActionListener {
     JLabel notesLabel = new JLabel("Notes:");
 
     JTextArea notesArea = new JTextArea();
+
+    ProfileManager manager = new ProfileManager(); 
     private DefaultTableModel model = new DefaultTableModel(columns, 0) {
 
         @Override
@@ -96,6 +99,8 @@ public class ProjectPage extends JFrame implements ActionListener {
         JScrollPane notesPane = new JScrollPane(notesArea);
         notesPane.setBounds(1150, 220, 300, 480);
         frame.getContentPane().add(notesPane);
+        //sync notes to XML file.
+        
         JScrollPane sp = setUpTable();
         sp.setBounds(150, 100, 950, 600);
         frame.add(sp, BorderLayout.CENTER);
