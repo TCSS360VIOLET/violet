@@ -131,8 +131,8 @@ public class ProfileManager {
         String fileName = "data/" + username + ".xml";
         File file = new File(fileName);
         if(file.exists()) {
-            throw new IOException("A profile with this username already exists.");
-
+            loadUserFile(username);
+            return;
         }
 
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();

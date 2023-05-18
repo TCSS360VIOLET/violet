@@ -25,7 +25,7 @@ public class ProjectPage extends JFrame implements ActionListener {
     };
 
     Project project;
-    JFrame frame = new JFrame();
+    JFrame frame = this;
     JLabel welcomeLabel = new JLabel("Hello!");
 
     JButton addItem = new JButton("Add Item");
@@ -62,7 +62,13 @@ public class ProjectPage extends JFrame implements ActionListener {
         this.userID = userID;
         setUpLabel(userID);
         setUpFrame();
+        loadItems(project.getItems());
+    }
 
+    private void loadItems(java.util.List<Item> items){
+        for(Item item : items){
+            addItem(item);
+        }
     }
 
 
@@ -140,6 +146,23 @@ public class ProjectPage extends JFrame implements ActionListener {
         }
 
 
+    }
+
+    /**
+     * Add item from file
+     */
+    private void addItem(Item item){
+
+        NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.US);
+        model.addRow(
+                new Object[]{
+                        item.getMyName(),
+                        item.getMyQuantity(),
+                        nf.format(item.getMyPrice()),
+                        nf.format(item.getMyBudget()),
+                        nf.format(item.getDifference()),
+                }
+        );
     }
 
     /**
