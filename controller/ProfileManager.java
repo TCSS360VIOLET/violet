@@ -133,7 +133,7 @@ public class ProfileManager {
 
     /**
      * Creates an XML file for the specified user (username and email).
-     * If one already exists for that user, throws an exception.
+     * If one already exists for that user, we load that file instead of making a new one.
      *
      * @param username The username of the user.
      * @param email    The email of the user.
