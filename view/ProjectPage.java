@@ -32,6 +32,7 @@ public class ProjectPage extends JFrame implements ActionListener {
     JButton addItem = new JButton("Add Item");
     JButton deleteItem = new JButton("Delete Item");
     JButton backButton = new JButton("Back");
+    JButton saveNotesButton = new JButton("Save Notes");
     JLabel nameLabel = new JLabel("Item Name");
     JLabel quanitityLabel = new JLabel("Quantity");
 
@@ -98,7 +99,8 @@ public class ProjectPage extends JFrame implements ActionListener {
         frame.add(notesLabel);
         JScrollPane notesPane = new JScrollPane(notesArea);
         notesPane.setBounds(1150, 220, 300, 480);
-        frame.getContentPane().add(notesPane);  
+        frame.getContentPane().add(notesPane);
+        frame.add(saveNotesButton);  
         //testing
         importNotes();      
         JScrollPane sp = setUpTable();
@@ -131,7 +133,8 @@ public class ProjectPage extends JFrame implements ActionListener {
         budgetLabel.setBounds(1150, 110, 150, 25);
         deleteItem.setBounds(1300, 175, 150, 25);
         notesLabel.setBounds(1150, 200, 150, 25);
-        notesArea.setBounds(1150, 220, 300, 480);
+        notesArea.setBounds(1150, 220, 300, 450);
+        saveNotesButton.setBounds(1150, 220, 100, 480);
     }
 
     private JScrollPane setUpTable() {

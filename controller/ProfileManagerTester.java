@@ -47,6 +47,7 @@ public class ProfileManagerTester {
         profileManager.addItem("Patty", "Garden Upgrade", "Flower Seeds", "Assorted flower seeds for garden upgrade", "1.00", "100");
         profileManager.addItem("Patty", "Garden Upgrade", "Fertilizer", "High-quality fertilizer for plant growth", "20.00", "5");
 
+        System.out.println(profileManager.getProjectNotes("Patty", "Flower Shop Remodel"));
 
         // // Adding the second profile - John
         // try {
