@@ -46,6 +46,7 @@ public class Team {
 	
 	/**
 	 * This get method returns a defensive copy of the map of developer(s) info.
+	 * @author Nickolas Zahos (nzahos@uw.edu)
 	 * 
 	 * @return	a defensive copy of developers HashMap.
 	 */
@@ -56,6 +57,9 @@ public class Team {
 
 	/**
 	 * This get methods returns a String array with each of the developer's info as a seperate element.
+	 * @author Nickolas Zahos (nzahos@uw.edu)
+	 * 
+	 * @return	A string[] array of the names and emails of the devs.
 	 */
 	public String[] getDevelopersArray() {
 		String[] devsArray = new String[developers.size()];

@@ -37,7 +37,12 @@ public class About {
     /** This string array will hold all the developer's info. */
     private final String[] developers;
 	
-	/** Default Contructor - Takes no parameters, sets up the UI for this frame. */
+    /** 
+     * Default Contructor - Takes no parameters, sets up the UI for this frame.
+     * @author Lixin Wang
+     * @author Nickolas Zahos (nzahos@uw.edu)
+     * @author Edward Chung 
+     */
 	public About() {
 		myFrame = new JFrame("About");
         developers = new Team().getDevelopersArray();
@@ -72,11 +77,15 @@ public class About {
         setupButton(myPanel);
 	}
 	
-	/**
-	 * This private method will only be called by the constructor.
-	 * It just places an 'Ok' button below the text field.
-	 * @param panel The panel that the component will be attached to.
-	 */
+    /**
+     * This private method will only be called by the constructor.
+     * It just places an 'Ok' button below the text field.
+     * @author Lixin Wang
+     * @author Nickolas Zahos (nzahos@uw.edu)
+     * @author Edward Chung
+     * 
+     * @param panel The panel that the component will be attached to.
+     */
 	private void setupButton(JPanel panel) {
         // Create the 'Ok' button
         JButton okButton = new JButton("Ok");
@@ -95,10 +104,14 @@ public class About {
         // Add the button panel to the main panel using BorderLayout.SOUTH
         panel.add(buttonPanel, BorderLayout.SOUTH);
 	}
-	
+
 	/**
 	 * This private method will only be called by the constructor.
 	 * It just sets up the large logo that will appear above the text field.
+     * @author Lixin Wang
+     * @author Nickolas Zahos (nzahos@uw.edu)
+     * @author Edward Chung
+     * 
 	 * @param panel The panel that the component will be attached to.
 	 */
 	private void setupLogo(JPanel panel) {
@@ -126,6 +139,10 @@ public class About {
 	 * This private method will only be called by the constructor.
 	 * It just sets up the text field of the about JFrame that will
 	 * describe the program.
+     * @author Lixin Wang
+     * @author Nickolas Zahos (nzahos@uw.edu)
+     * @author Edward Chung
+     * 
 	 * @param panel The panel that the component will be attached to.
 	 */
 	private void setupTextField(JPanel panel) {
@@ -168,14 +185,17 @@ public class About {
 	
 	/**
 	 * This method displays this class's JFrame.
+     * @author Lixin Wang
+     * @author Nickolas Zahos (nzahos@uw.edu)
+     * @author Edward Chung
      * 
-     * @param   b   True for show, false for hide frame.
+     * @param   theBool   True for show, false for hide frame.
 	 */
-	public void show(boolean b) {
+	public void show(boolean theBool) {
         // Center the JFrame to the UI Object (null means just center of screen)
         myFrame.setLocationRelativeTo(null);
 
         // Show the JFrame
-        myFrame.setVisible(b);
+        myFrame.setVisible(theBool);
 	}
 }

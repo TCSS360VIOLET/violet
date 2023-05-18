@@ -14,6 +14,8 @@ public class Profile {
     private String myEmail;
 
     /** Constructor - Given Name, and Email.
+     * @author Parker Johnson
+     * @author Nickolas Zahos (nzahos@uw.edu)
      * 
      * @param theName   The name of the user.
      * @param theEmail  The email of the user.
@@ -24,6 +26,8 @@ public class Profile {
 
     /**
      * This set method sets the profile name and email.
+     * @author Parker Johnson
+     * @author Nickolas Zahos (nzahos@uw.edu)
      * 
      * @param theName   The name of the user to set the profile to.
      * @param theEmail  The email of the user to set the profile to.
@@ -35,6 +39,8 @@ public class Profile {
 
     /** 
      * This get method returns a reference the profile's name.
+     * @author Parker Johnson
+     * @author Nickolas Zahos (nzahos@uw.edu)
      * 
      * @return  The profile's name.
      */
@@ -44,6 +50,8 @@ public class Profile {
 
     /**
      * This get method returns a reference to the profile's email.
+     * @author Parker Johnson
+     * @author Nickolas Zahos (nzahos@uw.edu)
      * 
      * @return  The profile's emial.
      */
