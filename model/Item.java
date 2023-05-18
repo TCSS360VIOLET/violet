@@ -41,7 +41,7 @@ public class Item {
     }
 
     public double getDifference() {
-        return getMyBudget() - (getMyQuantity() * getMyPrice());
+        return getMyBudget() - getTotalExpense();
     }
 
     public double getMyPrice() {
@@ -50,5 +50,9 @@ public class Item {
 
     public void setMyPrice(double myPrice) {
         this.myPrice = myPrice;
+    }
+
+    public double getTotalExpense(){
+        return (getMyQuantity() * getMyPrice());
     }
 }

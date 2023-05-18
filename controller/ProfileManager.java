@@ -220,7 +220,7 @@ public class ProfileManager {
      * @param costPerUnit   The cost per unit (single quantity) of the item being added.
      * @param quantity  The total quantity of the item being added.
      */
-    public void addItem(String username, String projectName, String itemName, String description, String costPerUnit, String quantity) {
+    public void addItem(String username, String projectName, String itemName, String budget, String costPerUnit, String quantity) {
         loadUserFile(username);
     
         Node projectNode = getProjectNode(projectName);
@@ -233,8 +233,8 @@ public class ProfileManager {
             itemNameElement.appendChild(doc.createTextNode(itemName));
             item.appendChild(itemNameElement);
     
-            Element descriptionElement = doc.createElement("Description");
-            descriptionElement.appendChild(doc.createTextNode(description));
+            Element descriptionElement = doc.createElement("Budget");
+            descriptionElement.appendChild(doc.createTextNode(budget));
             item.appendChild(descriptionElement);
     
             Element costPerUnitElement = doc.createElement("CostPerUnit");
@@ -516,39 +516,7 @@ public class ProfileManager {
         throw new NullPointerException("getProjectBudget(): No project by the name of '" + projectName + "' was found for username: '" + username);
     }
     
-    /**
-     * This getter method returns a string of the description of the specified item, 
-     * project name, and username.
-     * This method throws a NullPointerException when the specified project does not exist under
-     * the given username.
-     * @author Nickolas Zahos (nzahos@uw.edu)
-     * 
-     * @param username  The username of the owner of the project.
-     * @param projectName   The name of the project that contains the item.
-     * @param itemName  The item we are reading the item description from.
-     * @return  A string of the specified item's description.
-     */
-    public String getItemDescription(String username, String projectName, String itemName) {
-        loadUserFile(username);
-    
-        Node projectNode = getProjectNode(projectName);
-        if (projectNode != null && projectNode.getNodeType() == Node.ELEMENT_NODE) {
-            Element projectElement = (Element) projectNode;
-            NodeList itemNodes = projectElement.getElementsByTagName("Item");
-            for (int i = 0; i < itemNodes.getLength(); i++) {
-                Node node = itemNodes.item(i);
-                if (node.getNodeType() == Node.ELEMENT_NODE) {
-                    Element itemElement = (Element) node;
-                    String itemNameInElement = itemElement.getElementsByTagName("ItemName").item(0).getTextContent();
-                    if (itemNameInElement.equals(itemName)) {
-                        return itemElement.getElementsByTagName("Description").item(0).getTextContent();
-                    }
-                }
-            }
-        }
-    
-        throw new NullPointerException("getItemDescription(): No project by the name of '" + projectName + "' was found for username: '" + username);
-    }
+ 
 
     /**
      * This getter method returns the specified item's cost-per-unit using the given username, 
@@ -644,7 +612,41 @@ public class ProfileManager {
         }
 
         System.out.println("getProjectNotes(): No project by the name of '" + projectName + "' was found for username: '" + username);
-        return "";
+        return ""; 
+    }
+    
+       /**
+     * This getter method returns a string of the budget of the specified item, 
+     * project name, and username.
+     * This method throws a NullPointerException when the specified project does not exist under
+     * the given username.
+     * @author An Ho (aho1999@uw.edu)
+     * 
+     * @param username  The username of the owner of the project.
+     * @param projectName   The name of the project that contains the item.
+     * @param itemName  The item we are reading the item description from.
+     * @return  A double of the specified item's budget.
+     */
+    public double getItemBudget(String username, String projectName, String itemName) {
+        loadUserFile(username);
+
+        Node projectNode = getProjectNode(projectName);
+        if (projectNode != null && projectNode.getNodeType() == Node.ELEMENT_NODE) {
+            Element projectElement = (Element) projectNode;
+            NodeList itemNodes = projectElement.getElementsByTagName("Item");
+            for (int i = 0; i < itemNodes.getLength(); i++) {
+                Node node = itemNodes.item(i);
+                if (node.getNodeType() == Node.ELEMENT_NODE) {
+                    Element itemElement = (Element) node;
+                    String itemNameInElement = itemElement.getElementsByTagName("ItemName").item(0).getTextContent();
+                    if (itemNameInElement.equals(itemName)) {
+                        return Double.parseDouble(itemElement.getElementsByTagName("Budget").item(0).getTextContent());
+                    }
+                }
+            }
+        }
+
+        throw new NullPointerException("getItemBudget(): No project by the name of '" + projectName + "' was found for username: '" + username);
     }
 
 }

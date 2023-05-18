@@ -5,13 +5,17 @@ import controller.Main;
 import controller.ProfileManager;
 import model.Item;
 import model.Project;
-
+import java.util.List;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+
+import org.w3c.dom.NodeList;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Locale;
 
 
@@ -20,9 +24,9 @@ public class ProjectPage extends JFrame implements ActionListener {
     private static final String[] columns = {
             "Item Name",
             "Quantity",
-            "Estimated Price",
-            "Amount Spent",
-            "Over/Under spent by"
+            "Unit Price",
+            "Initial Budget",
+            "Item Balance"
     };
 
     Project project;
@@ -47,6 +51,17 @@ public class ProjectPage extends JFrame implements ActionListener {
     JTextField budgetField = new JTextField();
 
     JLabel budgetLabel = new JLabel("Budget");
+    
+    //An Ho - 05/18 ------------
+    ProfileManager pManager = new ProfileManager();
+    //for project summary
+    JLabel initialBudgetLabel = new JLabel();
+    JLabel totalExpensesLabel = new JLabel();
+    JLabel totalBalanceLabel = new JLabel();
+    JPanel summaryPanel = new JPanel();
+       
+
+    //
     private DefaultTableModel model = new DefaultTableModel(columns, 0) {
 
         @Override
@@ -64,16 +79,38 @@ public class ProjectPage extends JFrame implements ActionListener {
         this.project = project;
         this.userID = userID;
         setUpLabel(userID);
+        setUpSummary();
         setUpFrame();
 
     }
 
-
+    /**
+     * set up welcome label
+     * @param userID
+     * @author An Ho
+     */
     private void setUpLabel(String userID) {
-        welcomeLabel.setBounds(0,0,200,35);
+        welcomeLabel.setBounds(0,0,600,35);
         welcomeLabel.setFont(new Font(null,Font.PLAIN,18));
-        welcomeLabel.setText("Hello "+ userID.toUpperCase(Locale.US));
+        welcomeLabel.setText("user: "+ userID.toUpperCase(Locale.US) + " | project: " + project.getName());
+        
     }
+    /**
+     * set up project summary panel
+     * @author An Ho
+     */
+    private void setUpSummary(){        
+        //updated project summary
+        updatedTotal();
+        summaryPanel.setLayout(new BoxLayout(summaryPanel, BoxLayout.X_AXIS));
+        summaryPanel.add(initialBudgetLabel);
+        summaryPanel.add(Box.createHorizontalGlue()); // Adds horizontal space
+        summaryPanel.add(totalExpensesLabel);
+        summaryPanel.add(Box.createHorizontalGlue()); // Adds horizontal space
+        summaryPanel.add(totalBalanceLabel);
+    }
+
+
     
     private void setUpFrame() {
         addActions();
@@ -89,10 +126,17 @@ public class ProjectPage extends JFrame implements ActionListener {
         frame.add(addItem);
         frame.add(budgetField);
         frame.add(budgetLabel);
+        frame.setLayout(new BorderLayout());
         frame.add(welcomeLabel, BorderLayout.NORTH);
         JScrollPane sp = setUpTable();
         sp.setBounds(150, 100, 950, 600);
         frame.add(sp, BorderLayout.CENTER);
+
+        //An Ho
+        summaryPanel.setBounds(0, 0, sp.getWidth(), 100);
+        frame.add(summaryPanel,BorderLayout.SOUTH);
+
+        //
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setSize(Toolkit.getDefaultToolkit().getScreenSize());
         frame.setLayout(null);
@@ -122,6 +166,7 @@ public class ProjectPage extends JFrame implements ActionListener {
     }
 
     private JScrollPane setUpTable() {
+        showAllItems();
         table = new JTable(model);
         return new JScrollPane(table);
 
@@ -156,18 +201,12 @@ public class ProjectPage extends JFrame implements ActionListener {
         double budget = Double.parseDouble(budgetField.getText());
 
         Item item = new Item(name, quantity, budget, price);
-        NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.US);
-        model.addRow(
-                new Object[]{
-                        item.getMyName(),
-                        item.getMyQuantity(),
-                        nf.format(item.getMyPrice()),
-                        nf.format(item.getMyBudget()),
-                        nf.format(item.getDifference()),
-                }
-        );
+        //add new item row in table
+        addItemRow(item);
         //import new Item in xml file.
-        importItem(item);
+        addItemData(item);
+        //updated project summary
+        updatedTotal();
 
         nameField.setText("");
         quantityField.setText("");
@@ -176,18 +215,85 @@ public class ProjectPage extends JFrame implements ActionListener {
     }
     /**
      * When user click save, the method will update the Item in XML file.
+     * @param myItem the imported Item.
      * @author An Ho
      */
-    private void importItem(Item myItem){
-
-        Main.manager.addItem(this.userID,
+    private void addItemData(Item myItem){
+        
+        pManager.addItem(this.userID,
         this.project.getName(),
         myItem.getMyName(),
-        null,
+        String.valueOf(myItem.getMyBudget()),
         String.valueOf(myItem.getMyPrice()),
         String.valueOf(myItem.getMyQuantity()));
 
     }
+    /**
+     * Add new row to Item table
+     * @param item
+     * @author An Ho
+     */
+    private void addItemRow(Item item){
+        NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.US);
+        model.addRow(
+            new Object[]{
+                    item.getMyName(),
+                    item.getMyQuantity(),
+                    nf.format(item.getMyPrice()),
+                    nf.format(item.getMyBudget()),
+                    nf.format(item.getDifference()),
+            });
+    }
+    /**
+     * Show all added items in Item Table, show all previous added item
+     * @author An Ho
+     */
+    private void showAllItems(){
+        
+        List<String> itemList = new ArrayList<>(Main.manager.getProjectItems(this.userID,this.project.getName()));
+
+        for (int i = 0; i < itemList.size(); i++) {
+            String itemName = itemList.get(i);
+            try {
+            Item item = new Item(itemName, 
+                                pManager.getItemQuantity(this.userID, this.project.getName(), itemName),
+                                pManager.getItemBudget(this.userID, this.project.getName(), itemName), 
+                                (double)pManager.getItemCostPerUnit(this.userID, this.project.getName(), itemName));    
+            addItemRow(item);           
+        ; 
+            } catch (Exception e) {
+                System.out.println("Error occurred: " + e.getMessage());
+                // You can handle the exception here or rethrow it if needed
+            }           
+        }        
+    }
+
+    private void updatedTotal(){
+    //calculate the total of Expenses and Balance
+        List<String> itemList = new ArrayList<>(Main.manager.getProjectItems(this.userID,this.project.getName()));
+        double totalBalances = 0.0;
+        double totalExpense = 0.0;
+        double totalBudget = 0.0;
+        for (int i = 0; i < itemList.size(); i++) {
+            String itemName = itemList.get(i);
+            try {
+            Item item = new Item(itemName, 
+                                pManager.getItemQuantity(this.userID, this.project.getName(), itemName),
+                                pManager.getItemBudget(this.userID, this.project.getName(), itemName), 
+                                (double)pManager.getItemCostPerUnit(this.userID, this.project.getName(), itemName));    
+            totalBalances += item.getDifference();      
+            totalExpense += item.getTotalExpense();   
+            totalBudget += item.getMyBudget(); 
+        
+            } catch (Exception e) {
+                System.out.println("Error occurred: " + e.getMessage());
+            }           
+        }
+        totalExpensesLabel.setText("Total Expenses: $" + totalExpense);
+        totalBalanceLabel.setText("Total Balance: $"+ totalBalances);
+        initialBudgetLabel.setText("Initial Budget: $" + totalBudget);
+    }
+
     /**
      * Actions to take when deleteItem is selected.
      */
