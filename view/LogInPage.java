@@ -2,7 +2,9 @@ package view;
 
 
 
+import controller.Main;
 import controller.ProfileManager;
+import controller.FileManager;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -17,6 +19,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+
 
 /**
  * The login page for the application.
@@ -44,6 +47,15 @@ public class LogInPage implements ActionListener {
      * The register button.
      */
     private JButton registerButton;
+    /**
+     * The export button.
+     */
+    private JButton exportButton;
+
+    /**
+     * The import button.
+     */
+    private JButton importButton;
     /**
      * The user id field.
      */
@@ -112,6 +124,10 @@ public class LogInPage implements ActionListener {
         loginButton = new JButton("Login");
         resetButton = new JButton("Reset");
         registerButton = new JButton("Register");
+        // Create the buttons
+        exportButton = new JButton("Export Data");
+        importButton = new JButton("Import Data");
+
         userIDField = new JTextField();
         userPasswordField = new JPasswordField();
         userIDLabel = new JLabel("userID:");
@@ -140,6 +156,8 @@ public class LogInPage implements ActionListener {
         frame.add(userPasswordField);
         frame.add(loginButton);
         frame.add(resetButton);
+        frame.add(exportButton);
+        frame.add(importButton);
         frame.add(registerButton);
         frame.add(userEmailLabel);
         frame.add(userEmailField);
@@ -177,6 +195,11 @@ public class LogInPage implements ActionListener {
         resetButton.setBounds(225 + screenX - screenX /2,200 + screenY - screenY /2 ,100,25);
         resetButton.setFocusable(false);
         resetButton.addActionListener(this);
+
+        exportButton.addActionListener(this);
+        importButton.addActionListener(this);
+        exportButton.setBounds(1300, 265, 150, 25);
+        importButton.setBounds(1300, 310, 150, 25);
     }
 
     /**
@@ -188,31 +211,23 @@ public class LogInPage implements ActionListener {
 
 
         if (e.getSource() == loginButton) {
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = null;
-            Document document = null;
+
             try {
-                builder = factory.newDocumentBuilder();
-            } catch (ParserConfigurationException ex) {
-                throw new RuntimeException(ex);
-            }
-            try {
-                document = builder.parse("data/ProfileData.xml");
-            } catch (SAXException ex) {
-                throw new RuntimeException(ex);
+                Main.manager.addProfile(userIDField.getText(), userEmailField.getText());
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
-            if (!containsProfile(document, userIDField.getText())) {
-                try {
-                    manager.addProfile(userIDField.getText(), userEmailField.getText());
-                } catch (IOException e1) {
-                    // TODO Auto-generated catch block
-                    e1.printStackTrace();
-                }
-            }
+
             WelcomePage wp = new WelcomePage(userIDField.getText(), userEmailField.getText());
             frame.dispose();
+        }
+
+        if (e.getSource() == exportButton) {
+            FileManager.exportData(frame);
+        }
+
+        if (e.getSource() == importButton) {
+            FileManager.importData(frame);
         }
     }
 

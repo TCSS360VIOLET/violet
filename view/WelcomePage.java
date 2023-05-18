@@ -1,15 +1,25 @@
 package view;
 
+import controller.Main;
 import controller.ProfileManager;
 import model.About;
+import model.Profile;
 import model.Project;
 
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+import java.util.zip.ZipOutputStream;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
@@ -60,6 +70,7 @@ public class WelcomePage extends JFrame implements ActionListener{
      * The logout button.
      */
     private JButton logoutButton;
+
 
     //HashMap<String, String> ids = new IDandPasswords().getLoginInfo();
 
@@ -145,7 +156,6 @@ public class WelcomePage extends JFrame implements ActionListener{
     /**
      * The Profile Manager
      */
-    private ProfileManager manager = new ProfileManager();
 
     /**
      * Initialize Fields of the WelcomePge
@@ -174,6 +184,7 @@ public class WelcomePage extends JFrame implements ActionListener{
         addProject = new JButton("Add Project...");
         goToProject = new JButton("Go To Project");
         deleteProject = new JButton("Delete Project");
+
         logoutButton = new JButton("Logout");
         //HashMap<String, String> ids = new IDandPasswords().getLoginInfo();
         nameLabel = new JLabel("Project Name");
@@ -212,7 +223,6 @@ public class WelcomePage extends JFrame implements ActionListener{
         addActions();
         setBounds();
         addComponentsToFrame();
-
 
         JScrollPane sp = setUpTable();
         sp.setBounds(100, 100, 1000, 600);
@@ -279,6 +289,7 @@ public class WelcomePage extends JFrame implements ActionListener{
         budgetField.setBounds(1300, 110, 150, 25);
         deleteProject.setBounds(1300, 175, 150, 25);
         goToProject.setBounds(1300, 220, 150, 25);
+
     }
 
     /**
@@ -397,6 +408,10 @@ public class WelcomePage extends JFrame implements ActionListener{
                             project
                     }
             );
+            Main.manager.addProject(userID, project.getName(),
+                    project.getStartDate().toString(),
+                    project.getEndDate().toString(),
+                    String.valueOf(project.getBudget()));
             nameField.setText("");
             startDateField.setText("");
             endDateField.setText("");
@@ -405,4 +420,6 @@ public class WelcomePage extends JFrame implements ActionListener{
             JOptionPane.showInternalMessageDialog(null, "Start Date must be before the End Date");
         }
     }
+
+    
 }

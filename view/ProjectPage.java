@@ -1,6 +1,7 @@
 package view;
 
 
+import controller.Main;
 import model.Item;
 import model.Project;
 
@@ -54,8 +55,11 @@ public class ProjectPage extends JFrame implements ActionListener {
     // Create the JTable
     private JTable table = new JTable(model);
 
+    private String userID;
+
     public ProjectPage(Project project, String userID){
         this.project = project;
+        this.userID = userID;
         setUpLabel(userID);
         setUpFrame();
 
@@ -67,6 +71,7 @@ public class ProjectPage extends JFrame implements ActionListener {
         welcomeLabel.setFont(new Font(null,Font.PLAIN,18));
         welcomeLabel.setText("Hello "+ userID.toUpperCase(Locale.US));
     }
+    
     private void setUpFrame() {
         addActions();
         setBounds();
@@ -85,7 +90,7 @@ public class ProjectPage extends JFrame implements ActionListener {
         JScrollPane sp = setUpTable();
         sp.setBounds(150, 100, 950, 600);
         frame.add(sp, BorderLayout.CENTER);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setSize(Toolkit.getDefaultToolkit().getScreenSize());
         frame.setLayout(null);
         frame.setLocationRelativeTo(null);
@@ -157,6 +162,12 @@ public class ProjectPage extends JFrame implements ActionListener {
                         nf.format(item.getDifference()),
                 }
         );
+        Main.manager.addItem(this.userID,
+                this.project.getName(),
+                item.getMyName(),
+                null,
+                String.valueOf(item.getMyPrice()),
+                String.valueOf(item.getMyQuantity()));
         nameField.setText("");
         quantityField.setText("");
         priceField.setText("");
