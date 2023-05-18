@@ -21,25 +21,6 @@
       <CostPerUnit>12.35</CostPerUnit>
       <Quantity>9</Quantity>
     </Item>
-  </Project>
-  <Project>
-    <Name>Garden Upgrade</Name>
-    <StartDate>2023-07-01</StartDate>
-    <EndDate>2023-08-15</EndDate>
-    <Budget>2000</Budget>
-    <FilePath>documents/garden_upgrade_folder/plant_varieties.pdf</FilePath>
-    <FilePath>documents/garden_upgrade_folder/materials_list.xlsx</FilePath>
-    <Item>
-      <ItemName>Flower Seeds</ItemName>
-      <Description>Assorted flower seeds for garden upgrade</Description>
-      <CostPerUnit>1.00</CostPerUnit>
-      <Quantity>100</Quantity>
-    </Item>
-    <Item>
-      <ItemName>Fertilizer</ItemName>
-      <Description>High-quality fertilizer for plant growth</Description>
-      <CostPerUnit>20.00</CostPerUnit>
-      <Quantity>5</Quantity>
-    </Item>
+    <Notes>Remember to call Bob before the deadline!</Notes>
   </Project>
 </User>

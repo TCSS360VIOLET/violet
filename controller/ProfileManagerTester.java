@@ -1,11 +1,19 @@
 package controller;
 
-// This is just a tester class for our profile manager
+// import java.io.IOException;
+// import java.util.List;
+
+/**
+ * A simple tester class for the xml ProfileManager.java.
+ * Uncomment one chunk at a time to see how it affects the .xml files
+ * in /data/ folder.
+ * @author Nickolas Zahos (nzahos@uw.edu)
+ */
 public class ProfileManagerTester {
 
     public static void main(String[] args) {
 
-        //ProfileManager profileManager = new ProfileManager();
+        // ProfileManager profileManager = new ProfileManager();
 
         // // Adding the first profile - Patty
         // try {
@@ -24,6 +32,9 @@ public class ProfileManagerTester {
         // // Adding items to Patty's first project
         // profileManager.addItem("Patty", "Flower Shop Remodel", "Metal Fixture", "Metal rack arms for the new shelving", "5.00", "6");
         // profileManager.addItem("Patty", "Flower Shop Remodel", "Wood Panel", "Wooden flat panels to replace bottom of boxes", "12.35", "9");
+
+        // Adding notes to Patty's first project
+        //profileManager.addProjectNotes("Patty", "Flower Shop Remodel", "Remember to call Bob before the deadline!");
 
         // // Adding the second project to Patty's profile
         // profileManager.addProject("Patty", "Garden Upgrade", "2023-07-01", "2023-08-15", "2000");
@@ -54,7 +65,9 @@ public class ProfileManagerTester {
         // // Adding items to John's first project
         // profileManager.addItem("John", "Kitchen Renovation", "Cabinets", "Wooden cabinets for kitchen storage", "100.00", "10");
         // profileManager.addItem("John", "Kitchen Renovation", "Countertop", "Granite countertop for kitchen", "500.00", "1");
-    
+
+        // Adding notes to John's first project.
+        // profileManager.addProjectNotes("John", "Kitchen Renovation", "Don't be dumb! Remember what Jake said. Don't work later than 7pm on this. Don't forget to eat dinner! Yep.");
 
         // // TEST GETTERS
         // List<String> listOfProjects = profileManager.getProjects("Patty");
@@ -68,70 +81,9 @@ public class ProfileManagerTester {
         //     + "\nITEMS: " + profileManager.getProjectItems("Patty", s)
         //     + "\nFIRST ITEM NAME: " + profileManager.getItemDescription("Patty", s, profileManager.getProjectItems("Patty", s).get(0))
         //     + "\nFIRST ITEM COST/P/U: " + profileManager.getItemCostPerUnit("Patty", s, profileManager.getProjectItems("Patty", s).get(0))
-        //     + "\nFIRST ITEM QUANTITY: " + profileManager.getItemQuantity("Patty", s, profileManager.getProjectItems("Patty", s).get(0)));
+        //     + "\nFIRST ITEM QUANTITY: " + profileManager.getItemQuantity("Patty", s, profileManager.getProjectItems("Patty", s).get(0))
+        //     + "\nPROJECT NOTES: " + profileManager.getProjectNotes("Patty", s));
         // }
     }
 }
 
-
-
-
-
-
-
-// BACKUP CODE
-
-// package controller;
-
-// /**
-//  * This is a tester class to test our ProfileManager class.
-//  * It will generate fake data into the ProfileData.xml located in the 'data' package.
-//  */
-// public class ProfileManagerTester {
-//     public static void main(String[] args) {
-
-//         ProfileManager manager = new ProfileManager();
-
-//         // Adding the first profile - Patty
-//         manager.addProfile("Patty", "epicflowers@hotmail.com");
-
-//         // Adding the first project to Patty's profile
-//         manager.addProject("Patty", "Flower Shop Remodel", "2023-05-01", "2023-06-10", "1500");
-
-//         // Adding file paths to Patty's first project
-//         manager.addFilePath("Patty", "Flower Shop Remodel", "documents/flower_shop_folder/design_idea.pdf");
-//         manager.addFilePath("Patty", "Flower Shop Remodel", "documents/flower_shop_folder/budget_estimate.xlsx");
-
-//         // Adding items to Patty's first project
-//         manager.addItem("Patty", "Flower Shop Remodel", "Metal Fixture", "Metal rack arms for the new shelving", "5.00", "6");
-//         manager.addItem("Patty", "Flower Shop Remodel", "Wood Panel", "Wooden flat panels to replace bottom of boxes", "12.35", "9");
-
-//         // Adding the second project to Patty's profile
-//         manager.addProject("Patty", "Garden Upgrade", "2023-07-01", "2023-08-15", "2000");
-
-//         // Adding file paths to Patty's second project
-//         manager.addFilePath("Patty", "Garden Upgrade", "documents/garden_upgrade_folder/plant_varieties.pdf");
-//         manager.addFilePath("Patty", "Garden Upgrade", "documents/garden_upgrade_folder/materials_list.xlsx");
-
-//         // Adding items to Patty's second project
-//         manager.addItem("Patty", "Garden Upgrade", "Flower Seeds", "Assorted flower seeds for garden upgrade", "1.00", "100");
-//         manager.addItem("Patty", "Garden Upgrade", "Fertilizer", "High-quality fertilizer for plant growth", "20.00", "5");
-
-//         // Adding the second profile - John
-//         manager.addProfile("John", "johndoe@gmail.com");
-
-//         // Adding the first project to John's profile
-//         manager.addProject("John", "Kitchen Renovation", "2023-05-15", "2023-07-15", "5000");
-
-//         // Adding file paths to John's first project
-//         manager.addFilePath("John", "Kitchen Renovation", "documents/kitchen_renovation_folder/design_sketch.jpg");
-//         manager.addFilePath("John", "Kitchen Renovation", "documents/kitchen_renovation_folder/materials_and_costs.xlsx");
-
-//         // Adding items to John's first project
-//         manager.addItem("John", "Kitchen Renovation", "Cabinets", "Wooden cabinets for kitchen storage", "100.00", "10");
-//         manager.addItem("John", "Kitchen Renovation", "Countertop", "Granite countertop for kitchen", "500.00", "1");
-
-//         // Save profiles to the XML file
-//         manager.saveProfile();
-//     }
-// }
