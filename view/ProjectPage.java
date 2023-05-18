@@ -2,6 +2,7 @@ package view;
 
 
 import controller.Main;
+import controller.ProfileManager;
 import model.Item;
 import model.Project;
 
@@ -25,6 +26,8 @@ public class ProjectPage extends JFrame implements ActionListener {
     };
 
     Project project;
+    
+
     JFrame frame = new JFrame();
     JLabel welcomeLabel = new JLabel("Hello!");
 
@@ -144,6 +147,7 @@ public class ProjectPage extends JFrame implements ActionListener {
 
     /**
      * Actions to take when addItem is selected.
+     * @author An Ho
      */
     private void addItem() {
         int quantity = Integer.parseInt(quantityField.getText());
@@ -162,18 +166,28 @@ public class ProjectPage extends JFrame implements ActionListener {
                         nf.format(item.getDifference()),
                 }
         );
-        Main.manager.addItem(this.userID,
-                this.project.getName(),
-                item.getMyName(),
-                null,
-                String.valueOf(item.getMyPrice()),
-                String.valueOf(item.getMyQuantity()));
+        //import new Item in xml file.
+        importItem(item);
+
         nameField.setText("");
         quantityField.setText("");
         priceField.setText("");
         budgetField.setText("");
     }
+    /**
+     * When user click save, the method will update the Item in XML file.
+     * @author An Ho
+     */
+    private void importItem(Item myItem){
 
+        Main.manager.addItem(this.userID,
+        this.project.getName(),
+        myItem.getMyName(),
+        null,
+        String.valueOf(myItem.getMyPrice()),
+        String.valueOf(myItem.getMyQuantity()));
+
+    }
     /**
      * Actions to take when deleteItem is selected.
      */

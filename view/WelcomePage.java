@@ -318,7 +318,7 @@ public class WelcomePage extends JFrame implements ActionListener{
         boolean monthsDiff = (Integer.parseInt(d2Month) - Integer.parseInt(d1Month)) < 0;
         boolean yearsDiff = (Integer.parseInt(d2Year) - Integer.parseInt(d1Year)) < 0;
         boolean daysDiff = Integer.parseInt(d2Days) - Integer.parseInt(d1Days) <= 0;
-        if (new Date(d1).getTime() < new Date().getTime()) {
+        if (new Date().getTime() < new Date().getTime()) {
             return false;
         }
         if (monthsDiff || yearsDiff) {
