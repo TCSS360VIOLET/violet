@@ -195,8 +195,8 @@ public class WelcomePage extends JFrame implements ActionListener{
         deleteProject = new JButton("Delete Project");
 
          // Create the buttons
-        exportButton = new JButton("Export");
-        importButton = new JButton("Import");
+        exportButton = new JButton("Export Data");
+        importButton = new JButton("Import Data");
 
         logoutButton = new JButton("Logout");
         //HashMap<String, String> ids = new IDandPasswords().getLoginInfo();
@@ -236,7 +236,6 @@ public class WelcomePage extends JFrame implements ActionListener{
         addActions();
         setBounds();
         addComponentsToFrame();
-
 
         JScrollPane sp = setUpTable();
         sp.setBounds(100, 100, 1000, 600);
@@ -307,9 +306,8 @@ public class WelcomePage extends JFrame implements ActionListener{
         budgetField.setBounds(1300, 110, 150, 25);
         deleteProject.setBounds(1300, 175, 150, 25);
         goToProject.setBounds(1300, 220, 150, 25);
-        exportButton.setBounds(1300, 220, 150, 25);
-        importButton.setBounds(1300, 220, 150, 25);
-
+        exportButton.setBounds(1300, 265, 150, 25);
+        importButton.setBounds(1300, 310, 150, 25);
 
     }
 
