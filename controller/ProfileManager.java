@@ -143,27 +143,27 @@ public class ProfileManager {
         File file = new File(fileName);
         if(file.exists()) {
             loadUserFile(username);
-        }
+        } else {
+            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder docBuilder;
+            try {
+                docBuilder = docFactory.newDocumentBuilder();
+                doc = docBuilder.newDocument();
+                rootElement = doc.createElement("User");
+                doc.appendChild(rootElement);
+                
+                Element usernameElement = doc.createElement("Username");
+                usernameElement.appendChild(doc.createTextNode(username));
+                rootElement.appendChild(usernameElement);
         
-        DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder docBuilder;
-        try {
-            docBuilder = docFactory.newDocumentBuilder();
-            doc = docBuilder.newDocument();
-            rootElement = doc.createElement("User");
-            doc.appendChild(rootElement);
-            
-            Element usernameElement = doc.createElement("Username");
-            usernameElement.appendChild(doc.createTextNode(username));
-            rootElement.appendChild(usernameElement);
-    
-            Element emailElement = doc.createElement("Email");
-            emailElement.appendChild(doc.createTextNode(email));
-            rootElement.appendChild(emailElement);
-            
-            saveProfile(username);
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
+                Element emailElement = doc.createElement("Email");
+                emailElement.appendChild(doc.createTextNode(email));
+                rootElement.appendChild(emailElement);
+                
+                saveProfile(username);
+            } catch (ParserConfigurationException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -643,7 +643,8 @@ public class ProfileManager {
             }
         }
 
-        throw new NullPointerException("getProjectNotes(): No project by the name of '" + projectName + "' was found for username: '" + username);
+        System.out.println("getProjectNotes(): No project by the name of '" + projectName + "' was found for username: '" + username);
+        return "";
     }
 
 }
