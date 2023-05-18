@@ -26,7 +26,7 @@ public class ProjectPage extends JFrame implements ActionListener {
             "Quantity",
             "Unit Price",
             "Initial Budget",
-            "Item Balance"
+            "Remain Balance"
     };
 
     Project project;
@@ -290,7 +290,7 @@ public class ProjectPage extends JFrame implements ActionListener {
             }           
         }
         totalExpensesLabel.setText("Total Expenses: $" + totalExpense);
-        totalBalanceLabel.setText("Total Balance: $"+ totalBalances);
+        totalBalanceLabel.setText("Total Remain Budget: $"+ totalBalances);
         initialBudgetLabel.setText("Initial Budget: $" + totalBudget);
     }
 

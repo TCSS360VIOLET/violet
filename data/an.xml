@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<User>
+  <Username>an</Username>
+  <Email/>
+  <Project>
+    <Name>p1</Name>
+    <StartDate>Sat Nov 11 00:00:00 PST 1111</StartDate>
+    <EndDate>Wed Dec 11 00:00:00 PST 2222</EndDate>
+    <Budget>2222.0</Budget>
+    <Item>
+      <ItemName>a</ItemName>
+      <Budget>33.0</Budget>
+      <CostPerUnit>2.0</CostPerUnit>
+      <Quantity>1</Quantity>
+    </Item>
+    <Item>
+      <ItemName>b</ItemName>
+      <Budget>2.0</Budget>
+      <CostPerUnit>5.0</CostPerUnit>
+      <Quantity>2</Quantity>
+    </Item>
+    <Item>
+      <ItemName>c</ItemName>
+      <Budget>2.0</Budget>
+      <CostPerUnit>5.0</CostPerUnit>
+      <Quantity>3</Quantity>
+    </Item>
+    <Item>
+      <ItemName>d</ItemName>
+      <Budget>66.0</Budget>
+      <CostPerUnit>555.0</CostPerUnit>
+      <Quantity>2</Quantity>
+    </Item>
+  </Project>
+</User>
