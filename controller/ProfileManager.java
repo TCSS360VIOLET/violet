@@ -23,7 +23,7 @@ import org.xml.sax.SAXException;
 
 /**
  * The ProfileManager class handles creation and storage of user profiles
- * and their associated projects and items.
+ * and their associated projects, project files/notes/details, and items.
  * It builds an XML document which is then saved to a file.
  * 
  * @author  Nickolas Zahos (nzahos@uw.edu)
@@ -42,7 +42,7 @@ public class ProfileManager {
     private Element rootElement;
 
     /**
-     * 
+     * This is a file holder that will store the file that is currently being modified.
      */
     private File file;
 
