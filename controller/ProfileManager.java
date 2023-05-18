@@ -272,6 +272,13 @@ public class ProfileManager {
         saveProfile(username);
     }
     
+    /**
+     * Private helper method to get the node of a project.
+     * @author Nickolas Zahos (nzahos@uw.edu)
+     * 
+     * @param projectName   The name of the specified project.
+     * @return  The xml element node of the project.
+     */
     private Node getProjectNode(String projectName) {
         Node projectNode = null;
         NodeList projectNodes = rootElement.getElementsByTagName("Project");
