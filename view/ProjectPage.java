@@ -98,7 +98,7 @@ public class ProjectPage extends JFrame implements ActionListener {
         //adding notes section
         frame.add(notesLabel);
         JScrollPane notesPane = new JScrollPane(notesArea);
-        notesPane.setBounds(1150, 220, 300, 480);
+        notesPane.setBounds(1150, 220, 300, 430);
         frame.getContentPane().add(notesPane);
         frame.add(saveNotesButton);  
         //testing
@@ -118,6 +118,7 @@ public class ProjectPage extends JFrame implements ActionListener {
         addItem.addActionListener(this);
         deleteItem.addActionListener(this);
         backButton.addActionListener(this);
+        saveNotesButton.addActionListener(this);
     }
 
     private void setBounds() {
@@ -133,8 +134,7 @@ public class ProjectPage extends JFrame implements ActionListener {
         budgetLabel.setBounds(1150, 110, 150, 25);
         deleteItem.setBounds(1300, 175, 150, 25);
         notesLabel.setBounds(1150, 200, 150, 25);
-        notesArea.setBounds(1150, 220, 300, 450);
-        saveNotesButton.setBounds(1150, 220, 100, 480);
+        saveNotesButton.setBounds(1300, 700, 150, 25);
     }
 
     private JScrollPane setUpTable() {
@@ -156,6 +156,10 @@ public class ProjectPage extends JFrame implements ActionListener {
 
         if (e.getSource() == deleteItem) {
             deleteItem();
+        }
+
+        if (e.getSource() == saveNotesButton) {
+            exportNotes();
         }
 
 
@@ -211,4 +215,10 @@ public class ProjectPage extends JFrame implements ActionListener {
     private void importNotes() {
         notesArea.setText(manager.getProjectNotes(this.userID, this.project.getName()));
     }
+
+    private void exportNotes() {
+        manager.addProjectNotes(this.userID, this.project.getName(), notesArea.getText());
+    }
+
+
 }
