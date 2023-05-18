@@ -1,11 +1,11 @@
 package view;
 
+import controller.FileManager;
 import controller.Main;
 import controller.ProfileManager;
 import model.About;
 import model.Profile;
 import model.Project;
-
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -167,12 +167,27 @@ public class WelcomePage extends JFrame implements ActionListener{
         ownerEmail = new JMenuItem(userEmail);
         this.userID = userID;
         projectList = new ArrayList<>(0);
+
         initializeFields();
         // Create the JTable
         table = new JTable(model);
         setUpLabel(userID);
         setUpFrame();
+        loadProjects(userID);
+    }
 
+    /**
+     * Load projects from file
+     */
+    private void loadProjects(String userID){
+        java.util.List<Project> projects = FileManager.loadProjects(new File("data/"+userID+".xml"));
+        for (Project project : projects){
+            ProjectPage projectPage = new ProjectPage(project, userID);
+            projectPage.setVisible(false);
+            projectList.add(projectPage);
+
+            addProject(project);
+        }
     }
 
     /**
@@ -360,7 +375,7 @@ public class WelcomePage extends JFrame implements ActionListener{
     private void goToProject() {
         String choice = JOptionPane.showInputDialog(null, "Which project do would you like to visit?");
         int choiceNum = Integer.parseInt(choice);
-        if (projectList.size() != 0 && projectList.get(choiceNum-1) != null && projectList.get(choiceNum-1).isActive()) {
+        if (projectList.size() != 0 && projectList.get(choiceNum-1) != null ) {
             projectList.get(choiceNum-1).setVisible(true);
         } else if (!choice.isEmpty()) {
             ProjectPage projectPage = new ProjectPage((Project) model.getValueAt(choiceNum - 1, model.getColumnCount()-1), userID);
@@ -382,6 +397,24 @@ public class WelcomePage extends JFrame implements ActionListener{
                 model.removeRow(choiceNum - 1);
             }
         }
+    }
+
+    /**
+     * load project from file.
+     */
+    private void addProject(Project project){
+        NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.US);
+        model.addRow(
+                    new Object[]{
+                            project.getName(),
+                            project.getStartDate(),
+                            project.getEndDate(),
+                            nf.format(project.getBudget()),
+                            project.getDaysTillFinished(),
+                            project
+                    }
+            );
+
     }
 
     /**

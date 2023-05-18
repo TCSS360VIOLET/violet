@@ -1,8 +1,10 @@
 package model;
 
+import java.util.List;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -17,6 +19,10 @@ public class Project {
 
     private int daysTillFinished;
 
+    private List<String> filePaths;
+
+    private List<Item> items;
+    
 
     public Project(Date startDate, Date endDate, String name, double budget) {
         this.startDate = startDate;
@@ -25,7 +31,8 @@ public class Project {
         this.budget = budget;
         long daysLeft = endDate.getTime() - startDate.getTime();
         this.daysTillFinished = (int) TimeUnit.DAYS.convert(daysLeft, TimeUnit.MILLISECONDS);
-
+        this.filePaths = new ArrayList<>();
+        this.items = new ArrayList<>();
     }
 
     //    private int calculateDaysBetween(Date d1, Date d2) {
@@ -77,4 +84,23 @@ public class Project {
     public void setDaysTillFinished(int daysTillFinished) {
         this.daysTillFinished = daysTillFinished;
     }
+
+    public List<String> getFilePaths() {
+        return filePaths;
+    }
+
+    public void setFilePaths(List<String> filePaths) {
+        this.filePaths = filePaths;
+    }
+
+
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(List<Item> items) {
+        this.items = items;
+    }
+
+    
 }
