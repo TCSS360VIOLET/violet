@@ -191,7 +191,6 @@ public class LogInPage implements ActionListener {
         registerButton.addActionListener(this);
         loginButton.setFocusable(false);
         loginButton.addActionListener(this);
-
         resetButton.setBounds(225 + screenX - screenX /2,200 + screenY - screenY /2 ,100,25);
         resetButton.setFocusable(false);
         resetButton.addActionListener(this);
