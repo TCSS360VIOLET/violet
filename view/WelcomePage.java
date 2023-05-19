@@ -212,13 +212,7 @@ public class WelcomePage extends JFrame implements ActionListener{
         budgetField = new JTextField();
         menuBar = new JMenuBar();
         ownerMenu = new JMenu("Owner");
-        model = new DefaultTableModel(COLUMNS, 0) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                //all cells false
-                return column != 4;
-            }
-        };
+        model = new DefaultTableModel(COLUMNS, 0);
     }
 
     /**
@@ -336,11 +330,11 @@ public class WelcomePage extends JFrame implements ActionListener{
         if (new Date(d1).getTime() < new Date().getTime()) {
             return false;
         }
-        if (monthsDiff || yearsDiff) {
-            return false;
-        } else if (Integer.parseInt(d2Month) - Integer.parseInt(d1Days) == 0){
-            return !daysDiff || !yearsDiff;
-        }
+//        if (monthsDiff || yearsDiff) {
+//            return false;
+//        } else if (Integer.parseInt(d2Month) - Integer.parseInt(d1Days) == 0){
+//            return !daysDiff || !yearsDiff;
+//        }
         return true;
     }
 
@@ -394,6 +388,7 @@ public class WelcomePage extends JFrame implements ActionListener{
             String message = "Are you sure you want to delete the project in row " + choice;
             int deleteChoice = JOptionPane.showConfirmDialog(null, message);
             if (deleteChoice == JOptionPane.OK_OPTION) {
+                Main.manager.deleteProject(this.userID, (String) model.getValueAt(choiceNum-1, 0));
                 model.removeRow(choiceNum - 1);
             }
         }

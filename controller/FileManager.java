@@ -21,6 +21,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.zip.ZipEntry;
@@ -72,6 +73,8 @@ public class FileManager{
             se.printStackTrace();
         } catch (IOException ioe) {
             ioe.printStackTrace();
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
         }
         return null;
     } 
@@ -79,59 +82,58 @@ public class FileManager{
     /**
      * Read projects from root element
      */
-    public static List<Project> readProjectsFromDocument(Element rootElement) {
+    public static List<Project> readProjectsFromDocument(Element rootElement) throws ParseException{
         NodeList projectNodes = rootElement.getElementsByTagName("Project");
         List<Project> projects = new ArrayList<>();
         for (int i = 0; i < projectNodes.getLength(); i++) {
-            try{
-                Element projectElement = (Element) projectNodes.item(i);
-            
-                // Extract the project details
-                String name = projectElement.getElementsByTagName("Name").item(0).getTextContent();
-                String startDateStr = projectElement.getElementsByTagName("StartDate").item(0).getTextContent();
-                String endDateStr = projectElement.getElementsByTagName("EndDate").item(0).getTextContent();
-                String budgetStr = projectElement.getElementsByTagName("Budget").item(0).getTextContent();
-            
-                // Parse the date and budget values
-                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                Date startDate = dateFormat.parse(startDateStr);
-                Date endDate = dateFormat.parse(endDateStr);
-                double budget = Double.parseDouble(budgetStr);
-            
-                // Create a Project object with the extracted details
-                Project project = new Project(startDate, endDate, name, budget);
-            
-                // Extract the list of file paths
-                List<String> filePaths = new ArrayList<>();
-                NodeList filePathNodes = projectElement.getElementsByTagName("FilePath");
-                for (int j = 0; j < filePathNodes.getLength(); j++) {
-                    Element filePathElement = (Element) filePathNodes.item(j);
-                    String filePath = filePathElement.getTextContent();
-                    filePaths.add(filePath);
-                }
-                project.setFilePaths(filePaths);
-            
-                // Extract the list of items
-                List<Item> items = new ArrayList<>();
-                NodeList itemNodes = projectElement.getElementsByTagName("Item");
-                for (int j = 0; j < itemNodes.getLength(); j++) {
-                    Element itemElement = (Element) itemNodes.item(j);
-                    String itemName = itemElement.getElementsByTagName("ItemName").item(0).getTextContent();
-                    String description = itemElement.getElementsByTagName("Description").item(0).getTextContent();
-                    String costPerUnitStr = itemElement.getElementsByTagName("CostPerUnit").item(0).getTextContent();
-                    String quantityStr = itemElement.getElementsByTagName("Quantity").item(0).getTextContent();
-            
-                    double costPerUnit = Double.parseDouble(costPerUnitStr);
-                    int quantity = Integer.parseInt(quantityStr);
-            
-                    Item item = new Item(itemName, quantity, budget, costPerUnit);
-                    items.add(item);
-                }
-                project.setItems(items);
-                projects.add(project);
-            } catch (ParseException e) {
-                e.printStackTrace();
+            Element projectElement = (Element) projectNodes.item(i);
+
+            // Extract the project details
+            String name = projectElement.getElementsByTagName("Name").item(0).getTextContent();
+            String startDateStr = projectElement.getElementsByTagName("StartDate").item(0).getTextContent();
+            String endDateStr = projectElement.getElementsByTagName("EndDate").item(0).getTextContent();
+            String budgetStr = projectElement.getElementsByTagName("Budget").item(0).getTextContent();
+
+            // Parse the date and budget values
+            DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+//                Date startDate = dateFormat.parse(startDateStr);
+//                Date endDate = dateFormat.parse(endDateStr);
+            Date startDate = new Date(startDateStr);
+            Date endDate = new Date(endDateStr);
+
+            double budget = Double.parseDouble(budgetStr);
+
+            // Create a Project object with the extracted details
+            Project project = new Project(startDate, endDate, name, budget);
+
+            // Extract the list of file paths
+            List<String> filePaths = new ArrayList<>();
+            NodeList filePathNodes = projectElement.getElementsByTagName("FilePath");
+            for (int j = 0; j < filePathNodes.getLength(); j++) {
+                Element filePathElement = (Element) filePathNodes.item(j);
+                String filePath = filePathElement.getTextContent();
+                filePaths.add(filePath);
             }
+            project.setFilePaths(filePaths);
+
+            // Extract the list of items
+            List<Item> items = new ArrayList<>();
+            NodeList itemNodes = projectElement.getElementsByTagName("Item");
+            for (int j = 0; j < itemNodes.getLength(); j++) {
+                Element itemElement = (Element) itemNodes.item(j);
+                String itemName = itemElement.getElementsByTagName("ItemName").item(0).getTextContent();
+                String description = itemElement.getElementsByTagName("Description").item(0).getTextContent();
+                String costPerUnitStr = itemElement.getElementsByTagName("CostPerUnit").item(0).getTextContent();
+                String quantityStr = itemElement.getElementsByTagName("Quantity").item(0).getTextContent();
+
+                double costPerUnit = Double.parseDouble(costPerUnitStr);
+                int quantity = Integer.parseInt(quantityStr);
+
+                Item item = new Item(itemName, quantity, budget, costPerUnit);
+                items.add(item);
+            }
+            project.setItems(items);
+            projects.add(project);
         }
         return projects;
     }
@@ -258,5 +260,17 @@ public class FileManager{
                         "Import Error", JOptionPane.ERROR_MESSAGE);
             }
         }
+    }
+
+    private Date removeTime(Date date) {
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        return cal.getTime();
+
     }
 }
