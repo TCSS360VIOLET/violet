@@ -26,6 +26,7 @@ import javax.swing.table.DefaultTableModel;
 /**
  * The Welcome page of the applications where you can create projects to work on.
  * @author Parker Johnson (5/5/2023)
+ * @author An Ho (5/18/23)
  */
 public class WelcomePage extends JFrame implements ActionListener{
 
@@ -65,7 +66,10 @@ public class WelcomePage extends JFrame implements ActionListener{
      * The delete project button
      */
     private JButton deleteProject;
-
+    /**
+     * The edit project button
+     */
+    private JButton editProject;
     /**
      * The logout button.
      */
@@ -199,7 +203,7 @@ public class WelcomePage extends JFrame implements ActionListener{
         addProject = new JButton("Add Project...");
         goToProject = new JButton("Go To Project");
         deleteProject = new JButton("Delete Project");
-        
+        editProject = new JButton("Edit Project");
 
         logoutButton = new JButton("Logout");
         //HashMap<String, String> ids = new IDandPasswords().getLoginInfo();
@@ -250,6 +254,7 @@ public class WelcomePage extends JFrame implements ActionListener{
         frame.add(logoutButton);
         frame.add(goToProject);
         frame.add(deleteProject);
+        frame.add(editProject);
         frame.add(nameField);
         frame.add(nameLabel);
         frame.add(startDateField);
@@ -275,6 +280,7 @@ public class WelcomePage extends JFrame implements ActionListener{
         goToProject.addActionListener(this);
         addProject.addActionListener(this);
         deleteProject.addActionListener(this);
+        editProject.addActionListener(this);
         logoutButton.addActionListener(this);
         aboutItem.addActionListener(aboutItem -> {
             About about = new About();
@@ -297,9 +303,9 @@ public class WelcomePage extends JFrame implements ActionListener{
         startDateField.setBounds(1300, 70, 150, 25);
         endDateField.setBounds(1300, 90, 150, 25);
         budgetField.setBounds(1300, 110, 150, 25);
-        deleteProject.setBounds(1300, 175, 150, 25);
+        deleteProject.setBounds(1300, 175, 150, 25);        
         goToProject.setBounds(1300, 220, 150, 25);
-
+        editProject.setBounds(1300, 275, 150, 25);
     }
 
     /**
@@ -358,7 +364,9 @@ public class WelcomePage extends JFrame implements ActionListener{
         if (e.getSource() == deleteProject) {
             deleteProject();
         }
-
+        if (e.getSource() == editProject) {
+            editProject();
+        }
         if (e.getSource() == goToProject) {
             goToProject();
         }
@@ -392,6 +400,24 @@ public class WelcomePage extends JFrame implements ActionListener{
                 Main.manager.deleteProject(this.userID, (String) model.getValueAt(choiceNum-1, 0));
                 model.removeRow(choiceNum - 1);
             }
+        }
+    }
+
+    /**
+     * @author An Ho
+     * The action to do when editProject is selected.
+     */
+    private void editProject() {
+        String choice = JOptionPane.showInputDialog(null,
+                "Which project do would you like to edit?");
+        int choiceNum = Integer.parseInt(choice);
+        if (!choice.isEmpty()) {   
+                String projectName = (String) model.getValueAt(choiceNum-1, 0);
+                EditProjectScreen editProject = new EditProjectScreen(projectName,userID,model);
+                editProject.setVisible(true);
+                         
+                
+            
         }
     }
 
