@@ -212,10 +212,18 @@ public class ProjectPage extends JFrame implements ActionListener {
         }
     }
 
+    /**
+     * Import Notes from XML file.
+     * @author Edward Chung
+     */
     private void importNotes() {
         notesArea.setText(manager.getProjectNotes(this.userID, this.project.getName()));
     }
 
+    /**
+     * Export Notes to XML file.
+     * @author Edward Chung
+     */
     private void exportNotes() {
         manager.addProjectNotes(this.userID, this.project.getName(), notesArea.getText());
     }
