@@ -2,16 +2,157 @@ package controller;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
 import java.awt.Component;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
+import model.Project;
+import model.Item;
+
 public class FileManager{
+    /**
+     * Load projects from file
+     */
+    public static List<Project> loadProjects(File file){
+        
+        try {
+            // Define the file path
+
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+
+            // Add this line to ignore whitespace in the XML content
+            dbFactory.setIgnoringElementContentWhitespace(true);
+            // Create a DocumentBuilder object
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder(); 
+
+            Document doc;
+            if (file.exists()) {
+                // If the file exists, parse the existing file
+                doc = dBuilder.parse(file);
+            } else {
+                // If the file does not exist, create a new one
+                doc = dBuilder.newDocument();
+                Element rootElement = doc.createElement("User");
+                doc.appendChild(rootElement);
+            }
+
+            // This step is performed to ensure that the XML document follows the standard formatting rules.
+            doc.getDocumentElement().normalize();
+
+            Element rootElement = doc.getDocumentElement();
+            removeWhitespaceNodes(rootElement);
+
+            List<Project> projects = readProjectsFromDocument(rootElement);
+            
+            return projects;
+        } catch (ParserConfigurationException pce) {
+            pce.printStackTrace();
+        } catch (SAXException se) {
+            se.printStackTrace();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    } 
+
+    /**
+     * Read projects from root element
+     */
+    public static List<Project> readProjectsFromDocument(Element rootElement) throws ParseException{
+        NodeList projectNodes = rootElement.getElementsByTagName("Project");
+        List<Project> projects = new ArrayList<>();
+        for (int i = 0; i < projectNodes.getLength(); i++) {
+            Element projectElement = (Element) projectNodes.item(i);
+
+            // Extract the project details
+            String name = projectElement.getElementsByTagName("Name").item(0).getTextContent();
+            String startDateStr = projectElement.getElementsByTagName("StartDate").item(0).getTextContent();
+            String endDateStr = projectElement.getElementsByTagName("EndDate").item(0).getTextContent();
+            String budgetStr = projectElement.getElementsByTagName("Budget").item(0).getTextContent();
+
+            // Parse the date and budget values
+            DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+//                Date startDate = dateFormat.parse(startDateStr);
+//                Date endDate = dateFormat.parse(endDateStr);
+            Date startDate = new Date(startDateStr);
+            Date endDate = new Date(endDateStr);
+
+            double budget = Double.parseDouble(budgetStr);
+
+            // Create a Project object with the extracted details
+            Project project = new Project(startDate, endDate, name, budget);
+
+            // Extract the list of file paths
+            List<String> filePaths = new ArrayList<>();
+            NodeList filePathNodes = projectElement.getElementsByTagName("FilePath");
+            for (int j = 0; j < filePathNodes.getLength(); j++) {
+                Element filePathElement = (Element) filePathNodes.item(j);
+                String filePath = filePathElement.getTextContent();
+                filePaths.add(filePath);
+            }
+            project.setFilePaths(filePaths);
+
+            // Extract the list of items
+            List<Item> items = new ArrayList<>();
+            NodeList itemNodes = projectElement.getElementsByTagName("Item");
+            for (int j = 0; j < itemNodes.getLength(); j++) {
+                Element itemElement = (Element) itemNodes.item(j);
+                String itemName = itemElement.getElementsByTagName("ItemName").item(0).getTextContent();
+                String description = itemElement.getElementsByTagName("Description").item(0).getTextContent();
+                String costPerUnitStr = itemElement.getElementsByTagName("CostPerUnit").item(0).getTextContent();
+                String quantityStr = itemElement.getElementsByTagName("Quantity").item(0).getTextContent();
+
+                double costPerUnit = Double.parseDouble(costPerUnitStr);
+                int quantity = Integer.parseInt(quantityStr);
+
+                Item item = new Item(itemName, quantity,costPerUnit);
+                items.add(item);
+            }
+            project.setItems(items);
+            projects.add(project);
+        }
+        return projects;
+    }
+
+
+    public static void removeWhitespaceNodes(Node node) {
+        NodeList nodeList = node.getChildNodes();
+        Node childNode;
+        for (int x = nodeList.getLength() - 1; x >= 0; x--) {
+            childNode = nodeList.item(x);
+            if (childNode.getNodeType() == Node.TEXT_NODE) {
+                if (childNode.getTextContent().trim().isEmpty()) {
+                    node.removeChild(childNode);
+                }
+            } else if (childNode.getNodeType() == Node.ELEMENT_NODE) {
+                removeWhitespaceNodes(childNode);
+            }
+        }
+    }
 
     /*
      * The action to export data.
@@ -119,5 +260,17 @@ public class FileManager{
                         "Import Error", JOptionPane.ERROR_MESSAGE);
             }
         }
+    }
+
+    private Date removeTime(Date date) {
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        return cal.getTime();
+
     }
 }
