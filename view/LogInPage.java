@@ -231,14 +231,5 @@ public class LogInPage implements ActionListener {
         }
     }
 
-    private boolean containsProfile(Document document, String userName) {
-        NodeList nl = document.getElementsByTagName("Username");
-        for (int i = 0; i < nl.getLength(); i++) {
-            if (nl.item(i).getTextContent().equals(userIDField.getText())) {
-                return true;
-            }
-        }
-        return false;
-    }
 }
 
