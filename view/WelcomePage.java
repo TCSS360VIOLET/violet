@@ -1,11 +1,11 @@
 package view;
 
+import controller.FileManager;
 import controller.Main;
 import controller.ProfileManager;
 import model.About;
 import model.Profile;
 import model.Project;
-
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -167,12 +167,27 @@ public class WelcomePage extends JFrame implements ActionListener{
         ownerEmail = new JMenuItem(userEmail);
         this.userID = userID;
         projectList = new ArrayList<>(0);
+
         initializeFields();
         // Create the JTable
         table = new JTable(model);
         setUpLabel(userID);
         setUpFrame();
+        loadProjects(userID);
+    }
 
+    /**
+     * Load projects from file
+     */
+    private void loadProjects(String userID){
+        java.util.List<Project> projects = FileManager.loadProjects(new File("data/"+userID+".xml"));
+        for (Project project : projects){
+            ProjectPage projectPage = new ProjectPage(project, userID);
+            projectPage.setVisible(false);
+            projectList.add(projectPage);
+
+            addProject(project);
+        }
     }
 
     /**
@@ -184,6 +199,7 @@ public class WelcomePage extends JFrame implements ActionListener{
         addProject = new JButton("Add Project...");
         goToProject = new JButton("Go To Project");
         deleteProject = new JButton("Delete Project");
+        
 
         logoutButton = new JButton("Logout");
         //HashMap<String, String> ids = new IDandPasswords().getLoginInfo();
@@ -197,13 +213,7 @@ public class WelcomePage extends JFrame implements ActionListener{
         budgetField = new JTextField();
         menuBar = new JMenuBar();
         ownerMenu = new JMenu("Owner");
-        model = new DefaultTableModel(COLUMNS, 0) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                //all cells false
-                return column != 4;
-            }
-        };
+        model = new DefaultTableModel(COLUMNS, 0);
     }
 
     /**
@@ -318,14 +328,17 @@ public class WelcomePage extends JFrame implements ActionListener{
         boolean monthsDiff = (Integer.parseInt(d2Month) - Integer.parseInt(d1Month)) < 0;
         boolean yearsDiff = (Integer.parseInt(d2Year) - Integer.parseInt(d1Year)) < 0;
         boolean daysDiff = Integer.parseInt(d2Days) - Integer.parseInt(d1Days) <= 0;
-        if (new Date().getTime() < new Date().getTime()) {
-            return false;
-        }
-        if (monthsDiff || yearsDiff) {
-            return false;
-        } else if (Integer.parseInt(d2Month) - Integer.parseInt(d1Days) == 0){
-            return !daysDiff || !yearsDiff;
-        }
+
+
+        // if (new Date(d1).getTime() < new Date().getTime()) {
+        //     return false;
+        // }
+//        if (monthsDiff || yearsDiff) {
+//            return false;
+//        } else if (Integer.parseInt(d2Month) - Integer.parseInt(d1Days) == 0){
+//            return !daysDiff || !yearsDiff;
+//        }
+
         return true;
     }
 
@@ -360,7 +373,7 @@ public class WelcomePage extends JFrame implements ActionListener{
     private void goToProject() {
         String choice = JOptionPane.showInputDialog(null, "Which project do would you like to visit?");
         int choiceNum = Integer.parseInt(choice);
-        if (projectList.size() != 0 && projectList.get(choiceNum-1) != null && projectList.get(choiceNum-1).isActive()) {
+        if (projectList.size() != 0 && projectList.get(choiceNum-1) != null ) {
             projectList.get(choiceNum-1).setVisible(true);
         } else if (!choice.isEmpty()) {
             ProjectPage projectPage = new ProjectPage((Project) model.getValueAt(choiceNum - 1, model.getColumnCount()-1), userID);
@@ -379,9 +392,28 @@ public class WelcomePage extends JFrame implements ActionListener{
             String message = "Are you sure you want to delete the project in row " + choice;
             int deleteChoice = JOptionPane.showConfirmDialog(null, message);
             if (deleteChoice == JOptionPane.OK_OPTION) {
+                Main.manager.deleteProject(this.userID, (String) model.getValueAt(choiceNum-1, 0));
                 model.removeRow(choiceNum - 1);
             }
         }
+    }
+
+    /**
+     * load project from file.
+     */
+    private void addProject(Project project){
+        NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.US);
+        model.addRow(
+                    new Object[]{
+                            project.getName(),
+                            project.getStartDate(),
+                            project.getEndDate(),
+                            nf.format(project.getBudget()),
+                            project.getDaysTillFinished(),
+                            project
+                    }
+            );
+
     }
 
     /**
