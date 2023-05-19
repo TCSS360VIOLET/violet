@@ -199,6 +199,7 @@ public class WelcomePage extends JFrame implements ActionListener{
         addProject = new JButton("Add Project...");
         goToProject = new JButton("Go To Project");
         deleteProject = new JButton("Delete Project");
+        
 
         logoutButton = new JButton("Logout");
         //HashMap<String, String> ids = new IDandPasswords().getLoginInfo();
@@ -327,9 +328,9 @@ public class WelcomePage extends JFrame implements ActionListener{
         boolean monthsDiff = (Integer.parseInt(d2Month) - Integer.parseInt(d1Month)) < 0;
         boolean yearsDiff = (Integer.parseInt(d2Year) - Integer.parseInt(d1Year)) < 0;
         boolean daysDiff = Integer.parseInt(d2Days) - Integer.parseInt(d1Days) <= 0;
-        if (new Date(d1).getTime() < new Date().getTime()) {
-            return false;
-        }
+        // if (new Date(d1).getTime() < new Date().getTime()) {
+        //     return false;
+        // }
 //        if (monthsDiff || yearsDiff) {
 //            return false;
 //        } else if (Integer.parseInt(d2Month) - Integer.parseInt(d1Days) == 0){
