@@ -1,34 +1,21 @@
 package model;
 
 public class Item {
-
+    /**
+     * The price of the item
+     */
     private double myPrice;
+
+    /**
+     * The name of the item
+     */
     private String myName;
-
-    private double myBudget;
-
-    public double getMyBudget() {
-        return myBudget;
-    }
-
-    public void setMyBudget(double myBudget) {
-        this.myBudget = myBudget;
-    }
-
-    public int getMyQuantity() {
-        return myQuantity;
-    }
-
-    public void setMyQuantity(int myQuantity) {
-        this.myQuantity = myQuantity;
-    }
 
     private int myQuantity;
 
-    public Item(String name, int quantity, double Budget, double price) {
+    public Item(String name, int quantity, double price) {
         myName = name;
         myQuantity = quantity;
-        myBudget = Budget;
         myPrice = price;
     }
 
@@ -40,15 +27,19 @@ public class Item {
         this.myName = myName;
     }
 
-    public double getDifference() {
-        return getMyBudget() - (getMyQuantity() * getMyPrice());
-    }
-
     public double getMyPrice() {
         return myPrice;
     }
 
     public void setMyPrice(double myPrice) {
         this.myPrice = myPrice;
+    }
+
+    public int getMyQuantity() {
+        return myQuantity;
+    }
+
+    public void setMyQuantity(int myQuantity) {
+        this.myQuantity = myQuantity;
     }
 }

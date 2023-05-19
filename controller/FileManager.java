@@ -129,7 +129,7 @@ public class FileManager{
                 double costPerUnit = Double.parseDouble(costPerUnitStr);
                 int quantity = Integer.parseInt(quantityStr);
 
-                Item item = new Item(itemName, quantity, budget, costPerUnit);
+                Item item = new Item(itemName, quantity,costPerUnit);
                 items.add(item);
             }
             project.setItems(items);

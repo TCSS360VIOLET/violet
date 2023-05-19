@@ -21,7 +21,6 @@ public class ProjectPage extends JFrame implements ActionListener {
             "Quantity",
             "Estimated Price",
             "Amount Spent",
-            "Remaining Budget"
     };
 
     Project project;
@@ -49,9 +48,7 @@ public class ProjectPage extends JFrame implements ActionListener {
 
     JTextField priceField = new JTextField();
 
-    JTextField budgetField = new JTextField();
 
-    JLabel budgetLabel = new JLabel("Budget");
     private DefaultTableModel model = new DefaultTableModel(columns, 0) {
 
         @Override
@@ -105,8 +102,6 @@ public class ProjectPage extends JFrame implements ActionListener {
         frame.add(priceLabel);
         frame.add(priceField);
         frame.add(addItem);
-        frame.add(budgetField);
-        frame.add(budgetLabel);
         frame.add(welcomeLabel, BorderLayout.NORTH);
 
         frame.add(notesLabel);
@@ -144,8 +139,8 @@ public class ProjectPage extends JFrame implements ActionListener {
         priceLabel.setBounds(1150, 90, 150, 25);
         quantityField.setBounds(1300, 70, 150, 25);
         priceField.setBounds(1300, 90, 150, 25);
-        budgetField.setBounds(1300, 110, 150, 25);
-        budgetLabel.setBounds(1150, 110, 150, 25);
+//        budgetField.setBounds(1300, 110, 150, 25);
+//        budgetLabel.setBounds(1150, 110, 150, 25);
         deleteItem.setBounds(1300, 175, 150, 25);
         remainingBudget.setBounds(910, 0, 400, 100 );
         notesLabel.setBounds(1150, 200, 150, 25);
@@ -208,9 +203,8 @@ public class ProjectPage extends JFrame implements ActionListener {
         int quantity = Integer.parseInt(quantityField.getText());
         double price = Double.parseDouble(priceField.getText());
         String name = nameField.getText();
-        double budget = Double.parseDouble(budgetField.getText());
 
-        Item item = new Item(name, quantity, budget, price);
+        Item item = new Item(name, quantity,price);
         NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.US);
         model.addRow(
                 new Object[]{
@@ -218,7 +212,6 @@ public class ProjectPage extends JFrame implements ActionListener {
                         item.getMyQuantity(),
                         nf.format(item.getMyPrice()),
                         nf.format((item.getMyPrice() * item.getMyQuantity())),
-                        nf.format(this.budget -  (item.getMyPrice() * item.getMyQuantity())),
                 }
         );
         this.budget = this.budget - (item.getMyPrice() * item.getMyQuantity());
@@ -233,7 +226,6 @@ public class ProjectPage extends JFrame implements ActionListener {
         nameField.setText("");
         quantityField.setText("");
         priceField.setText("");
-        budgetField.setText("");
     }
 
     /**
