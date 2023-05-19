@@ -11,6 +11,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.text.NumberFormat;
 import java.util.Locale;
 
@@ -25,6 +26,10 @@ public class ProjectPage extends JFrame implements ActionListener {
             "Over/Under spent by"
     };
 
+    private static final String[] fileColumns = {
+        "File Name"
+    };
+
     Project project;
     JFrame frame = new JFrame();
     JLabel welcomeLabel = new JLabel("Hello!");
@@ -33,6 +38,8 @@ public class ProjectPage extends JFrame implements ActionListener {
     JButton deleteItem = new JButton("Delete Item");
     JButton backButton = new JButton("Back");
     JButton saveNotesButton = new JButton("Save Notes");
+    JButton addFileButton = new JButton("Add File");
+    JButton deleteFileButton = new JButton("Delete FIle");
     JLabel nameLabel = new JLabel("Item Name");
     JLabel quanitityLabel = new JLabel("Quantity");
 
@@ -52,16 +59,25 @@ public class ProjectPage extends JFrame implements ActionListener {
     JTextArea notesArea = new JTextArea();
 
     ProfileManager manager = new ProfileManager(); 
+
     private DefaultTableModel model = new DefaultTableModel(columns, 0) {
 
-        @Override
-        public boolean isCellEditable(int row, int column) {
-            //all cells false
-            return column != 4;
-        }
+        // @Override
+        // public boolean isCellEditable(int row, int column) {
+        //     //all cells false
+        //     return column != 4;
+        // }
     };
     // Create the JTable
     private JTable table = new JTable(model);
+
+    //file explorer 
+    private DefaultTableModel fileModel = new DefaultTableModel(fileColumns, 0) {
+
+    };
+
+    private JTable fileTable = new JTable(fileModel);
+    
 
     private String userID;
 
@@ -102,9 +118,16 @@ public class ProjectPage extends JFrame implements ActionListener {
         frame.getContentPane().add(notesPane);
         frame.add(saveNotesButton);  
         //testing
-        importNotes();      
+        importNotes(); 
+        //file explorer
+        JScrollPane explorer = setUpFileTable();
+        explorer.setBounds(10, 100, 150, 550);  
+        frame.add(explorer, BorderLayout.WEST);
+        frame.add(addFileButton);
+        frame.add(deleteFileButton);
+        //Items Table
         JScrollPane sp = setUpTable();
-        sp.setBounds(150, 100, 950, 600);
+        sp.setBounds(200, 100, 850, 600);
         frame.add(sp, BorderLayout.CENTER);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setSize(Toolkit.getDefaultToolkit().getScreenSize());
@@ -119,6 +142,8 @@ public class ProjectPage extends JFrame implements ActionListener {
         deleteItem.addActionListener(this);
         backButton.addActionListener(this);
         saveNotesButton.addActionListener(this);
+        addFileButton.addActionListener(this);
+        deleteFileButton.addActionListener(this);
     }
 
     private void setBounds() {
@@ -135,12 +160,19 @@ public class ProjectPage extends JFrame implements ActionListener {
         deleteItem.setBounds(1300, 175, 150, 25);
         notesLabel.setBounds(1150, 200, 150, 25);
         saveNotesButton.setBounds(1300, 700, 150, 25);
+        addFileButton.setBounds(10, 700, 150, 25);
+        deleteFileButton.setBounds(10, 730, 150, 25);
     }
 
     private JScrollPane setUpTable() {
         table = new JTable(model);
         return new JScrollPane(table);
 
+    }
+
+    private JScrollPane setUpFileTable() {
+        fileTable = new JTable(fileModel);
+        return new JScrollPane(fileTable);
     }
 
 
@@ -160,6 +192,14 @@ public class ProjectPage extends JFrame implements ActionListener {
 
         if (e.getSource() == saveNotesButton) {
             exportNotes();
+        }
+
+        if (e.getSource() == addFileButton) {
+            addFile();
+        }
+
+        if (e.getSource() == deleteFileButton) {
+            deleteFile();
         }
 
 
@@ -211,6 +251,53 @@ public class ProjectPage extends JFrame implements ActionListener {
             }
         }
     }
+
+    private void addFile() {
+        JFileChooser fileChooser = new JFileChooser();
+                int returnValue = fileChooser.showOpenDialog(null);
+                if (returnValue == JFileChooser.APPROVE_OPTION) {
+                    File selectedFile = fileChooser.getSelectedFile();
+                    String filePath = selectedFile.getAbsolutePath();
+                    System.out.println("Selected file path: " + filePath);
+                    manager.addFilePath(this.userID, this.project.getName(), filePath);
+                    String fileName = selectedFile.getName();
+                    String fileExtension;
+
+                    int i = fileName.lastIndexOf('.');
+                    if (i > 0) {
+                        fileExtension = fileName.substring(i+1);
+                    }
+                    String fullFileName = fileName;
+                    fileModel.addRow(
+                            new Object[]{
+                                fullFileName
+                            }
+                    );
+                }
+
+    }
+
+    private void deleteFile() {
+        String choice = JOptionPane.showInputDialog(null, "Which file do would you like to delete?");
+        int choiceNum = Integer.parseInt(choice);
+        if (!choice.isEmpty()) {
+            String message = "Are you sure you want to delete the file in row " + choice;
+            int deleteChoice = JOptionPane.showConfirmDialog(null, message);
+            if (deleteChoice == JOptionPane.OK_OPTION) {
+                String fileName = fileModel.getValueAt(0, choiceNum - 1).toString();
+                System.out.println("filename = " + fileName);
+                for(String theFilePath : manager.getProjectFilePaths(this.userID, this.project.getName())){
+
+                    if(theFilePath.contains(fileName)){
+                        manager.deleteFilePath(this.userID, this.project.getName(), theFilePath);
+                       
+                    }
+                }
+                fileModel.removeRow(choiceNum - 1);
+            }
+        }
+    }
+
 
     private void importNotes() {
         notesArea.setText(manager.getProjectNotes(this.userID, this.project.getName()));

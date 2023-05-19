@@ -15,39 +15,41 @@ public class ProfileManagerTester {
 
         ProfileManager profileManager = new ProfileManager();
 
-        // Adding the first profile - Patty
-        try {
-            profileManager.addProfile("Patty", "epicflowers@hotmail.com");
-        } catch (IOException e) {
-            e.getMessage();
-        }
+        System.out.println(profileManager.getProjectFilePaths("", "1"));
 
-        // Adding the first project to Patty's profile
-        profileManager.addProject("Patty", "Flower Shop Remodel", "2023-05-01", "2023-06-10", "1500");
+        // // Adding the first profile - Patty
+        // try {
+        //     profileManager.addProfile("Patty", "epicflowers@hotmail.com");
+        // } catch (IOException e) {
+        //     e.getMessage();
+        // }
 
-        // Adding file paths to Patty's first project
-        profileManager.addFilePath("Patty", "Flower Shop Remodel", "documents/flower_shop_folder/design_idea.pdf");
-        profileManager.addFilePath("Patty", "Flower Shop Remodel", "documents/flower_shop_folder/budget_estimate.xlsx");
+        // // Adding the first project to Patty's profile
+        // profileManager.addProject("Patty", "Flower Shop Remodel", "2023-05-01", "2023-06-10", "1500");
 
-        // Adding items to Patty's first project
-        profileManager.addItem("Patty", "Flower Shop Remodel", "Metal Fixture", "Metal rack arms for the new shelving", "5.00", "6");
-        profileManager.addItem("Patty", "Flower Shop Remodel", "Wood Panel", "Wooden flat panels to replace bottom of boxes", "12.35", "9");
+        // // Adding file paths to Patty's first project
+        // profileManager.addFilePath("Patty", "Flower Shop Remodel", "documents/flower_shop_folder/design_idea.pdf");
+        // profileManager.addFilePath("Patty", "Flower Shop Remodel", "documents/flower_shop_folder/budget_estimate.xlsx");
 
-        //Adding notes to Patty's first project
-        profileManager.addProjectNotes("Patty", "Flower Shop Remodel", "Remember to call Bob before the deadline!");
+        // // Adding items to Patty's first project
+        // profileManager.addItem("Patty", "Flower Shop Remodel", "Metal Fixture", "Metal rack arms for the new shelving", "5.00", "6");
+        // profileManager.addItem("Patty", "Flower Shop Remodel", "Wood Panel", "Wooden flat panels to replace bottom of boxes", "12.35", "9");
 
-        // Adding the second project to Patty's profile
-        profileManager.addProject("Patty", "Garden Upgrade", "2023-07-01", "2023-08-15", "2000");
+        // //Adding notes to Patty's first project
+        // profileManager.addProjectNotes("Patty", "Flower Shop Remodel", "Remember to call Bob before the deadline!");
 
-        // Adding file paths to Patty's second project
-        profileManager.addFilePath("Patty", "Garden Upgrade", "documents/garden_upgrade_folder/plant_varieties.pdf");
-        profileManager.addFilePath("Patty", "Garden Upgrade", "documents/garden_upgrade_folder/materials_list.xlsx");
+        // // Adding the second project to Patty's profile
+        // profileManager.addProject("Patty", "Garden Upgrade", "2023-07-01", "2023-08-15", "2000");
 
-        // Adding items to Patty's second project
-        profileManager.addItem("Patty", "Garden Upgrade", "Flower Seeds", "Assorted flower seeds for garden upgrade", "1.00", "100");
-        profileManager.addItem("Patty", "Garden Upgrade", "Fertilizer", "High-quality fertilizer for plant growth", "20.00", "5");
+        // // Adding file paths to Patty's second project
+        // profileManager.addFilePath("Patty", "Garden Upgrade", "documents/garden_upgrade_folder/plant_varieties.pdf");
+        // profileManager.addFilePath("Patty", "Garden Upgrade", "documents/garden_upgrade_folder/materials_list.xlsx");
 
-        System.out.println(profileManager.getProjectNotes("Patty", "Flower Shop Remodel"));
+        // // Adding items to Patty's second project
+        // profileManager.addItem("Patty", "Garden Upgrade", "Flower Seeds", "Assorted flower seeds for garden upgrade", "1.00", "100");
+        // profileManager.addItem("Patty", "Garden Upgrade", "Fertilizer", "High-quality fertilizer for plant growth", "20.00", "5");
+
+        // System.out.println(profileManager.getProjectNotes("Patty", "Flower Shop Remodel"));
 
         // // Adding the second profile - John
         // try {

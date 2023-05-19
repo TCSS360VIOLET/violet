@@ -644,8 +644,95 @@ public class ProfileManager {
         }
 
         System.out.println("getProjectNotes(): No project by the name of '" + projectName + "' was found for username: '" + username);
-
-        return("");
+        return "";
     }
 
+    /**
+     * Deletes the specified project from the specified user's XML document.
+     * @author Nickolas Zahos (nzahos@uw.edu)
+     *
+     * @param username    The username of the user who owns this project.
+     * @param projectName The name of the project to be deleted.
+     */
+    public void deleteProject(String username, String projectName) {
+        loadUserFile(username);
+    
+        // Get the project node
+        Node projectNode = getProjectNode(projectName);
+        if (projectNode == null) {
+            System.out.println("deleteProject(): A project with this name does not exist.");
+            return;
+        }
+    
+        // Remove the project node from the root element
+        rootElement.removeChild(projectNode);
+    
+        // Save the changes
+        saveProfile(username);
+    }
+
+    /**
+     * Deletes the specified item from the specified project of the specified user's XML document.
+     * @author Nickolas Zahos (nzahos@uw.edu)
+     *
+     * @param username The user that owns the project.
+     * @param projectName The project from which the item is being deleted.
+     * @param itemName The name of the item being deleted.
+     */
+    public void deleteItem(String username, String projectName, String itemName) {
+        loadUserFile(username);
+    
+        Node projectNode = getProjectNode(projectName);
+    
+        if (projectNode != null && projectNode.getNodeType() == Node.ELEMENT_NODE) {
+            Element projectElement = (Element) projectNode;
+            NodeList itemNodes = projectElement.getElementsByTagName("Item");
+            for (int i = 0; i < itemNodes.getLength(); i++) {
+                Node itemNode = itemNodes.item(i);
+                if (itemNode.getNodeType() == Node.ELEMENT_NODE) {
+                    Element itemElement = (Element) itemNode;
+                    String itemNameInElement = itemElement.getElementsByTagName("ItemName").item(0).getTextContent();
+                    if (itemNameInElement.equals(itemName)) {
+                        projectNode.removeChild(itemNode);
+                        saveProfile(username);
+                        System.out.println("Item '" + itemName + "' has been removed from project '" + projectName + "'.");
+                        return;
+                    }
+                }
+            }
+        }
+    
+        System.out.println("Could not find item '" + itemName + "' in project '" + projectName + "'.");
+    }
+
+    /**
+     * Deletes the specified file path from the specified project of the specified user.
+     * @author Nickolas Zahos (nzahos@uw.edu)
+     * 
+     * @param username  The username of the project owner.
+     * @param projectName   The project to delete the file path from.
+     * @param filePath  The file path being deleted.
+     */
+    public void deleteFilePath(String username, String projectName, String filePath) {
+        loadUserFile(username);
+    
+        Node projectNode = getProjectNode(projectName);
+    
+        if (projectNode != null && projectNode.getNodeType() == Node.ELEMENT_NODE) {
+            Element projectElement = (Element) projectNode;
+            NodeList filePathNodes = projectElement.getElementsByTagName("FilePath");
+            
+            for (int i = 0; i < filePathNodes.getLength(); i++) {
+                Node node = filePathNodes.item(i);
+                if (node.getNodeType() == Node.ELEMENT_NODE) {
+                    if (node.getTextContent().equals(filePath)) {
+                        projectElement.removeChild(node);
+                        break;
+                    }
+                }
+            }
+        }
+    
+        saveProfile(username);
+    }
 }
