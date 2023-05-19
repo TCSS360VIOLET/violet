@@ -21,6 +21,7 @@
       <CostPerUnit>12.35</CostPerUnit>
       <Quantity>9</Quantity>
     </Item>
+    <Notes>Remember to call Bob before the deadline!</Notes>
   </Project>
   <Project>
     <Name>Garden Upgrade</Name>

@@ -13,7 +13,10 @@ import java.awt.event.ActionListener;
 import java.text.NumberFormat;
 import java.util.Locale;
 
-
+/**
+ * This class holds the code for the project page
+ * @author Parker Johnson (ptj7@uw.edu)
+ */
 public class ProjectPage extends JFrame implements ActionListener {
 
     private static final String[] columns = {
@@ -66,11 +69,19 @@ public class ProjectPage extends JFrame implements ActionListener {
 
     private double budget;
 
+    private JProgressBar progressBar;
+
+    private JLabel remainingMoney = new JLabel();
+
     public ProjectPage(Project project, String userID){
         this.project = project;
         this.userID = userID;
-        this.remainingBudget = new JLabel("Remaining Budget: " + this.project.getBudget());
+        this.remainingBudget = new JLabel("Remaining Budget: ");
+        this.remainingMoney = new JLabel("$ " + String.valueOf(this.project.getBudget()));
+        remainingMoney.setFont(new Font("Comic Sans", Font.BOLD, 18));
+        remainingBudget.setFont(new Font("Comic Sans", Font.BOLD, 18));
         this.budget = this.project.getBudget();
+        progressBar = new JProgressBar(0, (int) this.budget);
         setUpLabel(userID);
         setUpFrame();
         loadItems(project.getItems());
@@ -92,6 +103,7 @@ public class ProjectPage extends JFrame implements ActionListener {
     private void setUpFrame() {
         addActions();
         setBounds();
+        progressBar.setValue((int) this.budget);
         frame.add(remainingBudget);
         frame.add(backButton);
         frame.add(deleteItem);
@@ -110,7 +122,8 @@ public class ProjectPage extends JFrame implements ActionListener {
         frame.add(notesPane);
         frame.add(saveNotesButton);
         importNotes();
-
+        frame.add(progressBar);
+        frame.add(remainingMoney);
         JScrollPane sp = setUpTable();
         sp.setBounds(150, 100, 950, 600);
         frame.add(sp, BorderLayout.CENTER);
@@ -139,10 +152,14 @@ public class ProjectPage extends JFrame implements ActionListener {
         priceLabel.setBounds(1150, 90, 150, 25);
         quantityField.setBounds(1300, 70, 150, 25);
         priceField.setBounds(1300, 90, 150, 25);
+        progressBar.setBounds(150, 50, 740, 40);
+        progressBar.setForeground(Color.GREEN);
+        progressBar.setBackground(Color.RED);
 //        budgetField.setBounds(1300, 110, 150, 25);
 //        budgetLabel.setBounds(1150, 110, 150, 25);
         deleteItem.setBounds(1300, 175, 150, 25);
-        remainingBudget.setBounds(910, 0, 400, 100 );
+        remainingBudget.setBounds(910, 50, 400, 20 );
+        remainingMoney.setBounds(930, 70, 400, 20);
         notesLabel.setBounds(1150, 200, 150, 25);
         saveNotesButton.setBounds(1300, 700, 150, 25);
     }
@@ -192,7 +209,10 @@ public class ProjectPage extends JFrame implements ActionListener {
                 }
         );
         this.budget = this.budget - (item.getMyPrice() * item.getMyQuantity());
-        this.remainingBudget.setText("Remaining Budget: $" + (this.budget));
+        this.remainingBudget.setText("Remaining Budget: $");
+        remainingMoney.setText("$ "+String.valueOf(this.budget));
+        updateProgressBar((int) this.budget);
+
 
     }
 
@@ -222,7 +242,9 @@ public class ProjectPage extends JFrame implements ActionListener {
                 null,
                 String.valueOf(item.getMyPrice()),
                 String.valueOf(item.getMyQuantity()));
-        this.remainingBudget.setText("Remaining Budget: $" + (this.budget));
+        this.remainingBudget.setText("Remaining Budget: $");
+        remainingMoney.setText("$ " + String.valueOf(this.budget));
+        updateProgressBar((int) this.budget);
         nameField.setText("");
         quantityField.setText("");
         priceField.setText("");
@@ -242,10 +264,11 @@ public class ProjectPage extends JFrame implements ActionListener {
                 this.budget +=
                         Double.valueOf(String.valueOf(Main.manager.getItemQuantity(this.userID, this.project.getName(), itemName)))
                         * Double.valueOf(String.valueOf(Main.manager.getItemCostPerUnit(this.userID, this.project.getName(), itemName)));
-                remainingBudget.setText("Remaining budget: $" + this.budget);
+                remainingBudget.setText("Remaining budget: $");
+                remainingMoney.setText("$ " +String.valueOf(this.budget));
                 Main.manager.deleteItem(this.userID, this.project.getName(), itemName);
                 model.removeRow(choiceNum - 1);
-
+                updateProgressBar((int) this.budget);
             }
         }
     }
@@ -256,6 +279,10 @@ public class ProjectPage extends JFrame implements ActionListener {
 
     private void exportNotes() {
         Main.manager.addProjectNotes(this.userID, this.project.getName(), notesArea.getText());
+    }
+
+    private void updateProgressBar(int newBudget) {
+        this.progressBar.setValue(newBudget);
     }
 }
 

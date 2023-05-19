@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<User>
+  <Username>yes</Username>
+  <Email/>
+  <Project>
+    <Name>1</Name>
+    <StartDate>Sat Nov 11 00:00:00 PST 1111</StartDate>
+    <EndDate>Wed Oct 22 00:00:00 PDT 2223</EndDate>
+    <Budget>2.0</Budget>
+    <FilePath>/Users/ed/export.zip</FilePath>
+  </Project>
+</User>
