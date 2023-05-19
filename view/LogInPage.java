@@ -186,7 +186,7 @@ public class LogInPage implements ActionListener {
         userPasswordField.setBounds(125 + screenX - screenX /2,150 + screenY - screenY /2,200,25);
         loginButton.setBounds(125 + screenX - screenX /2,200 + screenY - screenY /2,100,25);
 
-        registerButton.setBounds(125 + screenX - screenX /2, 300 + screenY - screenY /2, 200, 25);
+        registerButton.setBounds(125 + screenX - screenX /2, 250 + screenY - screenY /2, 200, 25);
         registerButton.setFocusable(false);
         registerButton.addActionListener(this);
         loginButton.setFocusable(false);
@@ -198,8 +198,8 @@ public class LogInPage implements ActionListener {
 
         exportButton.addActionListener(this);
         importButton.addActionListener(this);
-        exportButton.setBounds(1300, 265, 150, 25);
-        importButton.setBounds(1300, 310, 150, 25);
+        exportButton.setBounds(800, 320, 150, 25);
+        importButton.setBounds(800, 370, 150, 25);
     }
 
     /**
