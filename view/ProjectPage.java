@@ -35,7 +35,15 @@ public class ProjectPage extends JFrame implements ActionListener {
     JLabel quanitityLabel = new JLabel("Quantity");
 
     JLabel priceLabel = new JLabel("Price");
+
+    JButton saveNotesButton = new JButton("Save Notes");
+
     JTextField nameField = new JTextField();
+
+    JLabel notesLabel = new JLabel("Notes:");
+
+    JTextArea notesArea = new JTextArea();
+
 
     JTextField quantityField = new JTextField();
 
@@ -100,6 +108,14 @@ public class ProjectPage extends JFrame implements ActionListener {
         frame.add(budgetField);
         frame.add(budgetLabel);
         frame.add(welcomeLabel, BorderLayout.NORTH);
+
+        frame.add(notesLabel);
+        JScrollPane notesPane = new JScrollPane(notesArea);
+        notesPane.setBounds(1150, 220, 300, 430);
+        frame.add(notesPane);
+        frame.add(saveNotesButton);
+        importNotes();
+
         JScrollPane sp = setUpTable();
         sp.setBounds(150, 100, 950, 600);
         frame.add(sp, BorderLayout.CENTER);
@@ -115,6 +131,8 @@ public class ProjectPage extends JFrame implements ActionListener {
         addItem.addActionListener(this);
         deleteItem.addActionListener(this);
         backButton.addActionListener(this);
+        saveNotesButton.addActionListener(this);
+
     }
 
     private void setBounds() {
@@ -130,7 +148,8 @@ public class ProjectPage extends JFrame implements ActionListener {
         budgetLabel.setBounds(1150, 110, 150, 25);
         deleteItem.setBounds(1300, 175, 150, 25);
         remainingBudget.setBounds(910, 0, 400, 100 );
-
+        notesLabel.setBounds(1150, 200, 150, 25);
+        saveNotesButton.setBounds(1300, 700, 150, 25);
     }
 
     private JScrollPane setUpTable() {
@@ -152,6 +171,10 @@ public class ProjectPage extends JFrame implements ActionListener {
 
         if (e.getSource() == deleteItem) {
             deleteItem();
+        }
+
+        if (e.getSource() == saveNotesButton) {
+            exportNotes();
         }
 
 
@@ -233,6 +256,14 @@ public class ProjectPage extends JFrame implements ActionListener {
 
             }
         }
+    }
+
+    private void importNotes() {
+        notesArea.setText(Main.manager.getProjectNotes(this.userID, this.project.getName()));
+    }
+
+    private void exportNotes() {
+        Main.manager.addProjectNotes(this.userID, this.project.getName(), notesArea.getText());
     }
 }
 
