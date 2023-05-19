@@ -147,7 +147,7 @@ public class ProjectPage extends JFrame implements ActionListener {
         frame.add(progressBar);
         frame.add(remainingMoney);
         JScrollPane sp = setUpTable();
-        sp.setBounds(150, 100, 950, 600);
+        sp.setBounds(200, 100, 900, 600);
         frame.add(sp, BorderLayout.CENTER);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setSize(Toolkit.getDefaultToolkit().getScreenSize());
@@ -176,7 +176,7 @@ public class ProjectPage extends JFrame implements ActionListener {
         priceLabel.setBounds(1150, 90, 150, 25);
         quantityField.setBounds(1300, 70, 150, 25);
         priceField.setBounds(1300, 90, 150, 25);
-        progressBar.setBounds(150, 50, 740, 40);
+        progressBar.setBounds(200, 50, 690, 40);
         progressBar.setForeground(Color.GREEN);
         progressBar.setBackground(Color.RED);
 //        budgetField.setBounds(1300, 110, 150, 25);
