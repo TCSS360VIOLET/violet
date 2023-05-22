@@ -228,6 +228,12 @@ public class LogInPage implements ActionListener {
         if (e.getSource() == importButton) {
             FileManager.importData(frame);
         }
+
+        if (e.getSource() == resetButton) {
+            userIDField.setText("");
+            userEmailField.setText("");
+            userPasswordField.setText("");
+        }
     }
 
 }
