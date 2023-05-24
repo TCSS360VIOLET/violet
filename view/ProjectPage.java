@@ -74,7 +74,10 @@ public class ProjectPage extends JFrame implements ActionListener {
     private JTable table = new JTable(model);
 
     private DefaultTableModel fileModel = new DefaultTableModel(fileColumns, 0) {
-
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
     };
 
     private JTable fileTable = new JTable(fileModel);
