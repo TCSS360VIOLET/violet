@@ -156,7 +156,7 @@ public class ProjectPage extends JFrame implements ActionListener {
         frame.setSize(Toolkit.getDefaultToolkit().getScreenSize());
         frame.setLayout(null);
         frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+        frame.setVisible(false);
     }
 
 
