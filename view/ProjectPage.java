@@ -373,6 +373,11 @@ public class ProjectPage extends JFrame implements ActionListener {
      */
     private void exportNotes() {
         Main.manager.addProjectNotes(this.userID, this.project.getName(), notesArea.getText());
+        JOptionPane.showConfirmDialog(null,
+        "Notes Saved!",
+        "Notes Saved!",
+        JOptionPane.DEFAULT_OPTION,
+        JOptionPane.PLAIN_MESSAGE);
     }
 
     private void updateProgressBar(int newBudget) {
