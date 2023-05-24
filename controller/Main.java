@@ -1,6 +1,5 @@
 package controller;
 
-import model.Profile;
 import view.LogInPage;
 
 import java.awt.*;
