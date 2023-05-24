@@ -199,6 +199,7 @@ public class ProjectPage extends JFrame implements ActionListener {
 
     private JScrollPane setUpTable() {
         table = new JTable(model);
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         return new JScrollPane(table);
 
     }
@@ -305,22 +306,23 @@ public class ProjectPage extends JFrame implements ActionListener {
      * Actions to take when deleteItem is selected.
      */
     private void deleteItem() {
-        String choice = JOptionPane.showInputDialog(null, "Which project do would you like to delete?");
-        int choiceNum = Integer.parseInt(choice);
-        if (!choice.isEmpty()) {
-            String message = "Are you sure you want to delete the project in row " + choice;
-            int deleteChoice = JOptionPane.showConfirmDialog(null, message);
-            if (deleteChoice == JOptionPane.OK_OPTION) {
-                String itemName = (String)model.getValueAt(choiceNum-1, 0);
+        int selectedRow = table.getSelectedRow();
+        if (selectedRow != -1) { // -1 means no row is selected
+            String message = "Are you sure you want to delete the item in row " + (selectedRow + 1);
+            int deleteChoice = JOptionPane.showConfirmDialog(null, message, "Delete Item", JOptionPane.YES_NO_OPTION);
+            if (deleteChoice == JOptionPane.YES_OPTION) {
+                String itemName = (String) model.getValueAt(selectedRow, 0);
                 this.budget +=
                         Double.valueOf(String.valueOf(Main.manager.getItemQuantity(this.userID, this.project.getName(), itemName)))
-                        * Double.valueOf(String.valueOf(Main.manager.getItemCostPerUnit(this.userID, this.project.getName(), itemName)));
+                                * Double.valueOf(String.valueOf(Main.manager.getItemCostPerUnit(this.userID, this.project.getName(), itemName)));
                 remainingBudget.setText("Remaining budget: $");
-                remainingMoney.setText("$ " +String.valueOf(this.budget));
+                remainingMoney.setText("$ " + String.valueOf(this.budget));
                 Main.manager.deleteItem(this.userID, this.project.getName(), itemName);
-                model.removeRow(choiceNum - 1);
+                model.removeRow(selectedRow);
                 updateProgressBar((int) this.budget);
             }
+        } else {
+            JOptionPane.showMessageDialog(null, "Please select an item to delete.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 

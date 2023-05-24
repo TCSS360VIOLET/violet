@@ -39,7 +39,6 @@ public class WelcomePage extends JFrame implements ActionListener{
             "End Date",
             "Budget",
             "Days Until Deadline",
-            "Project Details"
     };
 
     /**
@@ -201,7 +200,7 @@ public class WelcomePage extends JFrame implements ActionListener{
         addProject = new JButton("Add Project...");
         goToProject = new JButton("Go To Project");
         deleteProject = new JButton("Delete Project");
-        
+
 
         logoutButton = new JButton("Logout");
         //HashMap<String, String> ids = new IDandPasswords().getLoginInfo();
@@ -217,6 +216,7 @@ public class WelcomePage extends JFrame implements ActionListener{
         ownerMenu = new JMenu("Owner");
         model = new DefaultTableModel(COLUMNS, 0);
     }
+
 
     /**
      * Setting up welcome label.
@@ -271,6 +271,7 @@ public class WelcomePage extends JFrame implements ActionListener{
         menuBar.add(ownerMenu);
         frame.setJMenuBar(menuBar);
         frame.add(welcomeLabel, BorderLayout.NORTH);
+
     }
 
     /**
@@ -317,6 +318,7 @@ public class WelcomePage extends JFrame implements ActionListener{
      */
     private JScrollPane setUpTable() {
         table = new JTable(model);
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         return new JScrollPane(table);
 
     }
@@ -353,15 +355,12 @@ public class WelcomePage extends JFrame implements ActionListener{
      * @author Parker J.
      */
     private void goToProject() {
-        String choice = JOptionPane.showInputDialog(null, "Which project do would you like to visit?");
-        int choiceNum = Integer.parseInt(choice);
-//        if (projectList.size() != 0 && projectList.get(choiceNum-1) != null ) {
-//            projectList.get(choiceNum-1).setVisible(true);
-//        } else if (!choice.isEmpty()) {
-//            ProjectPage projectPage = new ProjectPage((Project) model.getValueAt(choiceNum - 1, model.getColumnCount()-1), userID);
-//            projectList.add(projectPage);
-//        }
-        projectList.get(choiceNum-1).setVisible(true);
+        int selectedRow = table.getSelectedRow();
+        if (selectedRow != -1) {
+            projectList.get(selectedRow).setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(frame, "No Project Selected.");
+        }
     }
 
     /**
@@ -396,7 +395,6 @@ public class WelcomePage extends JFrame implements ActionListener{
                             sdf.format(project.getEndDate()),
                             nf.format(project.getBudget()),
                             project.getDaysTillFinished(),
-                            project
                     }
             );
 
@@ -424,7 +422,6 @@ public class WelcomePage extends JFrame implements ActionListener{
                         endDateString,
                         nf.format(project.getBudget()),
                         project.getDaysTillFinished(),
-                        project
                 }
         );
         projectList.add(new ProjectPage(project, userID));
