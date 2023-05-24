@@ -446,7 +446,14 @@ public class ProjectPage extends JFrame implements ActionListener {
                     e.printStackTrace();  
                  }
         
+            } else {
+                JOptionPane.showConfirmDialog(null,
+            "File Not Found, Check Directory!",
+            "Notification",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.PLAIN_MESSAGE);
             }
+
         }
         Desktop desktop = Desktop.getDesktop();
         desktop.open(fileToOpen);
@@ -468,7 +475,7 @@ public class ProjectPage extends JFrame implements ActionListener {
         Main.manager.addProjectNotes(this.userID, this.project.getName(), notesArea.getText());
         JOptionPane.showConfirmDialog(null,
         "Notes Saved!",
-        "Notes Saved!",
+        "Notification",
         JOptionPane.DEFAULT_OPTION,
         JOptionPane.PLAIN_MESSAGE);
     }
