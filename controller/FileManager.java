@@ -34,6 +34,7 @@ import model.Item;
 public class FileManager{
     /**
      * Load projects from file
+     * @author Lixin W.
      */
     public static List<Project> loadProjects(File file){
         
@@ -81,6 +82,7 @@ public class FileManager{
 
     /**
      * Read projects from root element
+     * @author Lixin W.
      */
     public static List<Project> readProjectsFromDocument(Element rootElement) throws ParseException{
         NodeList projectNodes = rootElement.getElementsByTagName("Project");
@@ -154,8 +156,9 @@ public class FileManager{
         }
     }
 
-    /*
+    /**
      * The action to export data.
+     * @author Lixin W.
      */
     public static void exportData(Component parentComponent) {
         try {
@@ -210,8 +213,9 @@ public class FileManager{
     }
 
 
-    /*
+    /**
      * The action to import data.
+     * @author Lixin W.
      */
     public static void importData(Component parentComponent) {
         JFileChooser fileChooser = new JFileChooser();
@@ -262,15 +266,5 @@ public class FileManager{
         }
     }
 
-    private Date removeTime(Date date) {
 
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        cal.set(Calendar.HOUR_OF_DAY, 0);
-        cal.set(Calendar.MINUTE, 0);
-        cal.set(Calendar.SECOND, 0);
-        cal.set(Calendar.MILLISECOND, 0);
-        return cal.getTime();
-
-    }
 }

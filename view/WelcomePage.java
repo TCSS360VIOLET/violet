@@ -15,6 +15,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -153,14 +154,13 @@ public class WelcomePage extends JFrame implements ActionListener{
 
     private final String userID;
 
-    /**
-     * The Profile Manager
-     */
+
 
     /**
      * Initialize Fields of the WelcomePge
      * @param userID The user who logged in.
      * @param userEmail The user's email address.
+     * @author Parker J.
      */
     public WelcomePage(String userID, String userEmail){
         ownerName = new JMenuItem(userID);
@@ -178,6 +178,7 @@ public class WelcomePage extends JFrame implements ActionListener{
 
     /**
      * Load projects from file
+     * @author Lixin W.
      */
     private void loadProjects(String userID){
         java.util.List<Project> projects = FileManager.loadProjects(new File("data/"+userID+".xml"));
@@ -192,6 +193,7 @@ public class WelcomePage extends JFrame implements ActionListener{
 
     /**
      * Method to initialize fields because constructor was too long.
+     * @author Parker J.
      */
     private void initializeFields() {
         frame = new JFrame();
@@ -219,6 +221,7 @@ public class WelcomePage extends JFrame implements ActionListener{
     /**
      * Setting up welcome label.
      * @param userID The username of current user.
+     * @author Parker J.
      */
     private void setUpLabel(String userID) {
         welcomeLabel.setBounds(0,0,200,35);
@@ -228,6 +231,7 @@ public class WelcomePage extends JFrame implements ActionListener{
 
     /**
      * A method to set up the frame elements.
+     * @author Parker J.
      */
     public void setUpFrame() {
         addActions();
@@ -245,6 +249,7 @@ public class WelcomePage extends JFrame implements ActionListener{
 
     /**
      * Add necessary components to frame.
+     * @author Parker J.
      */
     private void addComponentsToFrame() {
         frame.add(logoutButton);
@@ -270,6 +275,8 @@ public class WelcomePage extends JFrame implements ActionListener{
 
     /**
      * Adding actions to the items that need actions.
+     * @author Parker J.
+     * @author Lixin W.
      */
     private void addActions() {
         goToProject.addActionListener(this);
@@ -285,6 +292,7 @@ public class WelcomePage extends JFrame implements ActionListener{
 
     /**
      * Set the boundaries for the components in the frame.
+     * @author Parker J.
      */
     private void setBounds() {
         addProject.setBounds(1300, 135, 150, 25);
@@ -305,6 +313,7 @@ public class WelcomePage extends JFrame implements ActionListener{
     /**
      * Set up the table for the main page.
      * @return The JScrollPane for the table.
+     * @author Parker J.
      */
     private JScrollPane setUpTable() {
         table = new JTable(model);
@@ -312,40 +321,12 @@ public class WelcomePage extends JFrame implements ActionListener{
 
     }
 
-    /**
-     * Verify that the dates entered for a project are in a valid range.
-     * @param d1 The first date as a string.
-     * @param d2 The second date as a string.
-     * @return Whether the date range is valid
-     */
-    private boolean validDateRange(String d1, String d2) {
-        String d1Days = d1.substring(3,5);
-        String d2Days = d2.substring(3,5);
-        String d1Month = d1.substring(0,2);
-        String d2Month = d2.substring(0,2);
-        String d1Year = d1.substring(6,10);
-        String d2Year = d2.substring(6,10);
-        boolean monthsDiff = (Integer.parseInt(d2Month) - Integer.parseInt(d1Month)) < 0;
-        boolean yearsDiff = (Integer.parseInt(d2Year) - Integer.parseInt(d1Year)) < 0;
-        boolean daysDiff = Integer.parseInt(d2Days) - Integer.parseInt(d1Days) <= 0;
-
-
-        // if (new Date(d1).getTime() < new Date().getTime()) {
-        //     return false;
-        // }
-//        if (monthsDiff || yearsDiff) {
-//            return false;
-//        } else if (Integer.parseInt(d2Month) - Integer.parseInt(d1Days) == 0){
-//            return !daysDiff || !yearsDiff;
-//        }
-
-        return true;
-    }
-
 
     /**
      * {@inheritDoc}
      * @param e the event to be processed
+     * @author Parker J.
+     * @author Lixin W.
      */
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -369,6 +350,7 @@ public class WelcomePage extends JFrame implements ActionListener{
 
     /**
      * The action to do when goToProject is selected.
+     * @author Parker J.
      */
     private void goToProject() {
         String choice = JOptionPane.showInputDialog(null, "Which project do would you like to visit?");
@@ -383,6 +365,7 @@ public class WelcomePage extends JFrame implements ActionListener{
 
     /**
      * The action to do when deleteProject is selected.
+     * @author Parker J.
      */
     private void deleteProject() {
         String choice = JOptionPane.showInputDialog(null,
@@ -400,14 +383,16 @@ public class WelcomePage extends JFrame implements ActionListener{
 
     /**
      * load project from file.
+     * @author Lixin W.
      */
     private void addProject(Project project){
         NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.US);
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
         model.addRow(
                     new Object[]{
                             project.getName(),
-                            project.getStartDate(),
-                            project.getEndDate(),
+                            sdf.format(project.getStartDate()),
+                            sdf.format(project.getEndDate()),
                             nf.format(project.getBudget()),
                             project.getDaysTillFinished(),
                             project
@@ -418,39 +403,38 @@ public class WelcomePage extends JFrame implements ActionListener{
 
     /**
      * The action to do when addProject is selected.
+     * @author Parker J.
      */
     private void addProject() {
         String startDateString = startDateField.getText();
         String endDateString = endDateField.getText();
         Date startDate = new Date(startDateString);
         Date endDate = new Date(endDateString);
-        if (validDateRange(startDateString, endDateString)) {
 
 
-            Project project = new Project(startDate, endDate,
-                    nameField.getText(), Double.parseDouble(budgetField.getText()));
-            NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.US);
-            model.addRow(
-                    new Object[]{
-                            project.getName(),
-                            startDateString,
-                            endDateString,
-                            nf.format(project.getBudget()),
-                            project.getDaysTillFinished(),
-                            project
-                    }
-            );
-            Main.manager.addProject(userID, project.getName(),
-                    project.getStartDate().toString(),
-                    project.getEndDate().toString(),
-                    String.valueOf(project.getBudget()));
-            nameField.setText("");
-            startDateField.setText("");
-            endDateField.setText("");
-            budgetField.setText("");
-        } else {
-            JOptionPane.showInternalMessageDialog(null, "Start Date must be before the End Date");
-        }
+        Project project = new Project(startDate, endDate,
+                nameField.getText(), Double.parseDouble(budgetField.getText()));
+        NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.US);
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+        model.addRow(
+                new Object[]{
+                        project.getName(),
+                        startDateString,
+                        endDateString,
+                        nf.format(project.getBudget()),
+                        project.getDaysTillFinished(),
+                        project
+                }
+        );
+        Main.manager.addProject(userID, project.getName(),
+                project.getStartDate().toString(),
+                project.getEndDate().toString(),
+                String.valueOf(project.getBudget()));
+        nameField.setText("");
+        startDateField.setText("");
+        endDateField.setText("");
+        budgetField.setText("");
+
     }
 
     
