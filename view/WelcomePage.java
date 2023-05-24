@@ -355,12 +355,13 @@ public class WelcomePage extends JFrame implements ActionListener{
     private void goToProject() {
         String choice = JOptionPane.showInputDialog(null, "Which project do would you like to visit?");
         int choiceNum = Integer.parseInt(choice);
-        if (projectList.size() != 0 && projectList.get(choiceNum-1) != null ) {
-            projectList.get(choiceNum-1).setVisible(true);
-        } else if (!choice.isEmpty()) {
-            ProjectPage projectPage = new ProjectPage((Project) model.getValueAt(choiceNum - 1, model.getColumnCount()-1), userID);
-            projectList.add(projectPage);
-        }
+//        if (projectList.size() != 0 && projectList.get(choiceNum-1) != null ) {
+//            projectList.get(choiceNum-1).setVisible(true);
+//        } else if (!choice.isEmpty()) {
+//            ProjectPage projectPage = new ProjectPage((Project) model.getValueAt(choiceNum - 1, model.getColumnCount()-1), userID);
+//            projectList.add(projectPage);
+//        }
+        projectList.get(choiceNum-1).setVisible(true);
     }
 
     /**
@@ -426,6 +427,7 @@ public class WelcomePage extends JFrame implements ActionListener{
                         project
                 }
         );
+        projectList.add(new ProjectPage(project, userID));
         Main.manager.addProject(userID, project.getName(),
                 project.getStartDate().toString(),
                 project.getEndDate().toString(),
