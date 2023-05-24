@@ -177,11 +177,11 @@ public class ProfileManager {
      * @param endDate   The end date of the project.
      * @param budget    The budget of the project.
      */
-    public void addProject(String username, String name, String startDate, String endDate, String budget) {
+    public void addProject(String username, String projectName, String startDate, String endDate, String budget) {
         loadUserFile(username);
     
         // Check if project already exists
-        Node existingProjectNode = getProjectNode(name);
+        Node existingProjectNode = getProjectNode(projectName);
         if (existingProjectNode != null) {
             System.out.println("A project with this name already exists.");
             return;
@@ -191,7 +191,7 @@ public class ProfileManager {
         rootElement.appendChild(project);
     
         Element nameElement = doc.createElement("Name");
-        nameElement.appendChild(doc.createTextNode(name));
+        nameElement.appendChild(doc.createTextNode(projectName));
         project.appendChild(nameElement);
     
         Element startDateElement = doc.createElement("StartDate");
