@@ -12,7 +12,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Locale;
 
 /**
@@ -142,6 +144,7 @@ public class ProjectPage extends JFrame implements ActionListener {
         frame.add(notesPane);
         frame.add(saveNotesButton);
         importNotes();
+        importFiles();
         //file explorer
         JScrollPane explorer = setUpFileTable();
         explorer.setBounds(10, 100, 150, 550);  
@@ -206,6 +209,7 @@ public class ProjectPage extends JFrame implements ActionListener {
 
     private JScrollPane setUpFileTable() {
         fileTable = new JTable(fileModel);
+        fileTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         return new JScrollPane(fileTable);
     }
 
@@ -236,7 +240,11 @@ public class ProjectPage extends JFrame implements ActionListener {
             deleteFile();
         }
         if (e.getSource() == openFileButton) {
-            openFile();
+            try {
+                openFile();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
         }
 
 
@@ -359,23 +367,63 @@ public class ProjectPage extends JFrame implements ActionListener {
      * @author Edward Chung
      */
     private void deleteFile() {
-        String choice = JOptionPane.showInputDialog(null, "Which file do would you like to delete?");
-        int choiceNum = Integer.parseInt(choice);
-        if (!choice.isEmpty()) {
-            String message = "Are you sure you want to delete the file in row " + choice;
+//        String choice = JOptionPane.showInputDialog(null, "Which file do would you like to delete?");
+//        int choiceNum = Integer.parseInt(choice);
+//        if (!choice.isEmpty()) {
+//            String message = "Are you sure you want to delete the file in row " + choice;
+//            int deleteChoice = JOptionPane.showConfirmDialog(null, message);
+//            if (deleteChoice == JOptionPane.OK_OPTION) {
+//                String fileName = fileModel.getValueAt(0, choiceNum - 1).toString();
+//                System.out.println("filename = " + fileName);
+//                for(String theFilePath : manager.getProjectFilePaths(this.userID, this.project.getName())){
+//
+//                    if(theFilePath.contains(fileName)){
+//                        manager.deleteFilePath(this.userID, this.project.getName(), theFilePath);
+//
+//                    }
+//                }
+//                fileModel.removeRow(choiceNum - 1);
+//            }
+//        }
+        int selectedRow = fileTable.getSelectedRow();
+        if (selectedRow != -1) {
+            String message = "Are you sure you want to delete file " + fileTable.getValueAt(selectedRow, 0);
             int deleteChoice = JOptionPane.showConfirmDialog(null, message);
             if (deleteChoice == JOptionPane.OK_OPTION) {
-                String fileName = fileModel.getValueAt(0, choiceNum - 1).toString();
+                String fileName = fileModel.getValueAt(0, selectedRow).toString();
                 System.out.println("filename = " + fileName);
                 for(String theFilePath : manager.getProjectFilePaths(this.userID, this.project.getName())){
 
                     if(theFilePath.contains(fileName)){
                         manager.deleteFilePath(this.userID, this.project.getName(), theFilePath);
-                       
+
                     }
                 }
-                fileModel.removeRow(choiceNum - 1);
+                fileModel.removeRow(selectedRow);
             }
+        } else {
+            JOptionPane.showMessageDialog(null, "Please Selecte a File to Delete.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void addFile(ArrayList<String> filePaths) {
+        for (String s : filePaths) {
+            File selectedFile = new File(s);
+            String filePath = selectedFile.getAbsolutePath();
+            System.out.println("Selected file path: " + filePath);
+            String fileName = selectedFile.getName();
+            String fileExtension = "";
+
+            int i = fileName.lastIndexOf('.');
+            if (i > 0) {
+                fileExtension = fileName.substring(i+1);
+            }
+            String fullFileName = fileName;
+            fileModel.addRow(
+                    new Object[]{
+                            fullFileName
+                    }
+            );
         }
     }
 
@@ -383,17 +431,16 @@ public class ProjectPage extends JFrame implements ActionListener {
      * Open selected file from the filemodel JScrollPane.
      * @author Edward Chung
      */
-    private void openFile() {
-        String choice = JOptionPane.showInputDialog(null, "Which file do would you like to open?");
-        int choiceNum = Integer.parseInt(choice);
-        String fileName = fileModel.getValueAt(0, choiceNum -1).toString();
-        for(String theFilePath : manager.getProjectFilePaths(this.userID, this.project.getName())){
+    private void openFile() throws IOException {
+        int choiceNum = fileTable.getSelectedRow();
+        String fileName = fileModel.getValueAt(choiceNum, 0).toString();
+        File fileToOpen = null;
+        for(String theFilePath : Main.manager.getProjectFilePaths(this.userID, this.project.getName())){
 
             if(theFilePath.contains(fileName)){
                 try{
-                    File fileToOpen = new File(theFilePath);
-                    Desktop desktop = Desktop.getDesktop();
-                    desktop.open(fileToOpen);
+                    fileToOpen = new File(theFilePath);
+
                 } catch(Exception e)  
                 {  
                     e.printStackTrace();  
@@ -401,6 +448,8 @@ public class ProjectPage extends JFrame implements ActionListener {
         
             }
         }
+        Desktop desktop = Desktop.getDesktop();
+        desktop.open(fileToOpen);
     }
 
     /**
@@ -426,6 +475,10 @@ public class ProjectPage extends JFrame implements ActionListener {
 
     private void updateProgressBar(int newBudget) {
         this.progressBar.setValue(newBudget);
+    }
+
+    private void importFiles() {
+        addFile((ArrayList) Main.manager.getProjectFilePaths(userID, this.project.getName()));
     }
 }
 
