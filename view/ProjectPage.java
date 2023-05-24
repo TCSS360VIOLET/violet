@@ -47,6 +47,7 @@ public class ProjectPage extends JFrame implements ActionListener {
     JButton saveNotesButton = new JButton("Save Notes");
     JButton addFileButton = new JButton("Add File");
     JButton deleteFileButton = new JButton("Delete FIle");
+    JButton openFileButton = new JButton("Open File");
 
     JTextField nameField = new JTextField();
 
@@ -147,6 +148,7 @@ public class ProjectPage extends JFrame implements ActionListener {
         frame.add(explorer, BorderLayout.WEST);
         frame.add(addFileButton);
         frame.add(deleteFileButton);
+        frame.add(openFileButton);
         frame.add(progressBar);
         frame.add(remainingMoney);
         JScrollPane sp = setUpTable();
@@ -167,6 +169,7 @@ public class ProjectPage extends JFrame implements ActionListener {
         saveNotesButton.addActionListener(this);
         addFileButton.addActionListener(this);
         deleteFileButton.addActionListener(this);
+        openFileButton.addActionListener(this);
 
     }
 
@@ -190,7 +193,8 @@ public class ProjectPage extends JFrame implements ActionListener {
         notesLabel.setBounds(1150, 200, 150, 25);
         saveNotesButton.setBounds(1300, 700, 150, 25);
         addFileButton.setBounds(10, 700, 150, 25);
-        deleteFileButton.setBounds(10, 730, 150, 25);
+        deleteFileButton.setBounds(10, 760, 150, 25);
+        openFileButton.setBounds(10, 730, 150, 25);
     }
 
     private JScrollPane setUpTable() {
@@ -230,6 +234,10 @@ public class ProjectPage extends JFrame implements ActionListener {
         if (e.getSource() == deleteFileButton) {
             deleteFile();
         }
+        if (e.getSource() == openFileButton) {
+            openFile();
+        }
+
 
 
 
@@ -316,6 +324,10 @@ public class ProjectPage extends JFrame implements ActionListener {
         }
     }
 
+     /**
+     * Adds a file to filemodel JScrollPane.
+     * @author Edward Chung
+     */
     private void addFile() {
         JFileChooser fileChooser = new JFileChooser();
                 int returnValue = fileChooser.showOpenDialog(null);
@@ -340,7 +352,10 @@ public class ProjectPage extends JFrame implements ActionListener {
                 }
 
     }
-
+     /**
+     * Delete selected file from the filemodel JSrollpane 
+     * @author Edward Chung
+     */
     private void deleteFile() {
         String choice = JOptionPane.showInputDialog(null, "Which file do would you like to delete?");
         int choiceNum = Integer.parseInt(choice);
@@ -362,6 +377,30 @@ public class ProjectPage extends JFrame implements ActionListener {
         }
     }
 
+     /**
+     * Open selected file from the filemodel JScrollPane.
+     * @author Edward Chung
+     */
+    private void openFile() {
+        String choice = JOptionPane.showInputDialog(null, "Which file do would you like to open?");
+        int choiceNum = Integer.parseInt(choice);
+        String fileName = fileModel.getValueAt(0, choiceNum -1).toString();
+        for(String theFilePath : manager.getProjectFilePaths(this.userID, this.project.getName())){
+
+            if(theFilePath.contains(fileName)){
+                try{
+                    File fileToOpen = new File(theFilePath);
+                    Desktop desktop = Desktop.getDesktop();
+                    desktop.open(fileToOpen);
+                } catch(Exception e)  
+                {  
+                    e.printStackTrace();  
+                 }
+        
+            }
+        }
+    }
+
     /**
      * Import Notes from XML file.
      * @author Edward Chung
@@ -376,6 +415,11 @@ public class ProjectPage extends JFrame implements ActionListener {
      */
     private void exportNotes() {
         Main.manager.addProjectNotes(this.userID, this.project.getName(), notesArea.getText());
+        JOptionPane.showConfirmDialog(null,
+        "Notes Saved!",
+        "Notes Saved!",
+        JOptionPane.DEFAULT_OPTION,
+        JOptionPane.PLAIN_MESSAGE);
     }
 
     private void updateProgressBar(int newBudget) {
