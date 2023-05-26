@@ -269,8 +269,8 @@ public class ProjectPage extends JFrame implements ActionListener {
                 }
         );
         this.budget = this.budget - (item.getMyPrice() * item.getMyQuantity());
-        this.remainingBudget.setText("Remaining Budget: $");
-        remainingMoney.setText("$ "+String.valueOf(this.budget));
+        this.remainingBudget.setText("Remaining Budget: ");
+        remainingMoney.setText("$" + String.valueOf(this.budget));
         updateProgressBar((int) this.budget);
 
 
@@ -302,8 +302,8 @@ public class ProjectPage extends JFrame implements ActionListener {
                 null,
                 String.valueOf(item.getMyPrice()),
                 String.valueOf(item.getMyQuantity()));
-        this.remainingBudget.setText("Remaining Budget: $");
-        remainingMoney.setText("$ " + String.valueOf(this.budget));
+        this.remainingBudget.setText("Remaining Budget: ");
+        remainingMoney.setText("$" + String.valueOf(this.budget));
         updateProgressBar((int) this.budget);
         nameField.setText("");
         quantityField.setText("");
@@ -323,7 +323,7 @@ public class ProjectPage extends JFrame implements ActionListener {
                 this.budget +=
                         Double.valueOf(String.valueOf(Main.manager.getItemQuantity(this.userID, this.project.getName(), itemName)))
                                 * Double.valueOf(String.valueOf(Main.manager.getItemCostPerUnit(this.userID, this.project.getName(), itemName)));
-                remainingBudget.setText("Remaining budget: $");
+                remainingBudget.setText("Remaining budget: ");
                 remainingMoney.setText("$ " + String.valueOf(this.budget));
                 Main.manager.deleteItem(this.userID, this.project.getName(), itemName);
                 model.removeRow(selectedRow);

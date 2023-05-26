@@ -68,6 +68,10 @@ public class WelcomePage extends JFrame implements ActionListener{
     private JButton deleteProject;
 
     /**
+     * The edit project button 
+     */
+    private JButton editProject;
+    /**
      * The logout button.
      */
     private JButton logoutButton;
@@ -201,6 +205,7 @@ public class WelcomePage extends JFrame implements ActionListener{
         addProject = new JButton("Add Project...");
         goToProject = new JButton("Go To Project");
         deleteProject = new JButton("Delete Project");
+        editProject = new JButton("Edit Project");
 
 
         logoutButton = new JButton("Logout");
@@ -256,6 +261,7 @@ public class WelcomePage extends JFrame implements ActionListener{
         frame.add(logoutButton);
         frame.add(goToProject);
         frame.add(deleteProject);
+        frame.add(editProject);
         frame.add(nameField);
         frame.add(nameLabel);
         frame.add(startDateField);
@@ -284,6 +290,7 @@ public class WelcomePage extends JFrame implements ActionListener{
         goToProject.addActionListener(this);
         addProject.addActionListener(this);
         deleteProject.addActionListener(this);
+        editProject.addActionListener(this);
         logoutButton.addActionListener(this);
         aboutItem.addActionListener(aboutItem -> {
             About about = new About();
@@ -308,6 +315,7 @@ public class WelcomePage extends JFrame implements ActionListener{
         endDateField.setBounds(1300, 90, 150, 25);
         budgetField.setBounds(1300, 110, 150, 25);
         deleteProject.setBounds(1300, 175, 150, 25);
+        editProject.setBounds(1300, 275, 150, 25);
         goToProject.setBounds(1300, 220, 150, 25);
 
     }
@@ -345,7 +353,9 @@ public class WelcomePage extends JFrame implements ActionListener{
         if (e.getSource() == deleteProject) {
             deleteProject();
         }
-
+        if (e.getSource() == editProject) {
+           editProject();
+        }
         if (e.getSource() == goToProject) {
             goToProject();
         }
@@ -469,5 +479,21 @@ public class WelcomePage extends JFrame implements ActionListener{
         return true;
     }
 
-    
+    /**
+     * @author An Ho
+     * The action to do when editProject is selected.
+     */
+    private void editProject() {
+        String choice = JOptionPane.showInputDialog(null,
+                "Which project do would you like to edit?");
+        int choiceNum = Integer.parseInt(choice);
+        if (!choice.isEmpty()) {   
+                String projectName = (String) model.getValueAt(choiceNum-1, 0);
+                EditProjectScreen editProject = new EditProjectScreen(projectName,userID,model);
+                editProject.setVisible(true);
+                         
+                
+            
+        }
+    }
 }
