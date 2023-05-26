@@ -137,6 +137,12 @@ public class WelcomePage extends JFrame implements ActionListener{
      */
 
     private final ArrayList<ProjectPage> projectList;
+
+    /**
+     * The list of all project objects stored.
+     */
+    private ArrayList<Project> projectObjectList;
+
     /**
      * The table model for the table.
      */
@@ -170,6 +176,7 @@ public class WelcomePage extends JFrame implements ActionListener{
         ownerEmail = new JMenuItem(userEmail);
         this.userID = userID;
         projectList = new ArrayList<>(0);
+        projectObjectList = new ArrayList<>();
 
         initializeFields();
         // Create the JTable
@@ -396,6 +403,7 @@ public class WelcomePage extends JFrame implements ActionListener{
      * @author Lixin W.
      */
     private void addProject(Project project){
+        projectObjectList.add(project);
         NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.US);
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
         model.addRow(
@@ -434,6 +442,7 @@ public class WelcomePage extends JFrame implements ActionListener{
                         project.getDaysTillFinished(),
                 }
         );
+        projectObjectList.add(project);
         projectList.add(new ProjectPage(project, userID));
         Main.manager.addProject(userID, project.getName(),
                 project.getStartDate().toString(),
@@ -451,16 +460,23 @@ public class WelcomePage extends JFrame implements ActionListener{
      * The action to do when editProject is selected.
      */
     private void editProject() {
-        String choice = JOptionPane.showInputDialog(null,
-                "Which project do would you like to edit?");
-        int choiceNum = Integer.parseInt(choice);
-        if (!choice.isEmpty()) {   
-                String projectName = (String) model.getValueAt(choiceNum-1, 0);
-                EditProjectScreen editProject = new EditProjectScreen(projectName,userID,model);
-                editProject.setVisible(true);
-                         
-                
-            
+        int selectedRow = table.getSelectedRow();
+        if (selectedRow != -1) {
+            String projectName = (String) model.getValueAt(selectedRow, 0);
+
+            Project thisProjectObject = null;
+
+            // Get the relevant project object
+            for(Project p : projectObjectList) {
+                if(p.getName() == projectName){
+                    thisProjectObject = p;
+                }
+            }
+
+            EditProjectScreen editProject = new EditProjectScreen(projectName,userID,model,thisProjectObject,selectedRow);
+            editProject.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(frame, "No Project Selected.");
         }
     }
 }

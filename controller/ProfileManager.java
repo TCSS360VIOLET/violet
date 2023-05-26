@@ -735,4 +735,95 @@ public class ProfileManager {
 
         saveProfile(username);
     }
+
+    /**
+     * Edits the name of an existing project for a given user.
+     * @author Nickolas Zahos (nzahos@uw.edu)
+     *
+     * @param username The username of the user who owns this project.
+     * @param oldName  The current name of the project.
+     * @param newName  The new name of the project.
+     */
+    public void setProjectName(String username, String oldName, String newName) {
+        loadUserFile(username);
+
+        Node projectNode = getProjectNode(oldName);
+        if (projectNode == null) {
+            System.out.println("Project does not exist.");
+            return;
+        }
+
+        if (projectNode.getNodeType() == Node.ELEMENT_NODE) {
+            Element projectElement = (Element) projectNode;
+            projectElement.getElementsByTagName("Name").item(0).setTextContent(newName);
+        }
+
+        saveProfile(username);
+    }
+
+    /**
+     * Changes the start date of an existing project.
+     * @author Nickolas Zahos (nzahos@uw.edu)
+     *
+     * @param username   The username of the user who owns the project.
+     * @param projectName The name of the project.
+     * @param startDate  The new start date for the project.
+     */
+    public void setProjectStartDate(String username, String projectName, String startDate) {
+        changeProjectDetail(username, projectName, "StartDate", startDate);
+    }
+
+    /**
+     * Changes the end date of an existing project.
+     * @author Nickolas Zahos (nzahos@uw.edu)
+     *
+     * @param username   The username of the user who owns the project.
+     * @param projectName The name of the project.
+     * @param endDate    The new end date for the project.
+     */
+    public void setProjectEndDate(String username, String projectName, String endDate) {
+        changeProjectDetail(username, projectName, "EndDate", endDate);
+    }
+
+    /**
+     * Changes the budget of an existing project.
+     * @author Nickolas Zahos (nzahos@uw.edu)
+     *
+     * @param username   The username of the user who owns the project.
+     * @param projectName The name of the project.
+     * @param budget     The new budget for the project.
+     */
+    public void setProjectBudget(String username, String projectName, String budget) {
+        changeProjectDetail(username, projectName, "Budget", budget);
+    }
+
+    /**
+     * Helper method to change a project detail.
+     * @param username    The username of the user who owns the project.
+     * @param projectName The name of the project.
+     * @param detailName  The name of the detail to change (e.g., "StartDate", "EndDate", "Budget").
+     * @param newValue    The new value for the detail.
+     */
+    private void changeProjectDetail(String username, String projectName, String detailName, String newValue) {
+        loadUserFile(username);
+
+        Node projectNode = getProjectNode(projectName);
+        if (projectNode == null) {
+            System.out.println("Project does not exist.");
+            return;
+        }
+
+        if (projectNode.getNodeType() == Node.ELEMENT_NODE) {
+            Element projectElement = (Element) projectNode;
+            NodeList detailNodes = projectElement.getElementsByTagName(detailName);
+            if (detailNodes.getLength() > 0) {
+                detailNodes.item(0).setTextContent(newValue);
+            } else {
+                System.out.println("Detail " + detailName + " does not exist.");
+                return;
+            }
+        }
+
+        saveProfile(username);
+    }
 }

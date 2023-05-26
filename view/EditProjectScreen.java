@@ -8,6 +8,11 @@ import model.Project;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 public class EditProjectScreen extends JFrame {
     private JTextField projectNameField;
@@ -17,11 +22,13 @@ public class EditProjectScreen extends JFrame {
     private String project;
     private String userID;
     private DefaultTableModel model;
+    private int selectedRow;
    
-    public EditProjectScreen(String project, String userID, DefaultTableModel model) {
+    public EditProjectScreen(String project, String userID, DefaultTableModel model, Project projectObject, int theSelectedRow) {
         this.project = project;
         this.userID = userID;
         this.model = model;
+        this.selectedRow = theSelectedRow;
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Edit Project");
         
@@ -112,18 +119,31 @@ public class EditProjectScreen extends JFrame {
             JButton saveButton = new JButton("Save");
             saveButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    //delete the old project in XML
-                    Main.manager.deleteProject(userID, project);
                     // Get the values from the text fields
                     String projectName = projectNameField.getText();
                     String startDate = startDateField.getText();
                     String endDate = endDateField.getText();
                     String budget = budgetField.getText();
+
+                    // Set new project info
+                    Main.manager.setProjectName(userID, project, projectName);
+                    Main.manager.setProjectStartDate(userID, projectName, startDate);
+                    Main.manager.setProjectEndDate(userID, projectName, endDate);
+                    Main.manager.setProjectBudget(userID, projectName, budget);
+
+                    SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+                    NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.US);
+                    long daysLeft = new Date(endDate).getTime() - new Date(startDate).getTime();
+                    int daysTillFinished = (int) TimeUnit.DAYS.convert(daysLeft, TimeUnit.MILLISECONDS);
+
+                    // Update row UI for project edited
+                    model.setValueAt(projectName, selectedRow, 0);
+                    model.setValueAt(sdf.format(new Date(startDate)), selectedRow, 1);
+                    model.setValueAt(sdf.format(new Date(endDate)), selectedRow, 2);
+                    model.setValueAt(nf.format(Double.parseDouble(budget)), selectedRow, 3);
+                    model.setValueAt(daysTillFinished, selectedRow,4 );
+
                     
-                    // add updated project in xml file
-                    Main.manager.addProject(userID, projectName, startDate, endDate, budget);
-
-
 
                     dispose();
                 }
