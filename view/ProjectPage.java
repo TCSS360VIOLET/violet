@@ -95,6 +95,12 @@ public class ProjectPage extends JFrame implements ActionListener {
 
     private JLabel remainingMoney = new JLabel();
 
+    /**
+     * Initialize the fields of the project page.
+     * @param project The project to present.
+     * @param userID The current user.
+     * @author Parker J.
+     */
     public ProjectPage(Project project, String userID){
         this.project = project;
         this.userID = userID;
@@ -109,19 +115,31 @@ public class ProjectPage extends JFrame implements ActionListener {
         loadItems(project.getItems());
     }
 
+    /**
+     * Load the items from the xml file.
+     * @param items The list of items.
+     */
     private void loadItems(java.util.List<Item> items){
         for(Item item : items){
             addItem(item);
         }
     }
 
-
+    /**
+     * Set up the label.
+     * @param userID The current user.
+     * @author Parker J.
+     */
     private void setUpLabel(String userID) {
         welcomeLabel.setBounds(0,0,200,35);
         welcomeLabel.setFont(new Font(null,Font.PLAIN,18));
         welcomeLabel.setText("Hello "+ userID.toUpperCase(Locale.US));
     }
 
+    /**
+     * Set up the frame of the page.
+     * @author Parker J.
+     */
     private void setUpFrame() {
         addActions();
         setBounds();
@@ -164,7 +182,10 @@ public class ProjectPage extends JFrame implements ActionListener {
         frame.setVisible(false);
     }
 
-
+    /**
+     * Set the actions for the page.
+     * @author Parker J.
+     */
     private void addActions() {
         addItem.addActionListener(this);
         deleteItem.addActionListener(this);
@@ -176,6 +197,10 @@ public class ProjectPage extends JFrame implements ActionListener {
 
     }
 
+    /**
+     * Set the bounds of the components.
+     * @author Parker J.
+     */
     private void setBounds() {
         addItem.setBounds(1300, 135, 150, 25);
         backButton.setBounds(0, 30, 100,25);
@@ -200,6 +225,10 @@ public class ProjectPage extends JFrame implements ActionListener {
         openFileButton.setBounds(10, 730, 150, 25);
     }
 
+    /**
+     * Set up the table.
+     * @return The JScrollPane for the projects.
+     */
     private JScrollPane setUpTable() {
         table = new JTable(model);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -207,13 +236,21 @@ public class ProjectPage extends JFrame implements ActionListener {
 
     }
 
+    /**
+     * Set up the file table.
+     * @return The scroll pa
+     * @author Ed C.
+     */
     private JScrollPane setUpFileTable() {
         fileTable = new JTable(fileModel);
         fileTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         return new JScrollPane(fileTable);
     }
 
-
+    /**
+     * {{@inheritDoc}}
+     * @param e the event to be processed
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == backButton) {
@@ -254,6 +291,8 @@ public class ProjectPage extends JFrame implements ActionListener {
 
     /**
      * Add item from file
+     * @param item the item to be added.
+     * @author Lixin W.
      */
     private void addItem(Item item){
 
@@ -278,40 +317,45 @@ public class ProjectPage extends JFrame implements ActionListener {
 
     /**
      * Actions to take when addItem is selected.
+     * @author Parker J.
      */
     private void addItem() {
         int quantity = Integer.parseInt(quantityField.getText());
         double price = Double.parseDouble(priceField.getText());
         String name = nameField.getText();
+        if (quantity <= 0 || price <= 0) {
+            JOptionPane.showMessageDialog(null, "Budget and Price must be greater than 0");
+        } else {
+            Item item = new Item(name, quantity, price);
+            NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.US);
+            model.addRow(
+                    new Object[]{
+                            item.getMyName(),
+                            item.getMyQuantity(),
+                            nf.format(item.getMyPrice()),
+                            nf.format((item.getMyPrice() * item.getMyQuantity())),
+                    }
+            );
+            this.budget = this.budget - (item.getMyPrice() * item.getMyQuantity());
 
-        Item item = new Item(name, quantity,price);
-        NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.US);
-        model.addRow(
-                new Object[]{
-                        item.getMyName(),
-                        item.getMyQuantity(),
-                        nf.format(item.getMyPrice()),
-                        nf.format((item.getMyPrice() * item.getMyQuantity())),
-                }
-        );
-        this.budget = this.budget - (item.getMyPrice() * item.getMyQuantity());
-
-        Main.manager.addItem(this.userID,
-                this.project.getName(),
-                item.getMyName(),
-                null,
-                String.valueOf(item.getMyPrice()),
-                String.valueOf(item.getMyQuantity()));
-        this.remainingBudget.setText("Remaining Budget: ");
-        remainingMoney.setText("$" + String.valueOf(this.budget));
-        updateProgressBar((int) this.budget);
-        nameField.setText("");
-        quantityField.setText("");
-        priceField.setText("");
+            Main.manager.addItem(this.userID,
+                    this.project.getName(),
+                    item.getMyName(),
+                    null,
+                    String.valueOf(item.getMyPrice()),
+                    String.valueOf(item.getMyQuantity()));
+            this.remainingBudget.setText("Remaining Budget: ");
+            remainingMoney.setText("$" + String.valueOf(this.budget));
+            updateProgressBar((int) this.budget);
+            nameField.setText("");
+            quantityField.setText("");
+            priceField.setText("");
+        }
     }
 
     /**
      * Actions to take when deleteItem is selected.
+     * @author Parker J.
      */
     private void deleteItem() {
         int selectedRow = table.getSelectedRow();
@@ -367,24 +411,7 @@ public class ProjectPage extends JFrame implements ActionListener {
      * @author Edward Chung
      */
     private void deleteFile() {
-//        String choice = JOptionPane.showInputDialog(null, "Which file do would you like to delete?");
-//        int choiceNum = Integer.parseInt(choice);
-//        if (!choice.isEmpty()) {
-//            String message = "Are you sure you want to delete the file in row " + choice;
-//            int deleteChoice = JOptionPane.showConfirmDialog(null, message);
-//            if (deleteChoice == JOptionPane.OK_OPTION) {
-//                String fileName = fileModel.getValueAt(0, choiceNum - 1).toString();
-//                System.out.println("filename = " + fileName);
-//                for(String theFilePath : manager.getProjectFilePaths(this.userID, this.project.getName())){
-//
-//                    if(theFilePath.contains(fileName)){
-//                        manager.deleteFilePath(this.userID, this.project.getName(), theFilePath);
-//
-//                    }
-//                }
-//                fileModel.removeRow(choiceNum - 1);
-//            }
-//        }
+
         int selectedRow = fileTable.getSelectedRow();
         if (selectedRow != -1) {
             String message = "Are you sure you want to delete file " + fileTable.getValueAt(selectedRow, 0);
@@ -406,6 +433,12 @@ public class ProjectPage extends JFrame implements ActionListener {
         }
     }
 
+    /**
+     * Add saved file paths to the project.
+     * @param filePaths The paths to add
+     * @author Ed C.
+     * @author Nick Z.
+     */
     private void addFile(ArrayList<String> filePaths) {
         for (String s : filePaths) {
             File selectedFile = new File(s);
@@ -473,10 +506,20 @@ public class ProjectPage extends JFrame implements ActionListener {
         JOptionPane.PLAIN_MESSAGE);
     }
 
+    /**
+     * Update the progress bar.
+     * @param newBudget The new value of the progress bar.
+     * @author Parker J.
+     */
     private void updateProgressBar(int newBudget) {
         this.progressBar.setValue(newBudget);
     }
 
+    /**
+     * Import files from the xml file.
+     * @author Nick Z.
+     * @author Ed C.
+     */
     private void importFiles() {
         addFile((ArrayList) Main.manager.getProjectFilePaths(userID, this.project.getName()));
     }

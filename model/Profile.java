@@ -72,17 +72,7 @@ public class Profile {
         return myEmail;
     }
 
-    /**
-     * Get the document of the user
-     * @return
-     */
-    public Document getMyDoc() {
-        return myDoc;
-    }
 
-    public ProfileManager getMyManager() {
-        return myManager;
-    }
 
 
 

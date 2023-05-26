@@ -2,24 +2,16 @@ package view;
 
 import controller.FileManager;
 import controller.Main;
-import controller.ProfileManager;
 import model.About;
-import model.Profile;
 import model.Project;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
-import java.util.zip.ZipOutputStream;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -137,6 +129,12 @@ public class WelcomePage extends JFrame implements ActionListener{
      */
 
     private final ArrayList<ProjectPage> projectList;
+
+    /**
+     * The list of all project objects stored.
+     */
+    private ArrayList<Project> projectObjectList;
+
     /**
      * The table model for the table.
      */
@@ -170,6 +168,7 @@ public class WelcomePage extends JFrame implements ActionListener{
         ownerEmail = new JMenuItem(userEmail);
         this.userID = userID;
         projectList = new ArrayList<>(0);
+        projectObjectList = new ArrayList<>();
 
         initializeFields();
         // Create the JTable
@@ -353,7 +352,7 @@ public class WelcomePage extends JFrame implements ActionListener{
             deleteProject();
         }
         if (e.getSource() == editProject) {
-           editProject();
+            editProject();
         }
         if (e.getSource() == goToProject) {
             goToProject();
@@ -396,17 +395,18 @@ public class WelcomePage extends JFrame implements ActionListener{
      * @author Lixin W.
      */
     private void addProject(Project project){
+        projectObjectList.add(project);
         NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.US);
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
         model.addRow(
-                    new Object[]{
-                            project.getName(),
-                            sdf.format(project.getStartDate()),
-                            sdf.format(project.getEndDate()),
-                            nf.format(project.getBudget()),
-                            project.getDaysTillFinished(),
-                    }
-            );
+                new Object[]{
+                        project.getName(),
+                        sdf.format(project.getStartDate()),
+                        sdf.format(project.getEndDate()),
+                        nf.format(project.getBudget()),
+                        project.getDaysTillFinished(),
+                }
+        );
 
     }
 
@@ -420,29 +420,36 @@ public class WelcomePage extends JFrame implements ActionListener{
         Date startDate = new Date(startDateString);
         Date endDate = new Date(endDateString);
 
-
-        Project project = new Project(startDate, endDate,
-                nameField.getText(), Double.parseDouble(budgetField.getText()));
-        NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.US);
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-        model.addRow(
-                new Object[]{
-                        project.getName(),
-                        startDateString,
-                        endDateString,
-                        nf.format(project.getBudget()),
-                        project.getDaysTillFinished(),
-                }
-        );
-        projectList.add(new ProjectPage(project, userID));
-        Main.manager.addProject(userID, project.getName(),
-                project.getStartDate().toString(),
-                project.getEndDate().toString(),
-                String.valueOf(project.getBudget()));
-        nameField.setText("");
-        startDateField.setText("");
-        endDateField.setText("");
-        budgetField.setText("");
+        if (Double.parseDouble(budgetField.getText()) <= 0 ) {
+            JOptionPane.showMessageDialog(null, "Your budget must be greater than 0.");
+        } else if (!validateDates(startDate, endDate)) {
+            String message = "Make sure your start date is not before the current date and \n your end date is not be for your start date.";
+            JOptionPane.showMessageDialog(null, message, "Invalid Date", JOptionPane.OK_OPTION);
+        } else {
+            Project project = new Project(startDate, endDate,
+                    nameField.getText(), Double.parseDouble(budgetField.getText()));
+            NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.US);
+            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+            model.addRow(
+                    new Object[]{
+                            project.getName(),
+                            startDateString,
+                            endDateString,
+                            nf.format(project.getBudget()),
+                            project.getDaysTillFinished(),
+                    }
+            );
+            projectObjectList.add(project);
+            projectList.add(new ProjectPage(project, userID));
+            Main.manager.addProject(userID, project.getName(),
+                    project.getStartDate().toString(),
+                    project.getEndDate().toString(),
+                    String.valueOf(project.getBudget()));
+            nameField.setText("");
+            startDateField.setText("");
+            endDateField.setText("");
+            budgetField.setText("");
+        }
 
     }
 
@@ -451,16 +458,41 @@ public class WelcomePage extends JFrame implements ActionListener{
      * The action to do when editProject is selected.
      */
     private void editProject() {
-        String choice = JOptionPane.showInputDialog(null,
-                "Which project do would you like to edit?");
-        int choiceNum = Integer.parseInt(choice);
-        if (!choice.isEmpty()) {   
-                String projectName = (String) model.getValueAt(choiceNum-1, 0);
-                EditProjectScreen editProject = new EditProjectScreen(projectName,userID,model);
-                editProject.setVisible(true);
-                         
-                
-            
+        int selectedRow = table.getSelectedRow();
+        if (selectedRow != -1) {
+            String projectName = (String) model.getValueAt(selectedRow, 0);
+
+            Project thisProjectObject = null;
+
+            // Get the relevant project object
+            for(Project p : projectObjectList) {
+                if(p.getName() == projectName){
+                    thisProjectObject = p;
+                }
+            }
+
+            EditProjectScreen editProject = new EditProjectScreen(projectName,userID,model,thisProjectObject,selectedRow);
+            editProject.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(frame, "No Project Selected.");
         }
+    }
+
+    /**
+     * Determine if the dates given are valid.
+     * @param date1 The start date.
+     * @param date2 The end date.
+     * @return If the dates are valid start and end dates.
+     */
+    public static boolean validateDates(Date date1, Date date2) {
+        Date currentDate = new Date();
+
+        if (date1.before(currentDate) || date2.before(currentDate)
+                || date1.equals(date2)
+                ||date1.after(date2) ) {
+            return false;
+        }
+
+        return true;
     }
 }

@@ -1,9 +1,6 @@
 package model;
 
 import java.util.List;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -22,8 +19,15 @@ public class Project {
     private List<String> filePaths;
 
     private List<Item> items;
-    
 
+    /**
+     * Initialize the fields of the project.
+     * @param startDate The start date of the project.
+     * @param endDate The end date of the project.
+     * @param name The name of the project.
+     * @param budget The budget of the project.
+     * @author Parker J.
+     */
     public Project(Date startDate, Date endDate, String name, double budget) {
         this.startDate = startDate;
         this.endDate = endDate;
@@ -35,69 +39,92 @@ public class Project {
         this.items = new ArrayList<>();
     }
 
-    //    private int calculateDaysBetween(Date d1, Date d2) {
-//        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MM yyyy");
-//        String firstInput = formatter.parse(d1.toString()).toString();
-//        String secondInput = formatter.parse(d2.toString()).toString();
-//        final LocalDate firstDate = LocalDate.parse(firstInput, formatter);
-//        final LocalDate secondDate = LocalDate.parse(secondInput, formatter);
-//        final int days = (int)ChronoUnit.DAYS.between(firstDate, secondDate);
-//        return days;
-//    }
+    /**
+     * Get the start date for the project.
+     * @return The end date for the project.
+     * @author Parker J.
+     */
     public Date getStartDate() {
 
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
+    /**
+     * Get the name of the project.
+     * @return The name of the project.
+     */
     public String getName() {
         return name;
     }
 
+
+    /**
+     * Set the name of the project.
+     * @param name new name.
+     * @author Parker J.
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Get the end date for the project.
+     * @return The end date for the project.
+     * @author Parker J.
+     */
     public Date getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
-
+    /**
+     * get the budget for the project.
+     * @return The budget for the item.
+     */
     public double getBudget() {
         return budget;
     }
 
+    /**
+     * set the budget of the project.
+     * @param budget the new budget
+     * @author Parker J.
+     */
     public void setBudget(double budget) {
         this.budget = budget;
     }
 
+    /**
+     * Return days till finished.
+     * @return days till finsihed.
+     * @author Parker J.
+     */
     public int getDaysTillFinished() {
         return daysTillFinished;
     }
 
-    public void setDaysTillFinished(int daysTillFinished) {
-        this.daysTillFinished = daysTillFinished;
-    }
-
-    public List<String> getFilePaths() {
-        return filePaths;
-    }
-
+    /**
+     * Set the file paths for the project.
+     * @param filePaths The file paths for the project.
+     * @author Lixin W.
+     */
     public void setFilePaths(List<String> filePaths) {
         this.filePaths = filePaths;
     }
 
-
+    /**
+     * Return the items in the project.
+     * @return The items in the project.
+     * @author Lixin W.
+     */
     public List<Item> getItems() {
         return items;
     }
 
+    /**
+     * Set the items for the project.
+     * @param items The items to set for the project.
+     * @author Lixin W.
+     */
     public void setItems(List<Item> items) {
         this.items = items;
     }

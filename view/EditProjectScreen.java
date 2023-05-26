@@ -24,6 +24,15 @@ public class EditProjectScreen extends JFrame {
     private DefaultTableModel model;
     private int selectedRow;
 
+    /**
+     *
+     * @param project The name of the project to edit.
+     * @param userID The current user.
+     * @param model The table model to add to.
+     * @param projectObject The project to edit.
+     * @param theSelectedRow The row in the table to change.
+     * @author An H.
+     */
     public EditProjectScreen(String project, String userID, DefaultTableModel model, Project projectObject, int theSelectedRow) {
         this.project = project;
         this.userID = userID;
@@ -35,6 +44,9 @@ public class EditProjectScreen extends JFrame {
         setUpFrame();
     }
 
+    /**
+     * @author An H.
+     */
     private void setUpFrame() {
 
         // Set uplocation and size of JFrame

@@ -106,6 +106,7 @@ public class LogInPage implements ActionListener {
 
     /**
      * Initialize fields for the class.
+     * @author Parker J.
      */
     public LogInPage(){
         //logininfo = loginInfoOriginal;
@@ -117,6 +118,7 @@ public class LogInPage implements ActionListener {
 
     /**
      * helper method to initialize fields because constructor was too long.
+     * @author Parker J.
      */
     private void initializeFields() {
         kit = Toolkit.getDefaultToolkit();
@@ -146,6 +148,7 @@ public class LogInPage implements ActionListener {
 
     /**
      * Set up the elements for the frame.
+     * @author Parker J.
      */
     private void setUpFrame() {
         frame.add(title);
@@ -171,6 +174,7 @@ public class LogInPage implements ActionListener {
 
     /**
      * Set up the buttons for the page.
+     * @author Parker J.
      */
     private void setUpButtons() {
         title.setForeground(new Color(155,38,182));
@@ -204,6 +208,7 @@ public class LogInPage implements ActionListener {
     /**
      * {@inheritDoc}
      * @param e the event to be processed
+     * @author Parker J.
      */
     @Override
     public void actionPerformed(ActionEvent e) {

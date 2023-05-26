@@ -1,5 +1,6 @@
 package model;
 
+
 public class Item {
     /**
      * The price of the item
@@ -13,6 +14,13 @@ public class Item {
 
     private int myQuantity;
 
+    /**
+     * Initialzie the fields of the item.
+     * @param name The name of the item.
+     * @param quantity The number of the item.
+     * @param price The price of the item.
+     * @author Parker J.
+     */
     public Item(String name, int quantity, double price) {
         myName = name;
         myQuantity = quantity;
@@ -28,23 +36,23 @@ public class Item {
         return myName;
     }
 
-    public void setMyName(String myName) {
-        this.myName = myName;
-    }
 
+    /**
+     * Get the price of the item.
+     * @return The price of the item.
+     * @author Parker J.
+     */
     public double getMyPrice() {
         return myPrice;
     }
 
-    public void setMyPrice(double myPrice) {
-        this.myPrice = myPrice;
-    }
-
+    /**
+     * Get the quantity of the Item.
+     * @return The number of items used
+     * @author Parker J.
+     */
     public int getMyQuantity() {
         return myQuantity;
     }
 
-    public void setMyQuantity(int myQuantity) {
-        this.myQuantity = myQuantity;
-    }
 }
