@@ -49,6 +49,7 @@ public class ProfileManager {
     /**
      * Constructor for the ProfileManager class.
      * Initializes a new XML Document and sets the root element to "Profile".
+     * @author Nick Z.
      */
     public ProfileManager() {
         try {
@@ -137,6 +138,7 @@ public class ProfileManager {
      *
      * @param username The username of the user.
      * @param email    The email of the user.
+     * @author Nick Z.
      */
     public void addProfile(String username, String email) throws IOException {
         String fileName = "data/" + username + ".xml";

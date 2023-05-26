@@ -31,6 +31,10 @@ import java.util.zip.ZipOutputStream;
 import model.Project;
 import model.Item;
 
+/**
+ * This class helps persist data when  a returning user logs in.
+ */
+
 public class FileManager{
     /**
      * Load projects from file

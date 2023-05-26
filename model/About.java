@@ -37,7 +37,9 @@ public class About {
     /** This string array will hold all the developer's info. */
     private final String[] developers;
 
-    /** Default Contructor - Takes no parameters, sets up the UI for this frame. */
+    /** Default Contructor - Takes no parameters, sets up the UI for this frame.
+     * @author Nick Z.
+     */
     public About() {
         myFrame = new JFrame("About");
         developers = new Team().getDevelopersArray();
@@ -76,6 +78,7 @@ public class About {
      * This private method will only be called by the constructor.
      * It just places an 'Ok' button below the text field.
      * @param panel The panel that the component will be attached to.
+     * @author Nick Z.
      */
     private void setupButton(JPanel panel) {
         // Create the 'Ok' button
@@ -100,6 +103,7 @@ public class About {
      * This private method will only be called by the constructor.
      * It just sets up the large logo that will appear above the text field.
      * @param panel The panel that the component will be attached to.
+     * @author Nick Z.
      */
     private void setupLogo(JPanel panel) {
         // Load the logo image and create an ImageIcon
@@ -127,6 +131,7 @@ public class About {
      * It just sets up the text field of the about JFrame that will
      * describe the program.
      * @param panel The panel that the component will be attached to.
+     * @author Nick Z.
      */
     private void setupTextField(JPanel panel) {
         String descriptionText = "Our software is a powerful project management tool designed to help you seamlessly organize, track, and prioritize multiple projects. With intuitive features for setting deadlines, managing budgets, monitoring purchased items, storing designs and files, and adding notes for each project, it's the ultimate solution for staying on top of your work and achieving your goals. Plus, our convenient import/export functionality allows you to effortlessly sync your project data across multiple devices, ensuring you have access to the information you need, whenever and wherever you need it." +
@@ -170,6 +175,7 @@ public class About {
      * This method displays this class's JFrame.
      *
      * @param   b   True for show, false for hide frame.
+     * @author Nick Z.
      */
     public void show(boolean b) {
         // Center the JFrame to the UI Object (null means just center of screen)
