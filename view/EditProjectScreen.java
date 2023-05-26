@@ -29,6 +29,22 @@ public class EditProjectScreen extends JFrame {
     }
     
     private void setUpFrame() {
+
+        // Set uplocation and size of JFrame
+                // Get the screen size
+                Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+                int screenWidth = screenSize.width;
+                int screenHeight = screenSize.height;
+        
+                // Set the size of the JFrame
+                int frameWidth = screenWidth / 2;
+                int frameHeight = screenHeight / 2;
+                setSize(frameWidth, frameHeight);
+                
+                // Calculate the position to center the JFrame
+                int x = (screenWidth - frameWidth) / 2;
+                int y = (screenHeight - frameHeight) / 2;
+                setLocation(x, y);
         // Set the layout for the JFrame using a GridBagLayout
         setLayout(new GridBagLayout());
         
@@ -49,7 +65,7 @@ public class EditProjectScreen extends JFrame {
         add(projectNameField, constraints);
         
         // Start Date row
-        JLabel startDateLabel = new JLabel("Start Date:");
+        JLabel startDateLabel = new JLabel("Start Date (mm/dd/yyyy):");
         startDateField = new JTextField(20);
         startDateField.setText(Main.manager.getProjectStartDate(userID, project)); // Set the provided value
         constraints.gridx = 0;
@@ -60,7 +76,7 @@ public class EditProjectScreen extends JFrame {
         add(startDateField, constraints);
         
         // End Date row
-        JLabel endDateLabel = new JLabel("End Date:");
+        JLabel endDateLabel = new JLabel("End Date (mm/dd/yyyy)");
         endDateField = new JTextField(20);
         endDateField.setText(Main.manager.getProjectEndDate(userID, project)); // Set the provided value
         constraints.gridx = 0;
