@@ -67,7 +67,7 @@ public class WelcomePage extends JFrame implements ActionListener{
     private JButton deleteProject;
 
     /**
-     * The edit project button 
+     * The edit project button
      */
     private JButton editProject;
     /**
@@ -360,7 +360,7 @@ public class WelcomePage extends JFrame implements ActionListener{
             deleteProject();
         }
         if (e.getSource() == editProject) {
-           editProject();
+            editProject();
         }
         if (e.getSource() == goToProject) {
             goToProject();
@@ -407,14 +407,14 @@ public class WelcomePage extends JFrame implements ActionListener{
         NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.US);
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
         model.addRow(
-                    new Object[]{
-                            project.getName(),
-                            sdf.format(project.getStartDate()),
-                            sdf.format(project.getEndDate()),
-                            nf.format(project.getBudget()),
-                            project.getDaysTillFinished(),
-                    }
-            );
+                new Object[]{
+                        project.getName(),
+                        sdf.format(project.getStartDate()),
+                        sdf.format(project.getEndDate()),
+                        nf.format(project.getBudget()),
+                        project.getDaysTillFinished(),
+                }
+        );
 
     }
 
