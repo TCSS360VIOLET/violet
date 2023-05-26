@@ -81,11 +81,12 @@ public class EditProjectScreen extends JFrame {
         constraints.gridx = 1;
         constraints.gridy = 0;
         add(projectNameField, constraints);
-
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+        NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.US);
         // Start Date row
         JLabel startDateLabel = new JLabel("Start Date (mm/dd/yyyy):");
         startDateField = new JTextField(20);
-        startDateField.setText(Main.manager.getProjectStartDate(userID, project)); // Set the provided value
+        startDateField.setText(sdf.format(new Date(Main.manager.getProjectStartDate(userID, project)))); // Set the provided value
         constraints.gridx = 0;
         constraints.gridy = 1;
         add(startDateLabel, constraints);
@@ -96,7 +97,7 @@ public class EditProjectScreen extends JFrame {
         // End Date row
         JLabel endDateLabel = new JLabel("End Date (mm/dd/yyyy)");
         endDateField = new JTextField(20);
-        endDateField.setText(Main.manager.getProjectEndDate(userID, project)); // Set the provided value
+        endDateField.setText(sdf.format(new Date(Main.manager.getProjectEndDate(userID, project)))); // Set the provided value
         constraints.gridx = 0;
         constraints.gridy = 2;
         add(endDateLabel, constraints);
