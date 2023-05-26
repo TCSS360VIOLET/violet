@@ -19,6 +19,11 @@ public class Item {
         myPrice = price;
     }
 
+    /**
+     * Return the name of the item.
+     * @return The name of the item.
+     * @author Parker J.
+     */
     public String getMyName() {
         return myName;
     }

@@ -16,6 +16,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -410,30 +411,62 @@ public class WelcomePage extends JFrame implements ActionListener{
         Date startDate = new Date(startDateString);
         Date endDate = new Date(endDateString);
 
+        if (Double.parseDouble(budgetField.getText()) < 0)  {
+            JOptionPane.showMessageDialog(null, "Your budget cannot be negative.",
+                    "Invalid budget", JOptionPane.OK_OPTION);
+        } else if (!validateDates(startDate, endDate)) {
 
-        Project project = new Project(startDate, endDate,
-                nameField.getText(), Double.parseDouble(budgetField.getText()));
-        NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.US);
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-        model.addRow(
-                new Object[]{
-                        project.getName(),
-                        startDateString,
-                        endDateString,
-                        nf.format(project.getBudget()),
-                        project.getDaysTillFinished(),
-                }
-        );
-        projectList.add(new ProjectPage(project, userID));
-        Main.manager.addProject(userID, project.getName(),
-                project.getStartDate().toString(),
-                project.getEndDate().toString(),
-                String.valueOf(project.getBudget()));
-        nameField.setText("");
-        startDateField.setText("");
-        endDateField.setText("");
-        budgetField.setText("");
+        } else {
+            Project project = new Project(startDate, endDate,
+                    nameField.getText(), Double.parseDouble(budgetField.getText()));
+            NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.US);
+            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+            model.addRow(
+                    new Object[]{
+                            project.getName(),
+                            startDateString,
+                            endDateString,
+                            nf.format(project.getBudget()),
+                            project.getDaysTillFinished(),
+                    }
+            );
+            projectList.add(new ProjectPage(project, userID));
+            Main.manager.addProject(userID, project.getName(),
+                    project.getStartDate().toString(),
+                    project.getEndDate().toString(),
+                    String.valueOf(project.getBudget()));
+            nameField.setText("");
+            startDateField.setText("");
+            endDateField.setText("");
+            budgetField.setText("");
+        }
 
+
+    }
+
+
+    public static boolean validateDates(Date date1, Date date2) {
+        Date currentDate = new Date();
+
+        if (date1.before(currentDate) || date2.before(currentDate)) {
+            JOptionPane.showMessageDialog(null, "One or both dates are in the past.",
+                    "Invalid Date", JOptionPane.OK_OPTION);
+            return false;
+        }
+
+        if (date1.equals(date2)) {
+            JOptionPane.showMessageDialog(null, "Both dates are the same.",
+                    "Invalid Date", JOptionPane.OK_OPTION);
+            return false;
+        }
+
+        if (date1.after(date2)) {
+            JOptionPane.showMessageDialog(null, "The first date is after the second date.",
+                    "Invalid Date", JOptionPane.OK_OPTION);
+            return false;
+        }
+
+        return true;
     }
 
     
