@@ -436,5 +436,21 @@ public class WelcomePage extends JFrame implements ActionListener{
 
     }
 
-    
+    /**
+     * @author An Ho
+     * The action to do when editProject is selected.
+     */
+    private void editProject() {
+        String choice = JOptionPane.showInputDialog(null,
+                "Which project do would you like to edit?");
+        int choiceNum = Integer.parseInt(choice);
+        if (!choice.isEmpty()) {   
+                String projectName = (String) model.getValueAt(choiceNum-1, 0);
+                EditProjectScreen editProject = new EditProjectScreen(projectName,userID,model);
+                editProject.setVisible(true);
+                         
+                
+            
+        }
+    }
 }
