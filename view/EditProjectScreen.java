@@ -29,7 +29,6 @@ public class EditProjectScreen extends JFrame {
         this.userID = userID;
         this.model = model;
         this.selectedRow = theSelectedRow;
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Edit Project");
         
         setUpFrame();

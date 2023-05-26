@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<User>
+  <Username>new</Username>
+  <Email/>
+  <Project>
+    <Name>testp</Name>
+    <StartDate>04/02/2025</StartDate>
+    <EndDate>06/07/2026</EndDate>
+    <Budget>1000.0</Budget>
+  </Project>
+</User>
