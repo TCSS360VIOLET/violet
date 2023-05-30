@@ -1,6 +1,7 @@
 # Code Review Guide
 
-Code to be reviewed
+Code to be reviewed ProfileManager.java up to line 252.
+Click [here](https://github.com/TCSS360VIOLET/violet/blob/main/controller/ProfileManager.java) to go to the code.
 
 Dear reviewers, 
 
