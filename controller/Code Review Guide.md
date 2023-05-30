@@ -14,7 +14,7 @@ The code we have selected supports the following user stories:
 3. As a user, I can add an item with details such as name, description, cost per unit, and quantity to a project associated with my profile.
 
 ## Design Diagrams
-The `ProfileManager` class is a part of our design diagrams and it handles the creation, reading, and writing of user profiles in XML format. The class diagram can be found in our repository.
+We have attached pdfs of our deliverables that include our class diagrams. Please note that they do not reflect the final product we have arrived at very accurately.
 
 ## Code Location and Files
 The code can be found in our repository at `src/main/java/com/ourproject/ProfileManager.java` (this is an example location - replace it with your actual file path). 
