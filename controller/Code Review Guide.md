@@ -14,7 +14,7 @@ The code we have selected supports the following user stories:
 3. As a user, I can add an item with details such as name, description, cost per unit, and quantity to a project associated with my profile.
 
 ## Design Diagrams
-We have attached pdfs of our deliverables that include our class diagrams. Please note that they do not reflect the final product we have arrived at very accurately.
+We have attached pdfs of our diagrams. Please note that they do not reflect the final product we have arrived at very accurately.
 
 ## Code Location
 Code to be reviewed ProfileManager.java up to line 252.
