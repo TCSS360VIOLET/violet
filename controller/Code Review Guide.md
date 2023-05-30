@@ -16,9 +16,9 @@ The code we have selected supports the following user stories:
 ## Design Diagrams
 We have attached pdfs of our deliverables that include our class diagrams. Please note that they do not reflect the final product we have arrived at very accurately.
 
-## Code Location and Files
-The code can be found in our repository at `src/main/java/com/ourproject/ProfileManager.java` (this is an example location - replace it with your actual file path). 
-You can access our design diagrams at `docs/design_diagrams/`.
+## Code Location
+Code to be reviewed ProfileManager.java up to line 252.
+Click [here](https://github.com/TCSS360VIOLET/violet/blob/main/controller/ProfileManager.java) to go to the code.
 
 ## Coding Conventions
 We have followed standard Java conventions for our code. For instance, we use camelCase for naming variables and methods, PascalCase for class names, and all uppercase for constants. We have also followed conventions related to indentation, braces, and comment styles. We have adhered to the principle of making methods do one thing and ensuring that they are not excessively long.
