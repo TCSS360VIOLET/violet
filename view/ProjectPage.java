@@ -474,22 +474,22 @@ public class ProjectPage extends JFrame implements ActionListener {
                 try{
                     fileToOpen = new File(theFilePath);
 
-                } catch(Exception e)  
-                {  
+                } catch(Exception e) {  
                     e.printStackTrace();  
-                 }
-        
-            } else {
+                }
+            }
+        }
+               
+        Desktop desktop = Desktop.getDesktop();
+        if(fileToOpen.exists()){
+            desktop.open(fileToOpen);
+        } else {
                 JOptionPane.showConfirmDialog(null,
-            "File Not Found, Check Directory!",
-            "Notification",
+        "File Not Found, Check Directory!",
+          "Notification",
                 JOptionPane.DEFAULT_OPTION,
                 JOptionPane.PLAIN_MESSAGE);
-            }
-
         }
-        Desktop desktop = Desktop.getDesktop();
-        desktop.open(fileToOpen);
     }
 
     /**
