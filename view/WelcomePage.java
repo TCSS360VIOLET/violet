@@ -379,7 +379,6 @@ public class WelcomePage extends JFrame implements ActionListener{
     private void deleteProject() {
         int selectedRow = table.getSelectedRow();
         if (selectedRow != -1) {
-            String projectName = (String) model.getValueAt(selectedRow, 0);
             String message = "Are you sure you want to delete the project?";
             int deleteChoice = JOptionPane.showConfirmDialog(null, message);
             if (deleteChoice == JOptionPane.OK_OPTION) {
