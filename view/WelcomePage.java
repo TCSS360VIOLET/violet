@@ -377,15 +377,14 @@ public class WelcomePage extends JFrame implements ActionListener{
      * @author Parker J.
      */
     private void deleteProject() {
-        String choice = JOptionPane.showInputDialog(null,
-                "Which project do would you like to delete?");
-        int choiceNum = Integer.parseInt(choice);
-        if (!choice.isEmpty()) {
-            String message = "Are you sure you want to delete the project in row " + choice;
+        int selectedRow = table.getSelectedRow();
+        if (selectedRow != -1) {
+            String projectName = (String) model.getValueAt(selectedRow, 0);
+            String message = "Are you sure you want to delete the project?";
             int deleteChoice = JOptionPane.showConfirmDialog(null, message);
             if (deleteChoice == JOptionPane.OK_OPTION) {
-                Main.manager.deleteProject(this.userID, (String) model.getValueAt(choiceNum-1, 0));
-                model.removeRow(choiceNum - 1);
+                Main.manager.deleteProject(this.userID, (String) model.getValueAt(selectedRow, 0));
+                model.removeRow(selectedRow);
             }
         }
     }
