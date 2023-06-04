@@ -39,8 +39,10 @@ public class ProjectPage extends JFrame implements ActionListener {
     JLabel welcomeLabel = new JLabel("Hello!");
 
     JButton addItem = new JButton("Add Item");
+    JButton editItem = new JButton("Edit Item");
     JButton deleteItem = new JButton("Delete Item");
     JButton backButton = new JButton("Back");
+
     JLabel nameLabel = new JLabel("Item Name");
     JLabel quanitityLabel = new JLabel("Quantity");
 
@@ -154,6 +156,7 @@ public class ProjectPage extends JFrame implements ActionListener {
         frame.add(priceLabel);
         frame.add(priceField);
         frame.add(addItem);
+        frame.add(editItem);
         frame.add(welcomeLabel, BorderLayout.NORTH);
 
         frame.add(notesLabel);
@@ -188,6 +191,7 @@ public class ProjectPage extends JFrame implements ActionListener {
      */
     private void addActions() {
         addItem.addActionListener(this);
+        editItem.addActionListener(this);
         deleteItem.addActionListener(this);
         backButton.addActionListener(this);
         saveNotesButton.addActionListener(this);
@@ -202,7 +206,8 @@ public class ProjectPage extends JFrame implements ActionListener {
      * @author Parker J.
      */
     private void setBounds() {
-        addItem.setBounds(1300, 135, 150, 25);
+        addItem.setBounds(1300, 125, 150, 25);
+        editItem.setBounds(1300, 155, 150, 25);
         backButton.setBounds(0, 30, 100,25);
         nameField.setBounds(1300, 50, 150, 25);
         nameLabel.setBounds(1150, 50, 150, 25);
@@ -215,7 +220,7 @@ public class ProjectPage extends JFrame implements ActionListener {
         progressBar.setBackground(Color.RED);
 //        budgetField.setBounds(1300, 110, 150, 25);
 //        budgetLabel.setBounds(1150, 110, 150, 25);
-        deleteItem.setBounds(1300, 175, 150, 25);
+        deleteItem.setBounds(1300, 185, 150, 25);
         remainingBudget.setBounds(910, 50, 400, 20 );
         remainingMoney.setBounds(930, 70, 400, 20);
         notesLabel.setBounds(1150, 200, 150, 25);
@@ -259,6 +264,10 @@ public class ProjectPage extends JFrame implements ActionListener {
 
         if (e.getSource() == addItem) {
             addItem();
+        }
+
+        if (e.getSource() == editItem) {
+            editItem();
         }
 
         if (e.getSource() == deleteItem) {
@@ -312,9 +321,8 @@ public class ProjectPage extends JFrame implements ActionListener {
         remainingMoney.setText("$" + String.valueOf(this.budget));
         updateProgressBar((int) this.budget);
 
-
     }
-
+    
     /**
      * Actions to take when addItem is selected.
      * @author Parker J.
@@ -350,6 +358,32 @@ public class ProjectPage extends JFrame implements ActionListener {
             nameField.setText("");
             quantityField.setText("");
             priceField.setText("");
+        }
+    }
+
+    /**
+     * Edit item from file
+     * @param item the item to be added.
+     * @author Lixin W.
+     */
+    private void editItem() {
+        int selectedRow = table.getSelectedRow();
+        if (selectedRow != -1) {
+            String itemName = (String) model.getValueAt(selectedRow, 0);
+
+            // Item thisItemObject = null;
+
+        //     // Get the relevant item object
+        //     for(Item item : project.getItems()) {
+        //         if(item.getMyName() == itemName){
+        //             thisItemObject = item;
+        //     //     }
+        //     }
+
+        //     //EditItemScreen editProject = new EditItemScreen(itemName,userID,model,thisItemObject,selectedRow);
+        //     //editProject.setVisible(true);
+        // // } else {
+        // //     JOptionPane.showMessageDialog(frame, "No Item Selected.");
         }
     }
 

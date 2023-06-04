@@ -1,7 +1,5 @@
 package view;
 
-
-
 import controller.Main;
 import controller.ProfileManager;
 import controller.FileManager;
@@ -19,7 +17,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-
 
 /**
  * The login page for the application.
@@ -47,10 +44,7 @@ public class LogInPage implements ActionListener {
      * The register button.
      */
     private JButton registerButton;
-    /**
-     * The export button.
-     */
-    private JButton exportButton;
+   
 
     /**
      * The import button.
@@ -127,13 +121,13 @@ public class LogInPage implements ActionListener {
         resetButton = new JButton("Reset");
         registerButton = new JButton("Register");
         // Create the buttons
-        exportButton = new JButton("Export Data");
+        
         importButton = new JButton("Import Data");
 
         userIDField = new JTextField();
         userPasswordField = new JPasswordField();
-        userIDLabel = new JLabel("userID:");
-        userPasswordLabel = new JLabel("password:");
+        userIDLabel = new JLabel("UserID:");
+        userPasswordLabel = new JLabel("Password:");
         messageLabel = new JLabel();
         userEmailField = new JTextField();
 
@@ -159,16 +153,18 @@ public class LogInPage implements ActionListener {
         frame.add(userPasswordField);
         frame.add(loginButton);
         frame.add(resetButton);
-        frame.add(exportButton);
+       
         frame.add(importButton);
         frame.add(registerButton);
         frame.add(userEmailLabel);
         frame.add(userEmailField);
         frame.setSize(600, 600);
+        
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(kit.getScreenSize());
         frame.setLayout(null);
         frame.setLocationRelativeTo(null);
+      
         frame.setVisible(true);
     }
 
@@ -199,9 +195,9 @@ public class LogInPage implements ActionListener {
         resetButton.setFocusable(false);
         resetButton.addActionListener(this);
 
-        exportButton.addActionListener(this);
+       
         importButton.addActionListener(this);
-        exportButton.setBounds(800, 320, 150, 25);
+        
         importButton.setBounds(800, 370, 150, 25);
     }
 
@@ -221,14 +217,12 @@ public class LogInPage implements ActionListener {
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
-
-            WelcomePage wp = new WelcomePage(userIDField.getText(), userEmailField.getText());
+            String userId = userIDField.getText(); // Store the current user
+            WelcomePage wp = new WelcomePage(userId, userEmailField.getText());
             frame.dispose();
         }
 
-        if (e.getSource() == exportButton) {
-            FileManager.exportData(frame);
-        }
+        
 
         if (e.getSource() == importButton) {
             FileManager.importData(frame);
