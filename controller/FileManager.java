@@ -164,10 +164,10 @@ public class FileManager{
      * The action to export data.
      * @author Lixin W.
      */
-    public static void exportData(Component parentComponent) {
+    public static void exportData(Component parentComponent, String currentUser) {
         try {
             File dataFolder = new File("data");
-            File[] xmlFiles = dataFolder.listFiles((dir, name) -> name.endsWith(".xml"));
+            File[] xmlFiles = dataFolder.listFiles((dir, name) -> name.endsWith(".xml") && name.startsWith(currentUser));
 
             if (xmlFiles.length == 0) {
                 JOptionPane.showMessageDialog(parentComponent, "No XML files found in the data folder.", "Export",
@@ -191,18 +191,23 @@ public class FileManager{
                 byte[] buffer = new byte[1024];
 
                 for (File xmlFile : xmlFiles) {
-                    ZipEntry zipEntry = new ZipEntry(xmlFile.getName());
-                    zos.putNextEntry(zipEntry);
+                    String fileName = xmlFile.getName();
+                    // Filter files based on currentUser
+                    if (fileName.startsWith(currentUser)) { 
+                        ZipEntry zipEntry = new ZipEntry(fileName);
+                        zos.putNextEntry(zipEntry);
 
-                    FileInputStream fis = new FileInputStream(xmlFile);
-                    int length;
-                    while ((length = fis.read(buffer)) > 0) {
-                        zos.write(buffer, 0, length);
+                        FileInputStream fis = new FileInputStream(xmlFile);
+                        int length;
+                        while ((length = fis.read(buffer)) > 0) {
+                            zos.write(buffer, 0, length);
+                        }
+                        fis.close();
+
+                        zos.closeEntry();
                     }
-                    fis.close();
-
-                    zos.closeEntry();
                 }
+
 
                 zos.close();
                 fos.close();

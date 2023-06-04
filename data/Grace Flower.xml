@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<User>
+  <Username>Grace Flower</Username>
+  <Email>GFlower@gmail.com</Email>
+  <Project>
+    <Name>FlowerDecoreation</Name>
+    <StartDate>Fri Jun 02 00:00:00 PDT 2023</StartDate>
+    <EndDate>Fri Aug 25 00:00:00 PDT 2023</EndDate>
+    <Budget>5000.0</Budget>
+    <Item>
+      <ItemName>Door Painting</ItemName>
+      <Description/>
+      <CostPerUnit>200.0</CostPerUnit>
+      <Quantity>1</Quantity>
+    </Item>
+  </Project>
+</User>
