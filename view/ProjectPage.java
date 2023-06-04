@@ -266,10 +266,6 @@ public class ProjectPage extends JFrame implements ActionListener {
             addItem();
         }
 
-        if (e.getSource() == editItem) {
-            editItem();
-        }
-
         if (e.getSource() == deleteItem) {
             deleteItem();
         }
@@ -358,32 +354,6 @@ public class ProjectPage extends JFrame implements ActionListener {
             nameField.setText("");
             quantityField.setText("");
             priceField.setText("");
-        }
-    }
-
-    /**
-     * Edit item from file
-     * @param item the item to be added.
-     * @author Lixin W.
-     */
-    private void editItem() {
-        int selectedRow = table.getSelectedRow();
-        if (selectedRow != -1) {
-            String itemName = (String) model.getValueAt(selectedRow, 0);
-
-            // Item thisItemObject = null;
-
-        //     // Get the relevant item object
-        //     for(Item item : project.getItems()) {
-        //         if(item.getMyName() == itemName){
-        //             thisItemObject = item;
-        //     //     }
-        //     }
-
-        //     //EditItemScreen editProject = new EditItemScreen(itemName,userID,model,thisItemObject,selectedRow);
-        //     //editProject.setVisible(true);
-        // // } else {
-        // //     JOptionPane.showMessageDialog(frame, "No Item Selected.");
         }
     }
 

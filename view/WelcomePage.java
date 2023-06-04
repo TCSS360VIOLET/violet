@@ -17,8 +17,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 /**
- * The Welcome page of the applications where you can create projects to work
- * on.
+ * The Welcome page of the applications where you can create projects to work on.
  * 
  * @author Parker Johnson (5/5/2023)
  */
